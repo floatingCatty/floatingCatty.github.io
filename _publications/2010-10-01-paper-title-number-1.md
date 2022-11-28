@@ -1,9 +1,9 @@
 ---
 title: "AD-NEGF: An End-to-End Differentiable Quantum Transport Simulator for Sensitivity Analysis and Inverse Problems"
 collection: publications
-permalink: /publication/2009-10-01-paper-title-number-1
+permalink: /publication/2010-10-01-paper-title-number-1
 excerpt: 'A differentiable quantum simulator implemented with NEGF's method.'
-date: 2009-10-01
+date: 2010-10-01
 venue: 'Journal 1'
 paperurl: 'https://arxiv.org/pdf/2202.05098.pdf'
 citation: 'Zhou, Yingzhanghao, et al. "AD-NEGF: An End-to-End Differentiable Quantum Transport Simulator for Sensitivity Analysis and Inverse Problems." arXiv preprint arXiv:2202.05098 (2022).'
