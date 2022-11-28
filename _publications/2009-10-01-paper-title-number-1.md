@@ -1,7 +1,7 @@
 ---
 title: "AD-NEGF: An End-to-End Differentiable Quantum Transport Simulator for Sensitivity Analysis and Inverse Problems"
 collection: publications
-permalink: /publication/2022-09
+permalink: /publication/2009-10-01-paper-title-number-1
 excerpt: 'A differentiable quantum simulator implemented with NEGF's method.'
 date: 2022-11-28
 venue: 'Journal 1'
