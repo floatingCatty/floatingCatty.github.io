@@ -1,5 +1,5 @@
 ---
-title: '[SSPEC Notes: Appendix F Relativistic Derivation of Spin Physics]'
+title: 'SSPEC Notes: Appendix F Relativistic Derivation of Spin Physics'
 date: 2022-11-27
 permalink: /posts/2022/11/SSPEC Notes 1/
 tags:
