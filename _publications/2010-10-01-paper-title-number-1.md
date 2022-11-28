@@ -6,7 +6,7 @@ excerpt: 'A differentiable quantum simulator implemented with NEGF's method.'
 date: 2010-10-01
 venue: 'Journal 1'
 paperurl: 'http://floatingCatty.github.io/files/2202.05098.pdf'
-citation: 'Zhou, Yingzhanghao, et al. "AD-NEGF: An End-to-End Differentiable Quantum Transport Simulator for Sensitivity Analysis and Inverse Problems." arXiv preprint arXiv:2202.05098 (2022).'
+citation: 'Your Name, You. (2009). &quot;Paper Title Number 1.&quot; <i>Journal 1</i>. 1(1).'
 ---
 A NEGF based quantum simulator with auto-differentiation, which can be applied to calculate differetial physic properties and doing inverse optimization with designed target.
 
