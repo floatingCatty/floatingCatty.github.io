@@ -1,5 +1,5 @@
 ---
-title: "AD-NEGF"
+title: "AD NEGF"
 collection: publications
 permalink: /publication/2010-10-01-paper-title-number-1
 excerpt: 'A differentiable quantum simulator implemented with NEGF's method.'
