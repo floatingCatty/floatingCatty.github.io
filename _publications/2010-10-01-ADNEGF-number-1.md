@@ -4,7 +4,7 @@ collection: publications
 permalink: /publication/2010-10-01-ADNEGF-number-1
 excerpt: 'This paper is about the number 2. The number 3 is left for future work.'
 date: 2010-10-01
-venue: 'Journal 1'
+venue: 'arxiv'
 paperurl: 'http://floatingCatty.github.io/files/2202.05098.pdf'
 citation: 'Zhou, Yingzhanghao, et al. "AD-NEGF: An End-to-End Differentiable Quantum Transport Simulator for Sensitivity Analysis and Inverse Problems." arXiv preprint arXiv:2202.05098 (2022).'
 ---
