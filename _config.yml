@@ -82,12 +82,12 @@ analytics:
 author:
   name             : "floatingCatty"
   avatar           : "profile.png"
-  bio              : "Your biography for the left-hand sidebar"
-  location         : "Location"
+  bio              : "Be a dreamer and an activist."
+  location         : "Beijing, China"
   employer         :
-  pubmed           : "https://www.ncbi.nlm.nih.gov/pubmed/?term=john+snow"
+  pubmed           : 
   googlescholar    : "https://scholar.google.com/citations?user=vSMmfvUAAAAJ&hl=zh-TW&authuser=1"
-  email            :
+  email            : "zhouyinzhanghao@gmail.com"
   researchgate     :  # example: "https://www.researchgate.net/profile/yourprofile"
   uri              :
   bitbucket        :
