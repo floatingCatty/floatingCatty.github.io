@@ -13,10 +13,10 @@ I am currently a post graduate student working on machine learning and its inter
 
 Things Your can found here:
 ======
-1. Great strudy Notes about everything! \\
-(currently, most of them are the studies record of physics and math and paper reading somethings if I found some very interesting ones.)
+1. Notes about things I am reading. \\
+(Most of them are the studies record of physics and math and paper reading.)
 2. Exciting brain storms of the field I am working on.\\
 Mostly the AI and Application in Physics and Quantum Chemistry.
-3. Opinions about the news, history and complains about the daily life.\\
-Homepage anyway ;)
+3. Daily stories, comments about the news, history.\\
+Blogs anyway ;)
 4. ...

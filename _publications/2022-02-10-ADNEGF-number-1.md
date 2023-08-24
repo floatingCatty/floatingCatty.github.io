@@ -1,8 +1,8 @@
 ---
-title: "AD-NEGF: AN END-TO-END DIFFERENTIABLE QUANTUM TRANSPORT SIMULATOR FOR SENSITIVITY ANALYSIS AND INVERSE PROBLEMS"
+title: "AD-NEGF: an End-to-end Differentiable Quantum Transport Simulator for Sensitivity Analysis and Inverse Problems"
 collection: publications
 permalink: /publication/2022-02-10-ADNEGF-number-1
-excerpt: 'This paper is about the number 2. The number 3 is left for future work.'
+excerpt: 'We implement a quantum transport simulator based on Non-equilibrium Green's Function with PyTorch, and customly design the gradient computation.'
 date: 2022-02-10
 venue: 'arxiv'
 paperurl: 'http://floatingCatty.github.io/files/2202.05098.pdf'
