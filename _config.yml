@@ -7,7 +7,7 @@
 
 # Site Settings
 locale                   : "en-US"
-title                    : "404 Not Found"
+title                    : "Zhanghao's Blog"
 title_separator          : "-"
 name                     : &name "周寅张皓"
 description              : &description "A curious cat boating on a floating sea of knowledge."
