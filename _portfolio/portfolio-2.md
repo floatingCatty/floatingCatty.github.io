@@ -1,11 +1,11 @@
 ---
 title: "See our post in AI for Science Summit 2023!"
-excerpt: "Not until the post is put on have I found that the QR code on it is expired lol, so I made a patch. <br/><img src='/images/AI4S_1.jpg' width='60%'>"
+excerpt: "Only after putting up the post did I realize that the QR code on it had already expired, prompting me to create a patch for it. LOL. <br/><img src='/images/AI4S_1.jpg' width='60%'>"
 collection: portfolio
 ---
-I went to the experiment and characterization meeting mainly. Meetings was great, but sadly I didn't have nice food that couple of days, since the places the meeting is hosted has a lot of tech companies around. So every time I want to have some food around, there always be crowded with the employees. 
+I primarily attended the experiment and characterization meeting during my time there. The meetings were quite productive, although it was unfortunate that I didn't have access to good food for those few days. The meeting venues were situated amidst numerous tech companies, causing the nearby dining spots to be consistently crowded with employees whenever I tried to grab a bite.
 
-Luckily the meetings is good enough to cover the sadness of poor meals.
+Fortunately, the quality of the meetings managed to outweigh the disappointment of the subpar meals.
 
 <br/><img src='/images/AI4S_2.jpg'>
 

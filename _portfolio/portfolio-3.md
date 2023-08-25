@@ -1,9 +1,9 @@
 ---
 title: "Back to Tianjin !"
-excerpt: "Now Tianjin is like home to me, it is such a peaceful city, where everyone enjoy there paces. <br/><img src='/images/Tianjin_1.jpg' width='60%'>"
+excerpt: "Tianjin has become a second home to me, a serene city where everyone relishes their own pace and finds peace. <br/><img src='/images/Tianjin_1.jpg' width='60%'>"
 collection: portfolio
 ---
-It is very enjoyable to walk in steets in Tianjin. The design of the whole city is based on the trend of the Haihe River. Since the river is not straight, the road, streat in Tianjin appears to be very diversified. It seldom have standard crossroad, instead, a three cross and five cross is more common. The city have its casualty, but is not chaotic. 
+Walking through the streets of Tianjin is an immensely pleasurable experience. The city's layout draws inspiration from the meandering course of the Haihe River. As the river flows in gentle curves, the roads and streets of Tianjin exhibit a captivating diversity. Rather than conforming to conventional crossroad patterns, the city predominantly features charming intersections of three and five roads. Tianjin possesses a unique charm that exudes an air of casualness without descending into chaos.
 
 Some picture I took during walking.
 
