@@ -9,7 +9,7 @@ redirect_from:
 ---
 
 Hello, welcome about!
-I am currently a post graduate student working on machine learning and its intersections with computational physics. Before that I've done some studies on Natrual Language Processing and Explanability of Deep Learning. 
+I am currently a post graduate student working on machine learning and its intersections with computational physics. Before that I've done some studies on Natrual Language Processing and Explanability of Deep Learning.
 
 Things Your can found here:
 ======
