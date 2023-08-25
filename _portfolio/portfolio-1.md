@@ -1,7 +1,15 @@
 ---
-title: "Portfolio item number 1"
-excerpt: "Short description of portfolio item number 1<br/><img src='/images/500x300.png'>"
+title: "Great tour of CPS Fall Meeting in Ning Xia!"
+excerpt: "Lots of nice talks and dicussions. Beautiful and peaceful city <br/><img src='/images/ningxia_4.jpg'>"
 collection: portfolio
 ---
 
-This is an item in your portfolio. It can be have images or nice text. If you name the file .md, it will be parsed as markdown. If you name the file .html, it will be parsed as HTML. 
+This year CPS meeting is hosted in Yinchuan, Ningxia. Which translate directly should means "silver river". The city lies in the north-west of china, with a quite high altitude of over 1km. So, the whether appears quite weird to us: in one place, the tempreture there is quite cool, which makes one feel cold in summer morning. But the high altitude enhanced the sun, it can feels that our skin and hair is burning like, when directly exposed to the sunlight. So it appears to be cool in the shaddow region while very hot under the sun. 
+
+ <br/><img src='/images/ningxia_3.jpg'>
+
+I shoot some pictures in NingXia University:
+
+<br/><img src='/images/ningxia_2.jpg'>
+
+<br/><img src='/images/ningxia_1.jpg'>

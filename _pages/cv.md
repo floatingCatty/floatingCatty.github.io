@@ -30,10 +30,10 @@ Experiences
 Softwares
 ======
 **DeePTB**: A deep learning package for tight-binding approach with ab initio accuracy.
- - Github: https://github.com/deepmodeling/DeePTB
+ - [Github]{https://github.com/deepmodeling/DeePTB}
 
 **AD-NEGF**: A differentiable Quantum Transport Codes using Non-equilibrium Green's Function method.
- - Github: https://github.com/floatingCatty/ADNEGF
+ - [Github]{https://github.com/floatingCatty/ADNEGF}
 
 Activities
  - Chinese Physical Society (CPS) Fall Meeting 2023 (Oral Report) 
