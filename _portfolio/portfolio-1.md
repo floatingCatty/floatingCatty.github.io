@@ -1,6 +1,6 @@
 ---
 title: "Great tour of CPS Fall Meeting in Ning Xia!"
-excerpt: "Lots of nice talks and dicussions. Beautiful and peaceful city <br/><img src='/images/ningxia_4.jpg' width='60%>"
+excerpt: "Lots of nice talks and dicussions. Beautiful and peaceful city <br/><img src='/images/ningxia_4.jpg' width='60%'>"
 collection: portfolio
 ---
 
