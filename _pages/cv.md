@@ -11,8 +11,8 @@ redirect_from:
 
 Education
 ======
-* M.E. in Computer Science, Tianjin University, 2024 (expected)
-* B.S. in Computer Science, Tiangong University, 2021
+* M.E. in Computer Science, Tianjin University, Feb 2024 (expected)
+* B.S. in Computer Science, Tiangong University, Jun 2021
 
 
 
@@ -31,6 +31,7 @@ Softwares
 ======
 **DeePTB**: A deep learning package for tight-binding approach with ab initio accuracy.
  - Github: https://github.com/deepmodeling/DeePTB
+
 **AD-NEGF**: A differentiable Quantum Transport Codes using Non-equilibrium Green's Function method.
  - Github: https://github.com/floatingCatty/ADNEGF
 
@@ -63,7 +64,3 @@ Teaching
   <ul>{% for post in site.teaching %}
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
-  
-Service and leadership
-======
-* Currently signed in to 43 different slack teams
