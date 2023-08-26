@@ -19,8 +19,8 @@ I am currently a post-graduate student in Tianjin University. I primarily workin
 
 Things Your can found here:
 ======
-1. Some notes. \\
-2. Summary and comments on recent papers.\\
+1. Some notes.
+2. Summary and comments on recent papers.
 3. Daily stories, comments about the news, history.\\
 Blogs anyway ;)
 4. ...
