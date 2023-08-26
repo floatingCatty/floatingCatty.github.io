@@ -9,7 +9,7 @@ redirect_from:
 ---
 
 Hello, welcome about!
-I am currently a post-graduate student in Tianjin University. I primarily working on machine learning and its intersections with physics and quantum chemistry. Before that I've done some studies on Natrual Language Processing and Explanability of Deep Learning.
+I am currently a post-graduate student in Tianjin University. My research interests are machine learning and its intersections with physics and quantum chemistry.
 
 #### Specificly, my research interests include:
 
