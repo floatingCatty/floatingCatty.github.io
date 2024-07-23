@@ -9,7 +9,7 @@ redirect_from:
 ---
 
 Hello, welcome about!
-I am currently a post-graduate student in Tianjin University. My research interests are machine learning and its intersections with physics and quantum chemistry.
+I am currently a first-year Ph.D. student in McGill University. My research interests are machine learning and its intersections with physics and quantum chemistry.
 
 ### Specificly, I am interested in:
 
@@ -21,6 +21,6 @@ Things Your can found here:
 ======
 1. Some notes.
 2. Summary and comments on recent papers.
-3. Daily stories, comments about the news, history.\\
+3. Stories, comments about the news, history.\\
 Blogs anyway ;)
 4. ...
