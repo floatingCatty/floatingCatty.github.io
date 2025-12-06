@@ -1,0 +1,53 @@
+---
+layout: single
+title: "CIF Structure Viewer"
+permalink: /cif-viewer/
+author_profile: true
+---
+
+<script src="https://3Dmol.org/build/3Dmol-min.js"></script>
+
+<style>
+  #container-01 {
+    height: 400px;
+    width: 100%;
+    position: relative;
+    border: 1px solid #ccc;
+    margin-top: 20px;
+  }
+  .controls {
+    margin-bottom: 20px;
+  }
+</style>
+
+<div class="controls">
+  <label for="file-input">Upload CIF File:</label>
+  <input type="file" id="file-input" accept=".cif">
+</div>
+
+<div id="container-01" class="mol-container"></div>
+
+<script>
+  $(document).ready(function() {
+    // Initialize viewer
+    let element = $('#container-01');
+    let config = { backgroundColor: 'white' };
+    let viewer = $3Dmol.createViewer(element, config);
+
+    $('#file-input').change(function() {
+      let file = this.files[0];
+      if (file) {
+        let reader = new FileReader();
+        reader.onload = function(e) {
+          let content = e.target.result;
+          viewer.clear();
+          viewer.addModel(content, "cif");
+          viewer.setStyle({}, {stick: {}});
+          viewer.zoomTo();
+          viewer.render();
+        };
+        reader.readAsText(file);
+      }
+    });
+  });
+</script>
