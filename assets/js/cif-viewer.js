@@ -9,10 +9,21 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log(message);
   }
 
-  log("DOM loaded (external script v3.1 - Fixes)");
+  log("DOM loaded (external script v4.0 - State Based)");
 
-  // Initialize viewer
+  // --- State Management ---
+  var state = {
+    unitCellAtoms: [],    // {elem, x, y, z} (Fractional coordinates)
+    lattice: { a: 10, b: 10, c: 10, alpha: 90, beta: 90, gamma: 90 },
+    displayAtoms: [],     // {elem, x, y, z, id, sourceIndex} (Cartesian coordinates)
+    selectedIds: new Set(), // Set of unique IDs in displayAtoms
+    mode: 'view',         // 'view', 'select', 'move'
+    supercell: { x: 1, y: 1, z: 1 }
+  };
+
+  // --- Initialization ---
   var element = document.getElementById('container-01');
+  var selectionBox = document.getElementById('selection-box');
   var config = { backgroundColor: 'white' };
 
   if (typeof $3Dmol === 'undefined') {
@@ -22,24 +33,71 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   var viewer = $3Dmol.createViewer(element, config);
-  var currentContent = null;
-  var currentMode = 'view'; // view, select, move
-  var selectedAtoms = []; // Array of atom objects (references)
 
-  // --- CIF Parsing & Supercell Logic ---
-  function parseCIFCell(cifText) {
-    var cell = { a: 0, b: 0, c: 0, alpha: 90, beta: 90, gamma: 90 };
+  // --- Core Logic ---
+
+  function parseCIF(cifText) {
+    var cell = { a: 10, b: 10, c: 10, alpha: 90, beta: 90, gamma: 90 };
+    var atoms = [];
+
     var lines = cifText.split('\n');
+    var loopHeaders = [];
+    var inLoop = false;
+
     lines.forEach(function (line) {
       line = line.trim();
+      if (!line || line.startsWith('#')) return;
+
+      // Cell Parameters
       if (line.startsWith('_cell_length_a')) cell.a = parseFloat(line.split(/\s+/)[1]);
       if (line.startsWith('_cell_length_b')) cell.b = parseFloat(line.split(/\s+/)[1]);
       if (line.startsWith('_cell_length_c')) cell.c = parseFloat(line.split(/\s+/)[1]);
       if (line.startsWith('_cell_angle_alpha')) cell.alpha = parseFloat(line.split(/\s+/)[1]);
       if (line.startsWith('_cell_angle_beta')) cell.beta = parseFloat(line.split(/\s+/)[1]);
       if (line.startsWith('_cell_angle_gamma')) cell.gamma = parseFloat(line.split(/\s+/)[1]);
+
+      // Atom Loop Parsing (Simple version)
+      if (line.startsWith('loop_')) {
+        inLoop = true;
+        loopHeaders = [];
+        return;
+      }
+
+      if (inLoop) {
+        if (line.startsWith('_')) {
+          loopHeaders.push(line);
+        } else {
+          // Data line
+          var parts = line.split(/\s+/);
+          if (parts.length >= loopHeaders.length) { // Basic validation
+            var atom = {};
+            var labelIdx = loopHeaders.indexOf('_atom_site_label');
+            var typeIdx = loopHeaders.indexOf('_atom_site_type_symbol');
+            var xIdx = loopHeaders.indexOf('_atom_site_fract_x');
+            var yIdx = loopHeaders.indexOf('_atom_site_fract_y');
+            var zIdx = loopHeaders.indexOf('_atom_site_fract_z');
+
+            // Fallback for label/type
+            var elem = "X";
+            if (typeIdx > -1) elem = parts[typeIdx];
+            else if (labelIdx > -1) elem = parts[labelIdx].replace(/[0-9+-]/g, ''); // Strip numbers
+
+            atom.elem = elem;
+            atom.x = parseFloat(parts[xIdx]);
+            atom.y = parseFloat(parts[yIdx]);
+            atom.z = parseFloat(parts[zIdx]);
+
+            if (!isNaN(atom.x)) {
+              atoms.push(atom);
+            }
+          }
+        }
+      }
     });
-    return cell;
+
+    state.lattice = cell;
+    state.unitCellAtoms = atoms;
+    log("Parsed CIF: " + atoms.length + " atoms in unit cell.");
   }
 
   function calculateLatticeVectors(cell) {
@@ -56,231 +114,338 @@ document.addEventListener('DOMContentLoaded', function () {
     return { va: va, vb: vb, vc: vc };
   }
 
-  // --- Rendering ---
-  function renderModel() {
-    if (!currentContent) return;
+  function regenerateSupercell() {
+    state.displayAtoms = [];
+    var vectors = calculateLatticeVectors(state.lattice);
+    var va = vectors.va; var vb = vectors.vb; var vc = vectors.vc;
 
-    selectedAtoms = [];
+    var idCounter = 0;
 
-    var x = parseInt(document.getElementById('supercell-x').value) || 1;
-    var y = parseInt(document.getElementById('supercell-y').value) || 1;
-    var z = parseInt(document.getElementById('supercell-z').value) || 1;
+    for (var i = 0; i < state.supercell.x; i++) {
+      for (var j = 0; j < state.supercell.y; j++) {
+        for (var k = 0; k < state.supercell.z; k++) {
 
-    try {
-      viewer.clear();
-      var model = viewer.addModel(currentContent, "cif");
+          var tx = i * va.x + j * vb.x + k * vc.x;
+          var ty = i * va.y + j * vb.y + k * vc.y;
+          var tz = i * va.z + j * vb.z + k * vc.z;
 
-      // Supercell Logic
-      if (typeof model.replicateUnitCell === 'function') {
-        model.replicateUnitCell(x, y, z);
-      } else {
-        // Manual replication
-        var atoms = model.selectedAtoms({});
-        if (atoms.length > 0 && x * y * z > 1) {
-          var cell = parseCIFCell(currentContent);
-          if (cell.a && cell.b && cell.c) {
-            var vectors = calculateLatticeVectors(cell);
-            var va = vectors.va; var vb = vectors.vb; var vc = vectors.vc;
-            var allNewAtoms = [];
-            for (var i = 0; i < x; i++) {
-              for (var j = 0; j < y; j++) {
-                for (var k = 0; k < z; k++) {
-                  if (i === 0 && j === 0 && k === 0) continue;
-                  var tx = i * va.x + j * vb.x + k * vc.x;
-                  var ty = i * va.y + j * vb.y + k * vc.y;
-                  var tz = i * va.z + j * vb.z + k * vc.z;
-                  for (var a = 0; a < atoms.length; a++) {
-                    var atom = atoms[a];
-                    var newAtom = {};
-                    for (var prop in atom) { if (atom.hasOwnProperty(prop)) newAtom[prop] = atom[prop]; }
-                    newAtom.x += tx; newAtom.y += ty; newAtom.z += tz;
-                    delete newAtom.serial; delete newAtom.index;
-                    allNewAtoms.push(newAtom);
-                  }
-                }
-              }
-            }
-            if (allNewAtoms.length > 0) model.addAtoms(allNewAtoms);
-          }
+          state.unitCellAtoms.forEach(function (atom, idx) {
+            // Convert fractional to cartesian
+            var cx = atom.x * va.x + atom.y * vb.x + atom.z * vc.x;
+            var cy = atom.x * va.y + atom.y * vb.y + atom.z * vc.y;
+            var cz = atom.x * va.z + atom.y * vb.z + atom.z * vc.z;
+
+            state.displayAtoms.push({
+              id: idCounter++,
+              elem: atom.elem,
+              x: cx + tx,
+              y: cy + ty,
+              z: cz + tz,
+              sourceIndex: idx // Link back to unit cell atom
+            });
+          });
         }
       }
-
-      applyStyles();
-      viewer.addUnitCell();
-      viewer.zoomTo();
-      viewer.render();
-
-      setupClickHandlers();
-
-    } catch (err) {
-      log("Error rendering model: " + err.message);
     }
+    log("Regenerated supercell: " + state.displayAtoms.length + " atoms.");
   }
 
-  function applyStyles() {
+  function renderScene() {
+    viewer.clear();
+
+    // Create XYZ string
+    var xyz = state.displayAtoms.length + "\n\n";
+    state.displayAtoms.forEach(function (atom) {
+      xyz += atom.elem + " " + atom.x + " " + atom.y + " " + atom.z + "\n";
+    });
+
+    var model = viewer.addModel(xyz, "xyz");
+
+    // Apply Styles
     viewer.setStyle({}, {
       sphere: { scale: 0.3, colorscheme: 'Jmol' },
       stick: { radius: 0.15, colorscheme: 'Jmol' }
     });
 
-    if (selectedAtoms.length > 0) {
-      viewer.setStyle({ selected: true }, { sphere: { scale: 0.35, color: 'yellow' }, stick: { radius: 0.15, color: 'yellow' } });
-    }
-  }
+    // Apply Selection Halo
+    state.selectedIds.forEach(function (id) {
+      // Map ID to atom index in model (should match order)
+      // Since we generated XYZ in order, index i corresponds to displayAtoms[i]
+      // But we need to find the index of the atom with this ID.
+      var index = state.displayAtoms.findIndex(function (a) { return a.id === id; });
+      if (index > -1) {
+        // Halo style: larger transparent sphere + outline
+        viewer.setStyle({ index: index }, {
+          sphere: { scale: 0.3, colorscheme: 'Jmol' },
+          stick: { radius: 0.15, colorscheme: 'Jmol' }
+        });
+        // Add a separate shape or style for highlight?
+        // 3Dmol doesn't support multiple styles per atom easily in one pass.
+        // We can add a label or a separate shape.
+        // Or just change color? User said "ugly".
+        // Let's try "Clickable" style which adds an outline? No.
+        // Let's add a 3D shape (sphere) at the atom position.
 
-  // --- Interaction Logic ---
-  var hoveredAtom = null;
-  var draggingAtom = null;
-  var dragStartMouse = null;
-  var dragStartAtom = null;
-
-  function setupClickHandlers() {
-    viewer.setClickable({}, true, function (atom) {
-      if (currentMode === 'select') {
-        toggleSelection(atom);
+        var atom = state.displayAtoms[index];
+        viewer.addSphere({
+          center: { x: atom.x, y: atom.y, z: atom.z },
+          radius: 0.5,
+          color: 'yellow',
+          opacity: 0.4,
+          wireframe: true
+        });
       }
     });
 
-    // Hover handler for Move mode
-    viewer.setHoverable({}, true, function (atom, viewer, event, container) {
-      if (currentMode === 'move') {
-        element.style.cursor = 'move';
-        hoveredAtom = atom;
-      }
-    }, function (atom) {
-      element.style.cursor = 'default';
-      hoveredAtom = null;
-    });
-  }
+    viewer.addUnitCell(state.lattice); // This might not work with XYZ model?
+    // XYZ model doesn't have unit cell info. We need to pass it manually?
+    // viewer.addUnitCell(state.lattice) works if we pass the object.
+    // But we need to ensure the box matches the supercell?
+    // The native addUnitCell draws the *original* unit cell.
+    // If we want a supercell box, we might need to draw it manually.
+    // For now, let's just draw the base unit cell to keep it simple.
 
-  function toggleSelection(atom) {
-    var index = selectedAtoms.indexOf(atom);
-    if (index > -1) {
-      selectedAtoms.splice(index, 1);
-      atom.selected = false;
-      viewer.setStyle({ index: atom.index }, { sphere: { scale: 0.3, colorscheme: 'Jmol' }, stick: { radius: 0.15, colorscheme: 'Jmol' } });
-    } else {
-      selectedAtoms.push(atom);
-      atom.selected = true;
-      viewer.setStyle({ index: atom.index }, { sphere: { scale: 0.35, color: 'yellow' }, stick: { radius: 0.15, color: 'yellow' } });
-    }
+    viewer.zoomTo();
     viewer.render();
-    log("Selected atoms: " + selectedAtoms.length);
+
+    // Re-bind interaction
+    setupInteraction();
   }
 
-  // --- Dragging Events ---
+  // --- Interaction ---
+
+  var isDragging = false;
+  var dragStart = { x: 0, y: 0 };
+  var dragStartCam = null;
+  var draggingAtomId = null;
+
+  function setupInteraction() {
+    // Click Selection
+    viewer.setClickable({}, true, function (atom) {
+      if (state.mode === 'select') {
+        // Atom index matches displayAtoms index
+        var id = state.displayAtoms[atom.index].id;
+        if (state.selectedIds.has(id)) {
+          state.selectedIds.delete(id);
+        } else {
+          state.selectedIds.add(id);
+        }
+        renderScene();
+      }
+    });
+
+    // Hover for Move Mode
+    viewer.setHoverable({}, true, function (atom) {
+      if (state.mode === 'move') {
+        element.style.cursor = 'move';
+      }
+    }, function () {
+      element.style.cursor = 'default';
+    });
+  }
+
+  // Box Selection & Move Logic (Container Events)
   element.addEventListener('mousedown', function (e) {
-    if (currentMode === 'move' && hoveredAtom) {
-      draggingAtom = hoveredAtom;
-      viewer.enableMouse(false); // Disable camera
-      dragStartMouse = { x: e.clientX, y: e.clientY };
-      dragStartAtom = { x: draggingAtom.x, y: draggingAtom.y, z: draggingAtom.z };
-      log("Started dragging atom " + draggingAtom.serial);
+    var rect = element.getBoundingClientRect();
+    var x = e.clientX - rect.left;
+    var y = e.clientY - rect.top;
+
+    if (state.mode === 'select') {
+      // Start Box Selection
+      isDragging = true;
+      dragStart = { x: x, y: y };
+      selectionBox.style.display = 'block';
+      selectionBox.style.left = x + 'px';
+      selectionBox.style.top = y + 'px';
+      selectionBox.style.width = '0px';
+      selectionBox.style.height = '0px';
+
+      // Disable camera rotation while selecting
+      viewer.enableMouse(false);
+    } else if (state.mode === 'move') {
+      // Start Move
+      // We need to find if we clicked an atom.
+      // Since 3Dmol doesn't give us the atom on mousedown easily,
+      // we rely on the Hover state or a proximity check.
+      // Let's use a proximity check in screen space.
+
+      var closestAtom = null;
+      var minDist = 20; // pixels
+
+      state.displayAtoms.forEach(function (atom) {
+        var screenPos = viewer.project(atom.x, atom.y, atom.z);
+        // viewer.project returns {x, y} relative to canvas?
+        // We need to verify coordinates. usually it's canvas coords.
+        var dx = screenPos.x - x;
+        var dy = screenPos.y - y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < minDist) {
+          minDist = dist;
+          closestAtom = atom;
+        }
+      });
+
+      if (closestAtom) {
+        draggingAtomId = closestAtom.id;
+        isDragging = true;
+        dragStart = { x: x, y: y };
+        viewer.enableMouse(false); // Disable camera
+        log("Dragging atom " + draggingAtomId);
+      }
     }
   });
 
-  window.addEventListener('mousemove', function (e) {
-    if (draggingAtom) {
-      var factor = 0.05; // Sensitivity
-      var dx = (e.clientX - dragStartMouse.x) * factor;
-      var dy = (e.clientY - dragStartMouse.y) * factor;
+  element.addEventListener('mousemove', function (e) {
+    if (!isDragging) return;
 
-      draggingAtom.x = dragStartAtom.x + dx;
-      draggingAtom.y = dragStartAtom.y - dy;
+    var rect = element.getBoundingClientRect();
+    var x = e.clientX - rect.left;
+    var y = e.clientY - rect.top;
 
-      viewer.render();
+    if (state.mode === 'select') {
+      // Update Box
+      var left = Math.min(dragStart.x, x);
+      var top = Math.min(dragStart.y, y);
+      var width = Math.abs(x - dragStart.x);
+      var height = Math.abs(y - dragStart.y);
+
+      selectionBox.style.left = left + 'px';
+      selectionBox.style.top = top + 'px';
+      selectionBox.style.width = width + 'px';
+      selectionBox.style.height = height + 'px';
+
+    } else if (state.mode === 'move' && draggingAtomId !== null) {
+      // Move Atom
+      var atom = state.displayAtoms.find(function (a) { return a.id === draggingAtomId; });
+      if (atom) {
+        // Simple screen-plane movement
+        var factor = 0.05; // Sensitivity
+        var dx = (x - dragStart.x) * factor;
+        var dy = (y - dragStart.y) * factor;
+
+        // Update atom position
+        // Note: This updates the Display Atom (Cartesian).
+        // It does NOT update the Unit Cell Atom (Fractional).
+        // So if you regenerate supercell, this move is lost.
+        // This is expected behavior for "defect engineering" on a supercell.
+
+        atom.x += dx;
+        atom.y -= dy; // Screen Y is inverted
+
+        dragStart = { x: x, y: y }; // Reset delta
+
+        renderScene(); // Re-render to show movement
+      }
     }
   });
 
-  window.addEventListener('mouseup', function (e) {
-    if (draggingAtom) {
-      draggingAtom = null;
-      viewer.enableMouse(true); // Re-enable camera
+  element.addEventListener('mouseup', function (e) {
+    if (!isDragging) return;
+    isDragging = false;
+    viewer.enableMouse(true); // Re-enable camera
+
+    if (state.mode === 'select') {
+      selectionBox.style.display = 'none';
+
+      // Calculate Selection
+      var rect = element.getBoundingClientRect();
+      var x = e.clientX - rect.left;
+      var y = e.clientY - rect.top;
+
+      var left = Math.min(dragStart.x, x);
+      var top = Math.min(dragStart.y, y);
+      var right = Math.max(dragStart.x, x);
+      var bottom = Math.max(dragStart.y, y);
+
+      // Project all atoms
+      state.displayAtoms.forEach(function (atom) {
+        var screenPos = viewer.project(atom.x, atom.y, atom.z);
+        if (screenPos.x >= left && screenPos.x <= right &&
+          screenPos.y >= top && screenPos.y <= bottom) {
+          state.selectedIds.add(atom.id);
+        }
+      });
+      renderScene();
+      log("Selected " + state.selectedIds.size + " atoms.");
+    } else if (state.mode === 'move') {
+      draggingAtomId = null;
       log("Stopped dragging");
-      viewer.render();
     }
   });
 
-  // --- UI Event Listeners ---
+  // --- UI Handlers ---
 
-  // Mode Switching
+  document.getElementById('file-input').addEventListener('change', function () {
+    var file = this.files[0];
+    if (file) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        parseCIF(e.target.result);
+        regenerateSupercell();
+        renderScene();
+      };
+      reader.readAsText(file);
+    }
+  });
+
+  document.getElementById('update-view').addEventListener('click', function () {
+    state.supercell.x = parseInt(document.getElementById('supercell-x').value) || 1;
+    state.supercell.y = parseInt(document.getElementById('supercell-y').value) || 1;
+    state.supercell.z = parseInt(document.getElementById('supercell-z').value) || 1;
+    regenerateSupercell();
+    renderScene();
+  });
+
   var modeRadios = document.getElementsByName('mode');
   for (var i = 0; i < modeRadios.length; i++) {
     modeRadios[i].addEventListener('change', function () {
-      currentMode = this.value;
-      log("Mode changed to: " + currentMode);
+      state.mode = this.value;
+      log("Mode: " + state.mode);
+      // Reset selection box if switching away
+      selectionBox.style.display = 'none';
     });
   }
 
-  // Actions
   document.getElementById('btn-clear-selection').addEventListener('click', function () {
-    selectedAtoms = [];
-    viewer.setStyle({}, { sphere: { scale: 0.3, colorscheme: 'Jmol' }, stick: { radius: 0.15, colorscheme: 'Jmol' } });
-    viewer.render();
-    log("Selection cleared");
+    state.selectedIds.clear();
+    renderScene();
   });
 
   document.getElementById('btn-delete-selected').addEventListener('click', function () {
-    if (selectedAtoms.length === 0) {
-      alert("No atoms selected.");
-      return;
-    }
+    if (state.selectedIds.size === 0) return;
 
-    var model = viewer.getModel(0);
-    if (!model) return;
+    // Filter out selected atoms from displayAtoms
+    state.displayAtoms = state.displayAtoms.filter(function (atom) {
+      return !state.selectedIds.has(atom.id);
+    });
 
-    var indices = selectedAtoms.map(function (a) { return a.index; });
-    model.removeAtoms({ index: indices });
-
-    selectedAtoms = [];
-    viewer.render();
-    log("Deleted " + indices.length + " atoms.");
+    state.selectedIds.clear();
+    renderScene();
+    log("Deleted selected atoms.");
   });
 
   document.getElementById('btn-add-atom').addEventListener('click', function () {
-    var elem = prompt("Enter Element Symbol (e.g., Si, O):", "Si");
+    var elem = prompt("Enter Element (e.g., Si):", "Si");
     if (!elem) return;
-
-    var coordStr = prompt("Enter Coordinates (x, y, z):", "0, 0, 0");
+    var coordStr = prompt("Enter Fractional Coords (x, y, z):", "0.5, 0.5, 0.5");
     if (!coordStr) return;
+    var parts = coordStr.split(',');
+    if (parts.length !== 3) return;
 
-    var coords = coordStr.split(',').map(parseFloat);
-    if (coords.length !== 3 || isNaN(coords[0])) {
-      alert("Invalid coordinates.");
-      return;
-    }
+    var newAtom = {
+      elem: elem,
+      x: parseFloat(parts[0]),
+      y: parseFloat(parts[1]),
+      z: parseFloat(parts[2])
+    };
 
-    var model = viewer.getModel(0);
-    if (!model) {
-      alert("Please load a model first.");
-      return;
-    }
+    // Add to Unit Cell (Source)
+    state.unitCellAtoms.push(newAtom);
 
-    model.addAtoms([{ elem: elem, x: coords[0], y: coords[1], z: coords[2] }]);
-
-    viewer.setStyle({}, { sphere: { scale: 0.3, colorscheme: 'Jmol' }, stick: { radius: 0.15, colorscheme: 'Jmol' } });
-    setupClickHandlers();
-    viewer.render();
-    log("Added atom " + elem + " at " + coords.join(','));
+    // Regenerate to show it (and replicate it)
+    regenerateSupercell();
+    renderScene();
+    log("Added atom to unit cell.");
   });
 
-  // --- File Input & Init ---
-  var fileInput = document.getElementById('file-input');
-  if (fileInput) {
-    fileInput.addEventListener('change', function () {
-      var file = this.files[0];
-      if (file) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-          currentContent = e.target.result;
-          renderModel();
-        };
-        reader.readAsText(file);
-      }
-    });
-  }
-
-  document.getElementById('update-view').addEventListener('click', function () {
-    renderModel();
-  });
 });
