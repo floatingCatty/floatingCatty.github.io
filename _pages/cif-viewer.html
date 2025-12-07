@@ -8,46 +8,55 @@ author_profile: true
 <script src="https://3Dmol.org/build/3Dmol-min.js"></script>
 
 <style>
-  #container-01 {
-    height: 400px;
-    width: 100%;
-    position: relative;
-    border: 1px solid #ccc;
-    margin-top: 20px;
-  }
-  .controls {
-    margin-bottom: 20px;
-  }
+    #container-01 {
+        height: 400px;
+        width: 100%;
+        position: relative;
+        border: 1px solid #ccc;
+        margin-top: 20px;
+    }
+
+    .controls {
+        margin-bottom: 20px;
+    }
 </style>
 
 <div class="controls">
-  <label for="file-input">Upload CIF File:</label>
-  <input type="file" id="file-input" accept=".cif">
+    <label for="file-input">Upload CIF File:</label>
+    <input type="file" id="file-input" accept=".cif">
 </div>
 
 <div id="container-01" class="mol-container"></div>
 
 <script>
-  $(document).ready(function() {
-    // Initialize viewer
-    let element = $('#container-01');
-    let config = { backgroundColor: 'white' };
-    let viewer = $3Dmol.createViewer(element, config);
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialize viewer
+        var element = document.getElementById('container-01');
+        var config = { backgroundColor: 'white' };
 
-    $('#file-input').change(function() {
-      let file = this.files[0];
-      if (file) {
-        let reader = new FileReader();
-        reader.onload = function(e) {
-          let content = e.target.result;
-          viewer.clear();
-          viewer.addModel(content, "cif");
-          viewer.setStyle({}, {stick: {}});
-          viewer.zoomTo();
-          viewer.render();
-        };
-        reader.readAsText(file);
-      }
+        // Ensure 3Dmol is loaded
+        if (typeof $3Dmol === 'undefined') {
+            console.error("3Dmol.js is not loaded");
+            element.innerHTML = "Error: 3Dmol.js library not loaded.";
+            return;
+        }
+
+        var viewer = $3Dmol.createViewer(element, config);
+
+        document.getElementById('file-input').addEventListener('change', function () {
+            var file = this.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var content = e.target.result;
+                    viewer.clear();
+                    viewer.addModel(content, "cif");
+                    viewer.setStyle({}, { stick: {} });
+                    viewer.zoomTo();
+                    viewer.render();
+                };
+                reader.readAsText(file);
+            }
+        });
     });
-  });
 </script>
