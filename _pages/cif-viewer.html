@@ -30,7 +30,7 @@ author_profile: true
 </style>
 
 <div class="controls">
-    <h3>CIF Viewer v2.5</h3>
+    <h3>CIF Viewer v2.6 (Latest)</h3>
     <label for="file-input">Upload CIF File:</label>
     <input type="file" id="file-input" accept=".cif">
     <br><br>
@@ -39,6 +39,18 @@ author_profile: true
     <input type="number" id="supercell-y" value="1" min="1" style="width: 50px;"> x
     <input type="number" id="supercell-z" value="1" min="1" style="width: 50px;">
     <button id="update-view">Update View</button>
+</div>
+
+<div class="toolbar" style="margin-bottom: 10px; padding: 10px; background: #e0e0e0; border: 1px solid #ccc;">
+    <strong>Mode:</strong>
+    <label><input type="radio" name="mode" value="view" checked> View</label>
+    <label><input type="radio" name="mode" value="select"> Select</label>
+    <label><input type="radio" name="mode" value="move"> Move</label>
+    <span style="margin-left: 20px;"></span>
+    <strong>Actions:</strong>
+    <button id="btn-add-atom">Add Atom</button>
+    <button id="btn-delete-selected">Delete Selected</button>
+    <button id="btn-clear-selection">Clear Selection</button>
 </div>
 
 <div id="debug-log">Waiting for JS...</div>
