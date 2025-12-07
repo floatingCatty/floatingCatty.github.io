@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
   var debugLog = document.getElementById('debug-log');
-  
+
   function log(message) {
     if (debugLog) {
       debugLog.style.display = 'block';
@@ -24,12 +24,48 @@ document.addEventListener('DOMContentLoaded', function () {
     log("3Dmol.js loaded successfully");
   }
 
+  var viewer;
   try {
-    var viewer = $3Dmol.createViewer(element, config);
+    viewer = $3Dmol.createViewer(element, config);
     log("Viewer created");
   } catch (e) {
     log("Error creating viewer: " + e.message);
     return;
+  }
+
+  var currentContent = null;
+
+  function renderModel() {
+    if (!currentContent) return;
+
+    var x = parseInt(document.getElementById('supercell-x').value) || 1;
+    var y = parseInt(document.getElementById('supercell-y').value) || 1;
+    var z = parseInt(document.getElementById('supercell-z').value) || 1;
+
+    try {
+      viewer.clear();
+      var model = viewer.addModel(currentContent, "cif");
+
+      // Replicate unit cell
+      if (x > 1 || y > 1 || z > 1) {
+        model.replicateUnitCell(x, y, z);
+      }
+
+      // Style: Ball and Stick
+      viewer.setStyle({}, {
+        sphere: { scale: 0.3, colorscheme: 'Jmol' },
+        stick: { radius: 0.15, colorscheme: 'Jmol' }
+      });
+
+      // Add Unit Cell Box
+      viewer.addUnitCell();
+
+      viewer.zoomTo();
+      viewer.render();
+      log("Model rendered with supercell " + x + "x" + y + "x" + z);
+    } catch (err) {
+      log("Error rendering model: " + err.message);
+    }
   }
 
   var fileInput = document.getElementById('file-input');
@@ -42,17 +78,8 @@ document.addEventListener('DOMContentLoaded', function () {
         var reader = new FileReader();
         reader.onload = function (e) {
           log("File read successfully");
-          try {
-            var content = e.target.result;
-            viewer.clear();
-            viewer.addModel(content, "cif");
-            viewer.setStyle({}, { stick: {} });
-            viewer.zoomTo();
-            viewer.render();
-            log("Model rendered");
-          } catch (err) {
-            log("Error rendering model: " + err.message);
-          }
+          currentContent = e.target.result;
+          renderModel();
         };
         reader.onerror = function () {
           log("Error reading file");
@@ -64,5 +91,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   } else {
     log("Error: File input element not found");
+  }
+
+  var updateButton = document.getElementById('update-view');
+  if (updateButton) {
+    updateButton.addEventListener('click', function () {
+      log("Update view clicked");
+      renderModel();
+    });
   }
 });

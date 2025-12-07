@@ -32,6 +32,12 @@ author_profile: true
 <div class="controls">
     <label for="file-input">Upload CIF File:</label>
     <input type="file" id="file-input" accept=".cif">
+    <br><br>
+    <label>Supercell:</label>
+    <input type="number" id="supercell-x" value="1" min="1" style="width: 50px;"> x
+    <input type="number" id="supercell-y" value="1" min="1" style="width: 50px;"> x
+    <input type="number" id="supercell-z" value="1" min="1" style="width: 50px;">
+    <button id="update-view">Update View</button>
 </div>
 
 <div id="debug-log">Waiting for JS...</div>
