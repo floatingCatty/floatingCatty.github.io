@@ -26,36 +26,70 @@ author_profile: true
     <input type="file" id="file-input" accept=".cif">
 </div>
 
+<div id="debug-log"
+    style="margin-top: 10px; padding: 10px; background: #f0f0f0; border: 1px solid #ccc; font-family: monospace; display: none;">
+</div>
+
 <div id="container-01" class="mol-container"></div>
 
 <script>
+    function log(message) {
+        var logDiv = document.getElementById('debug-log');
+        logDiv.style.display = 'block';
+        logDiv.innerHTML += message + '<br>';
+        console.log(message);
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
+        log("DOM loaded");
+
         // Initialize viewer
         var element = document.getElementById('container-01');
         var config = { backgroundColor: 'white' };
 
         // Ensure 3Dmol is loaded
         if (typeof $3Dmol === 'undefined') {
-            console.error("3Dmol.js is not loaded");
+            log("Error: 3Dmol.js is not loaded");
             element.innerHTML = "Error: 3Dmol.js library not loaded.";
+            return;
+        } else {
+            log("3Dmol.js loaded successfully");
+        }
+
+        try {
+            var viewer = $3Dmol.createViewer(element, config);
+            log("Viewer created");
+        } catch (e) {
+            log("Error creating viewer: " + e.message);
             return;
         }
 
-        var viewer = $3Dmol.createViewer(element, config);
-
         document.getElementById('file-input').addEventListener('change', function () {
+            log("File input changed");
             var file = this.files[0];
             if (file) {
+                log("File selected: " + file.name);
                 var reader = new FileReader();
                 reader.onload = function (e) {
-                    var content = e.target.result;
-                    viewer.clear();
-                    viewer.addModel(content, "cif");
-                    viewer.setStyle({}, { stick: {} });
-                    viewer.zoomTo();
-                    viewer.render();
+                    log("File read successfully");
+                    try {
+                        var content = e.target.result;
+                        viewer.clear();
+                        viewer.addModel(content, "cif");
+                        viewer.setStyle({}, { stick: {} });
+                        viewer.zoomTo();
+                        viewer.render();
+                        log("Model rendered");
+                    } catch (err) {
+                        log("Error rendering model: " + err.message);
+                    }
+                };
+                reader.onerror = function () {
+                    log("Error reading file");
                 };
                 reader.readAsText(file);
+            } else {
+                log("No file selected");
             }
         });
     });
