@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log(message);
   }
 
-  log("DOM loaded (external script v2.4)");
+  log("DOM loaded (external script v2.5)");
 
   // Initialize viewer
   var element = document.getElementById('container-01');
@@ -35,6 +35,41 @@ document.addEventListener('DOMContentLoaded', function () {
 
   var currentContent = null;
 
+  function parseCIFCell(cifText) {
+    var cell = { a: 0, b: 0, c: 0, alpha: 90, beta: 90, gamma: 90 };
+    var lines = cifText.split('\n');
+    lines.forEach(function (line) {
+      line = line.trim();
+      if (line.startsWith('_cell_length_a')) cell.a = parseFloat(line.split(/\s+/)[1]);
+      if (line.startsWith('_cell_length_b')) cell.b = parseFloat(line.split(/\s+/)[1]);
+      if (line.startsWith('_cell_length_c')) cell.c = parseFloat(line.split(/\s+/)[1]);
+      if (line.startsWith('_cell_angle_alpha')) cell.alpha = parseFloat(line.split(/\s+/)[1]);
+      if (line.startsWith('_cell_angle_beta')) cell.beta = parseFloat(line.split(/\s+/)[1]);
+      if (line.startsWith('_cell_angle_gamma')) cell.gamma = parseFloat(line.split(/\s+/)[1]);
+    });
+    return cell;
+  }
+
+  function calculateLatticeVectors(cell) {
+    var a = cell.a;
+    var b = cell.b;
+    var c = cell.c;
+    var alpha = cell.alpha * Math.PI / 180;
+    var beta = cell.beta * Math.PI / 180;
+    var gamma = cell.gamma * Math.PI / 180;
+
+    var va = { x: a, y: 0, z: 0 };
+    var vb = { x: b * Math.cos(gamma), y: b * Math.sin(gamma), z: 0 };
+
+    var cx = c * Math.cos(beta);
+    var cy = c * (Math.cos(alpha) - Math.cos(beta) * Math.cos(gamma)) / Math.sin(gamma);
+    var cz = Math.sqrt(c * c - cx * cx - cy * cy);
+
+    var vc = { x: cx, y: cy, z: cz };
+
+    return { va: va, vb: vb, vc: vc };
+  }
+
   function renderModel() {
     if (!currentContent) return;
 
@@ -51,26 +86,20 @@ document.addEventListener('DOMContentLoaded', function () {
         model.replicateUnitCell(x, y, z);
         log("Used native replicateUnitCell");
       } else {
-        log("Native replicateUnitCell not found. Using manual replication.");
+        log("Native replicateUnitCell not found. Using manual replication with custom CIF parsing.");
 
         // Manual replication
         var atoms = model.selectedAtoms({});
-        var unitCell = model.getUnitCell();
 
-        if (atoms.length > 0 && unitCell) {
-          // 3Dmol UnitCell usually has aAxis, bAxis, cAxis properties
-          // We need to verify if they exist.
-          // If not, we might need to calculate them from a, b, c, alpha, beta, gamma
+        if (atoms.length > 0 && x * y * z > 1) {
+          var cell = parseCIFCell(currentContent);
 
-          var aAxis = unitCell.aAxis;
-          var bAxis = unitCell.bAxis;
-          var cAxis = unitCell.cAxis;
+          if (cell.a && cell.b && cell.c) {
+            var vectors = calculateLatticeVectors(cell);
+            var va = vectors.va;
+            var vb = vectors.vb;
+            var vc = vectors.vc;
 
-          if (!aAxis || !bAxis || !cAxis) {
-            // Fallback: try to calculate from parameters if available
-            // For now, log error if missing
-            log("Error: Unit cell vectors missing. Cannot replicate.");
-          } else {
             var allNewAtoms = [];
 
             for (var i = 0; i < x; i++) {
@@ -78,9 +107,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 for (var k = 0; k < z; k++) {
                   if (i === 0 && j === 0 && k === 0) continue; // Skip original cell
 
-                  var tx = i * aAxis.x + j * bAxis.x + k * cAxis.x;
-                  var ty = i * aAxis.y + j * bAxis.y + k * cAxis.y;
-                  var tz = i * aAxis.z + j * bAxis.z + k * cAxis.z;
+                  var tx = i * va.x + j * vb.x + k * vc.x;
+                  var ty = i * va.y + j * vb.y + k * vc.y;
+                  var tz = i * va.z + j * vb.z + k * vc.z;
 
                   for (var a = 0; a < atoms.length; a++) {
                     var atom = atoms[a];
@@ -110,9 +139,9 @@ document.addEventListener('DOMContentLoaded', function () {
               model.addAtoms(allNewAtoms);
               log("Manual replication added " + allNewAtoms.length + " atoms.");
             }
+          } else {
+            log("Error: Could not parse unit cell parameters from CIF.");
           }
-        } else {
-          log("Cannot replicate: Unit cell info or atoms missing.");
         }
       }
 
