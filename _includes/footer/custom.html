@@ -1,3 +1,8 @@
 <!-- start custom footer snippets -->
 <a href="/sitemap/">Sitemap</a>
+
+{% if page.url contains "cif-viewer" %}
+<script src="https://3Dmol.org/build/3Dmol-min.js"></script>
+<script src="{{ base_path }}/assets/js/cif-viewer.js"></script>
+{% endif %}
 <!-- end custom footer snippets -->
