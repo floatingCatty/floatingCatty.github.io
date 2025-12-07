@@ -19,6 +19,17 @@ author_profile: true
     .controls {
         margin-bottom: 20px;
     }
+
+    #debug-log {
+        margin-top: 10px;
+        padding: 10px;
+        background: #f0f0f0;
+        border: 1px solid #ccc;
+        font-family: monospace;
+        display: block;
+        /* Force display block initially to verify CSS isn't hiding it */
+        min-height: 20px;
+    }
 </style>
 
 <div class="controls">
@@ -26,10 +37,78 @@ author_profile: true
     <input type="file" id="file-input" accept=".cif">
 </div>
 
-<div id="debug-log"
-    style="margin-top: 10px; padding: 10px; background: #f0f0f0; border: 1px solid #ccc; font-family: monospace; display: none;">
-</div>
+<div id="debug-log">Waiting for JS...</div>
 
 <div id="container-01" class="mol-container"></div>
 
-<script src="/assets/js/cif-viewer.js"></script>
+<script>
+    /* Use block comments to avoid issues with HTML compression stripping newlines */
+    document.addEventListener('DOMContentLoaded', function () {
+        var logDiv = document.getElementById('debug-log');
+
+        function log(message) {
+            if (logDiv) {
+                logDiv.innerHTML += message + '<br>';
+            }
+            console.log(message);
+        }
+
+        log("DOM loaded - Inline Script Running");
+
+        /* Initialize viewer */
+        var element = document.getElementById('container-01');
+        var config = { backgroundColor: 'white' };
+
+        /* Ensure 3Dmol is loaded */
+        if (typeof $3Dmol === 'undefined') {
+            log("Error: 3Dmol.js is not loaded");
+            if (element) element.innerHTML = "Error: 3Dmol.js library not loaded.";
+            return;
+        } else {
+            log("3Dmol.js loaded successfully");
+        }
+
+        var viewer;
+        try {
+            viewer = $3Dmol.createViewer(element, config);
+            log("Viewer created");
+        } catch (e) {
+            log("Error creating viewer: " + e.message);
+            return;
+        }
+
+        var fileInput = document.getElementById('file-input');
+        if (fileInput) {
+            fileInput.addEventListener('change', function () {
+                log("File input changed");
+                var file = this.files[0];
+                if (file) {
+                    log("File selected: " + file.name);
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        log("File read successfully");
+                        try {
+                            var content = e.target.result;
+                            viewer.clear();
+                            viewer.addModel(content, "cif");
+                            viewer.setStyle({}, { stick: {} });
+                            viewer.zoomTo();
+                            viewer.render();
+                            log("Model rendered");
+                        } catch (err) {
+                            log("Error rendering model: " + err.message);
+                        }
+                    };
+                    reader.onerror = function () {
+                        log("Error reading file");
+                    };
+                    reader.readAsText(file);
+                } else {
+                    log("No file selected");
+                }
+            });
+        } else {
+            log("Error: File input element not found");
+        }
+    });
+</script>
