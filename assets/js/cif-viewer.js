@@ -48,7 +48,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // Replicate unit cell
       if (x > 1 || y > 1 || z > 1) {
-        model.replicateUnitCell(x, y, z);
+        if (typeof model.replicateUnitCell === 'function') {
+          model.replicateUnitCell(x, y, z);
+        } else {
+          log("Error: model.replicateUnitCell is not a function. Model keys: " + Object.keys(model).join(", "));
+        }
       }
 
       // Style: Ball and Stick
