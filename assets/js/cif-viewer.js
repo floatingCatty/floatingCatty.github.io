@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log(message);
   }
 
-  log("DOM loaded (external script v3.0 - Editing)");
+  log("DOM loaded (external script v3.1 - Fixes)");
 
   // Initialize viewer
   var element = document.getElementById('container-01');
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var currentMode = 'view'; // view, select, move
   var selectedAtoms = []; // Array of atom objects (references)
 
-  // --- CIF Parsing & Supercell Logic (Reused) ---
+  // --- CIF Parsing & Supercell Logic ---
   function parseCIFCell(cifText) {
     var cell = { a: 0, b: 0, c: 0, alpha: 90, beta: 90, gamma: 90 };
     var lines = cifText.split('\n');
@@ -60,8 +60,6 @@ document.addEventListener('DOMContentLoaded', function () {
   function renderModel() {
     if (!currentContent) return;
 
-    // Clear selection on re-render? Or try to persist?
-    // For now, clear selection to avoid stale references
     selectedAtoms = [];
 
     var x = parseInt(document.getElementById('supercell-x').value) || 1;
@@ -112,7 +110,6 @@ document.addEventListener('DOMContentLoaded', function () {
       viewer.zoomTo();
       viewer.render();
 
-      // Re-attach click handlers
       setupClickHandlers();
 
     } catch (err) {
@@ -126,19 +123,98 @@ document.addEventListener('DOMContentLoaded', function () {
       stick: { radius: 0.15, colorscheme: 'Jmol' }
     });
 
+    if (selectedAtoms.length > 0) {
+      viewer.setStyle({ selected: true }, { sphere: { scale: 0.35, color: 'yellow' }, stick: { radius: 0.15, color: 'yellow' } });
+    }
+  }
+
+  // --- Interaction Logic ---
+  var hoveredAtom = null;
+  var draggingAtom = null;
+  var dragStartMouse = null;
+  var dragStartAtom = null;
+
+  function setupClickHandlers() {
+    viewer.setClickable({}, true, function (atom) {
+      if (currentMode === 'select') {
+        toggleSelection(atom);
+      }
+    });
+
+    // Hover handler for Move mode
+    viewer.setHoverable({}, true, function (atom, viewer, event, container) {
+      if (currentMode === 'move') {
+        element.style.cursor = 'move';
+        hoveredAtom = atom;
+      }
+    }, function (atom) {
+      element.style.cursor = 'default';
+      hoveredAtom = null;
+    });
+  }
+
+  function toggleSelection(atom) {
+    var index = selectedAtoms.indexOf(atom);
+    if (index > -1) {
+      selectedAtoms.splice(index, 1);
+      atom.selected = false;
+      viewer.setStyle({ index: atom.index }, { sphere: { scale: 0.3, colorscheme: 'Jmol' }, stick: { radius: 0.15, colorscheme: 'Jmol' } });
+    } else {
+      selectedAtoms.push(atom);
+      atom.selected = true;
+      viewer.setStyle({ index: atom.index }, { sphere: { scale: 0.35, color: 'yellow' }, stick: { radius: 0.15, color: 'yellow' } });
+    }
+    viewer.render();
+    log("Selected atoms: " + selectedAtoms.length);
+  }
+
+  // --- Dragging Events ---
+  element.addEventListener('mousedown', function (e) {
+    if (currentMode === 'move' && hoveredAtom) {
+      draggingAtom = hoveredAtom;
+      viewer.enableMouse(false); // Disable camera
+      dragStartMouse = { x: e.clientX, y: e.clientY };
+      dragStartAtom = { x: draggingAtom.x, y: draggingAtom.y, z: draggingAtom.z };
+      log("Started dragging atom " + draggingAtom.serial);
+    }
+  });
+
+  window.addEventListener('mousemove', function (e) {
+    if (draggingAtom) {
+      var factor = 0.05; // Sensitivity
+      var dx = (e.clientX - dragStartMouse.x) * factor;
+      var dy = (e.clientY - dragStartMouse.y) * factor;
+
+      draggingAtom.x = dragStartAtom.x + dx;
+      draggingAtom.y = dragStartAtom.y - dy;
+
+      viewer.render();
+    }
+  });
+
+  window.addEventListener('mouseup', function (e) {
+    if (draggingAtom) {
+      draggingAtom = null;
+      viewer.enableMouse(true); // Re-enable camera
+      log("Stopped dragging");
+      viewer.render();
+    }
+  });
+
+  // --- UI Event Listeners ---
+
+  // Mode Switching
+  var modeRadios = document.getElementsByName('mode');
+  for (var i = 0; i < modeRadios.length; i++) {
     modeRadios[i].addEventListener('change', function () {
       currentMode = this.value;
       log("Mode changed to: " + currentMode);
-      // If move mode, we might need to disable default mouse controls?
-      // viewer.enableMouse(currentMode !== 'move'); // This disables everything (zoom/rotate)
-      // We only want to disable rotation when dragging.
     });
   }
 
   // Actions
   document.getElementById('btn-clear-selection').addEventListener('click', function () {
     selectedAtoms = [];
-    // Reset all styles
     viewer.setStyle({}, { sphere: { scale: 0.3, colorscheme: 'Jmol' }, stick: { radius: 0.15, colorscheme: 'Jmol' } });
     viewer.render();
     log("Selection cleared");
@@ -150,12 +226,9 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
-    var model = viewer.getModel(0); // Assume single model
+    var model = viewer.getModel(0);
     if (!model) return;
 
-    // 3Dmol doesn't have a simple "removeAtoms" that takes an array of objects easily?
-    // It has removeAtoms(sel).
-    // We can construct a selection object based on indices.
     var indices = selectedAtoms.map(function (a) { return a.index; });
     model.removeAtoms({ index: indices });
 
@@ -179,17 +252,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var model = viewer.getModel(0);
     if (!model) {
-      // If no model exists, create one?
-      // viewer.addModel();
       alert("Please load a model first.");
       return;
     }
 
     model.addAtoms([{ elem: elem, x: coords[0], y: coords[1], z: coords[2] }]);
 
-    // Re-style to ensure new atom is visible
     viewer.setStyle({}, { sphere: { scale: 0.3, colorscheme: 'Jmol' }, stick: { radius: 0.15, colorscheme: 'Jmol' } });
-    setupClickHandlers(); // Re-bind click handlers
+    setupClickHandlers();
     viewer.render();
     log("Added atom " + elem + " at " + coords.join(','));
   });
