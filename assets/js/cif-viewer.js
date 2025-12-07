@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log(message);
   }
 
-  log("DOM loaded (external script)");
+  log("DOM loaded (external script v2.4)");
 
   // Initialize viewer
   var element = document.getElementById('container-01');
@@ -46,12 +46,73 @@ document.addEventListener('DOMContentLoaded', function () {
       viewer.clear();
       var model = viewer.addModel(currentContent, "cif");
 
-      // Replicate unit cell
-      if (x > 1 || y > 1 || z > 1) {
-        if (typeof model.replicateUnitCell === 'function') {
-          model.replicateUnitCell(x, y, z);
+      // Try native replicateUnitCell first
+      if (typeof model.replicateUnitCell === 'function') {
+        model.replicateUnitCell(x, y, z);
+        log("Used native replicateUnitCell");
+      } else {
+        log("Native replicateUnitCell not found. Using manual replication.");
+
+        // Manual replication
+        var atoms = model.selectedAtoms({});
+        var unitCell = model.getUnitCell();
+
+        if (atoms.length > 0 && unitCell) {
+          // 3Dmol UnitCell usually has aAxis, bAxis, cAxis properties
+          // We need to verify if they exist.
+          // If not, we might need to calculate them from a, b, c, alpha, beta, gamma
+
+          var aAxis = unitCell.aAxis;
+          var bAxis = unitCell.bAxis;
+          var cAxis = unitCell.cAxis;
+
+          if (!aAxis || !bAxis || !cAxis) {
+            // Fallback: try to calculate from parameters if available
+            // For now, log error if missing
+            log("Error: Unit cell vectors missing. Cannot replicate.");
+          } else {
+            var allNewAtoms = [];
+
+            for (var i = 0; i < x; i++) {
+              for (var j = 0; j < y; j++) {
+                for (var k = 0; k < z; k++) {
+                  if (i === 0 && j === 0 && k === 0) continue; // Skip original cell
+
+                  var tx = i * aAxis.x + j * bAxis.x + k * cAxis.x;
+                  var ty = i * aAxis.y + j * bAxis.y + k * cAxis.y;
+                  var tz = i * aAxis.z + j * bAxis.z + k * cAxis.z;
+
+                  for (var a = 0; a < atoms.length; a++) {
+                    var atom = atoms[a];
+                    var newAtom = {};
+                    // Copy properties
+                    for (var prop in atom) {
+                      if (atom.hasOwnProperty(prop)) {
+                        newAtom[prop] = atom[prop];
+                      }
+                    }
+                    // Update position
+                    newAtom.x += tx;
+                    newAtom.y += ty;
+                    newAtom.z += tz;
+
+                    // Clear unique IDs
+                    delete newAtom.serial;
+                    delete newAtom.index;
+
+                    allNewAtoms.push(newAtom);
+                  }
+                }
+              }
+            }
+
+            if (allNewAtoms.length > 0) {
+              model.addAtoms(allNewAtoms);
+              log("Manual replication added " + allNewAtoms.length + " atoms.");
+            }
+          }
         } else {
-          log("Error: model.replicateUnitCell is not a function. Model keys: " + Object.keys(model).join(", "));
+          log("Cannot replicate: Unit cell info or atoms missing.");
         }
       }
 
