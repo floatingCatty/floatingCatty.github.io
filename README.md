@@ -13,13 +13,13 @@ The site is a Jekyll project. The landing experience uses a custom, self-contain
 | `index.html` | Home page (lamp design, `layout: raw`) |
 | `_pages/essays.html` | 随笔 · Essays listing (`category: essay` posts) |
 | `_pages/study-notes.html` | 学习笔记 · Study notes listing (`category: study` posts) |
-| `_pages/about.md`, `cv.md`, `publications.md`, `cif-viewer.html` | Inner pages |
+| `_pages/about.md`, `cv.md`, `publications.md` | Inner pages |
 | `_posts/` | Blog posts — set `category: essay` or `category: study` in front matter |
 | `_publications/` | Publication entries |
 | `_includes/lamp-*.html` | Shared markup for the lamp-styled pages (head, nav, footer, embers) |
 | `_layouts/raw.html` | Pass-through layout for the lamp landing/listing pages |
 | `_layouts/post.html` | Lamp-styled article layout for individual posts (essays + study notes), incl. MathJax |
-| `_sass/`, `assets/`, other `_includes/`, `_layouts/` | Underlying theme engine (still used by /about/, /cv/, /publications/, /cif-viewer/) |
+| `_sass/`, `assets/`, other `_includes/`, `_layouts/` | Underlying theme engine (still used by /about/, /cv/, /publications/) |
 
 ## Writing a post
 
