@@ -1,6 +1,6 @@
 # 为好奇心留一盏灯 · Keep a light on for curiosity
 
-Personal website of **周寅张皓 / Zhanghao Zhou** — physics, AI, and scientific software.
+Personal website of **周寅张皓 / Zhanghao Zhouyin** — physics, AI, and scientific software.
 
 Live at <https://floatingCatty.github.io>.
 
