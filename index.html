@@ -82,28 +82,19 @@ layout: raw
   .section-intro{font-size:15px;color:#9E9488;margin-bottom:44px;max-width:560px}
   .prose{margin-top:30px;font-size:17px;line-height:1.85;color:#D3C8B6;white-space:pre-line}
 
-  /* homepage publications list */
-  .home-pub-list{border-top:1px solid rgba(175,164,151,.1)}
-  .home-pub{display:block;padding:18px 2px;border-bottom:1px solid rgba(175,164,151,.1)}
-  .home-pub-meta{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.3px}
-  .hp-year{color:#E0AD58}
-  .hp-venue{color:#8F857A}
-  .hp-title{font-family:'Newsreader','Noto Serif SC',serif;font-size:18.5px;color:#E7DDCD;margin-top:6px;line-height:1.4}
-  .home-pub:hover .hp-title{color:#F4DFC2}
-  .pub-all{display:inline-block;margin-top:30px;font-family:'IBM Plex Mono',monospace;font-size:13px;color:#AFA497}
+  /* things I've found — findings list */
+  .finds{border-top:1px solid rgba(175,164,151,.1)}
+  .find-item{padding:26px 0;border-bottom:1px solid rgba(175,164,151,.1)}
+  .find-plain{font-family:'Newsreader','Noto Serif SC',serif;font-weight:400;font-size:clamp(18px,2vw,22px);line-height:1.5;color:#EAE0D0}
+  .find-tech{font-family:'Newsreader','Noto Serif SC',serif;font-style:italic;font-size:14px;color:#9FAFBA;margin-top:14px;line-height:1.5}
+  .find-meta{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;margin-top:11px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.4px}
+  .find-year{color:#E0AD58}
+  .find-venue{color:#8F857A}
+  .find-links{display:flex;gap:18px;margin-top:14px}
+  .find-links a{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#AFA497}
+  .find-links a:hover{color:#E9C784}
+  .pub-all{display:inline-block;margin-top:32px;font-family:'IBM Plex Mono',monospace;font-size:13px;color:#AFA497}
   .pub-all:hover{color:#E9C784}
-
-  /* found card */
-  .found-card{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,56px);align-items:center;padding:32px;border:1px solid rgba(175,164,151,.14);border-radius:4px;background:linear-gradient(180deg,rgba(243,235,221,.02),transparent)}
-  .found-fig{position:relative;aspect-ratio:4/3;border-radius:3px;overflow:hidden;background:#12100E;display:flex;align-items:center;justify-content:center;border:1px solid rgba(175,164,151,.1)}
-  .found-fig::before{content:'';position:absolute;inset:0;background:radial-gradient(90% 90% at 50% 45%, rgba(159,175,186,.14), transparent 70%)}
-  .found-fig span{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#6E655B;position:relative}
-  .found-meta{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#8F857A;letter-spacing:1px}
-  .found-plain{font-family:'Newsreader','Noto Serif SC',serif;font-weight:400;font-size:clamp(19px,2.2vw,25px);line-height:1.38;color:#EAE0D0;margin-top:14px}
-  .found-tech{font-size:13.5px;color:#9FAFBA;margin-top:16px;line-height:1.5}
-  .found-links{display:flex;gap:18px;margin-top:20px}
-  .found-links a{font-size:13px;color:#AFA497}
-  .found-links a:hover{color:#E9C784}
 
   /* building */
   .build-item{padding:30px 0;border-top:1px solid rgba(175,164,151,.14)}
@@ -172,7 +163,6 @@ layout: raw
     .hero-lamp{height:min(46vh,360px);order:-1;margin-bottom:8px}
     .about-grid{grid-template-columns:1fr}
     .about-photo{max-width:360px}
-    .found-card{grid-template-columns:1fr}
     .navlinks a:not(.lang-btn){display:none}
     .navlinks .keep{display:inline}
   }
@@ -193,7 +183,6 @@ layout: raw
     </a>
     <div class="navlinks">
       <a href="#found" data-i18n="navWork"></a>
-      <a href="#pubs" data-i18n="navPubs"></a>
       <a href="#notes" class="keep" data-i18n="navNotes"></a>
       <a href="#about" data-i18n="navAbout"></a>
       <a href="#contact" data-i18n="navContact"></a>
@@ -262,41 +251,46 @@ layout: raw
 
   <!-- THINGS I'VE FOUND -->
   <a id="found"></a>
-  <section class="section reveal" style="max-width:960px">
+  <section class="section reveal" style="max-width:800px">
     <p class="kicker" style="margin-bottom:14px"><span class="ember"></span><span data-i18n="s4kicker"></span></p>
-    <p class="section-intro" data-i18n="s4intro"></p>
-    <article class="found-card">
-      <div class="found-fig"><span data-i18n="figLabel"></span></div>
-      <div>
-        <p class="found-meta">2026 · <span data-i18n="sample"></span></p>
-        <p class="found-plain" data-i18n="found1plain"></p>
-        <p class="found-tech" data-i18n="found1tech"></p>
-        <div class="found-links">
-          <a href="https://arxiv.org/abs/2607.06711" target="_blank" rel="noopener">Paper</a>
-          <a href="https://github.com/floatingCatty" target="_blank" rel="noopener">Code</a>
-        </div>
-      </div>
-    </article>
-  </section>
+    <p class="section-intro" style="margin-bottom:46px" data-i18n="s4intro"></p>
+    <div class="finds">
 
-  <div class="wick"><div></div></div>
+      <article class="find-item">
+        <p class="find-plain" data-i18n="found1plain"></p>
+        <p class="find-tech">Moiré Phonon Condensation in Magic-Angle Twisted Bilayer Graphene</p>
+        <div class="find-meta"><span class="find-year">2026</span><span class="find-venue">preprint</span></div>
+        <div class="find-links"><a href="https://arxiv.org/abs/2607.06711" target="_blank" rel="noopener">Paper ↗</a><a href="https://github.com/floatingCatty" target="_blank" rel="noopener">Code ↗</a></div>
+      </article>
 
-  <!-- PUBLICATIONS -->
-  <a id="pubs"></a>
-  <section class="section reveal" style="max-width:820px">
-    <p class="kicker" style="margin-bottom:14px"><span class="ember"></span><span data-i18n="pubKicker"></span></p>
-    <p class="section-intro" style="margin-bottom:40px" data-i18n="pubIntro"></p>
-    <div class="home-pub-list">
-      {% assign pubs = site.publications | sort: 'date' | reverse %}
-      {% for pub in pubs %}
-      <a class="home-pub" href="{{ pub.paperurl }}" target="_blank" rel="noopener">
-        <div class="home-pub-meta">
-          <span class="hp-year">{{ pub.date | date: "%Y" }}</span>
-          {% if pub.venue %}<span class="hp-venue">{{ pub.venue }}</span>{% endif %}
-        </div>
-        <p class="hp-title">{{ pub.title | replace: '$', '' }}</p>
-      </a>
-      {% endfor %}
+      <article class="find-item">
+        <p class="find-plain" data-i18n="found2plain"></p>
+        <p class="find-tech">Learning local equivariant representations for quantum operators (SLEM)</p>
+        <div class="find-meta"><span class="find-year">2025</span><span class="find-venue">ICLR 2025</span></div>
+        <div class="find-links"><a href="https://arxiv.org/abs/2407.06053" target="_blank" rel="noopener">Paper ↗</a></div>
+      </article>
+
+      <article class="find-item">
+        <p class="find-plain" data-i18n="found3plain"></p>
+        <p class="find-tech">Neural-Quantum-States Impurity Solver for Quantum Embedding Problems</p>
+        <div class="find-meta"><span class="find-year">2025</span><span class="find-venue">Phys. Rev. B (2026)</span></div>
+        <div class="find-links"><a href="https://arxiv.org/abs/2509.12431" target="_blank" rel="noopener">Paper ↗</a></div>
+      </article>
+
+      <article class="find-item">
+        <p class="find-plain" data-i18n="found4plain"></p>
+        <p class="find-tech">Deep learning tight-binding approach for large-scale electronic simulations (DeePTB)</p>
+        <div class="find-meta"><span class="find-year">2024</span><span class="find-venue">Nature Communications</span></div>
+        <div class="find-links"><a href="https://www.nature.com/articles/s41467-024-51006-4" target="_blank" rel="noopener">Paper ↗</a><a href="https://github.com/deepmodeling/DeePTB" target="_blank" rel="noopener">Code ↗</a></div>
+      </article>
+
+      <article class="find-item">
+        <p class="find-plain" data-i18n="found5plain"></p>
+        <p class="find-tech">Automatic differentiable nonequilibrium Green's function formalism (AD-NEGF)</p>
+        <div class="find-meta"><span class="find-year">2023</span><span class="find-venue">Phys. Rev. B</span></div>
+        <div class="find-links"><a href="https://doi.org/10.1103/PhysRevB.108.195143" target="_blank" rel="noopener">Paper ↗</a></div>
+      </article>
+
     </div>
     <a class="pub-all" href="{{ '/publications/' | relative_url }}"><span data-i18n="pubAll"></span> →</a>
   </section>
@@ -382,7 +376,7 @@ layout: raw
   var I18N = {
     en: {
       brand: 'Keep a light on for curiosity',
-      navWork: 'Work', navPubs: 'Research', navNotes: 'Essays', navAbout: 'About', navContact: 'Contact', langLabel: '中文',
+      navWork: 'Work', navNotes: 'Essays', navAbout: 'About', navContact: 'Contact', langLabel: '中文',
       heroName: 'Zhanghao Zhouyin',
       heroTitle: 'Keep a light on for curiosity.',
       heroSub: 'I work between physics and AI, trying to understand a little more of the world — and to keep a light on for others who want to know too.',
@@ -393,11 +387,12 @@ layout: raw
       s2body: "In my grandmother's house, a rush-wick oil lamp always burned before the family altar — a shallow brass dish, a little cooking oil, a flame the size of a soybean, yet it almost never went out. Over the years the oil turned to grease and the grease to a waxy crust on the dish, with a faint smell like a candle. I would sit beside it — trimming the wick, watching the flame swell and shrink, burning small things: a stick of incense, a scrap of paper, a strand of hair, an ant I had caught.\n\nBack then the play had no purpose; it was only curiosity. Other motives are mixed in now, but the heart of it hasn't changed. CS, AI, physics — underneath them all is still the same simple wish to understand the world.",
       s4kicker: "Things I've found",
       s4intro: 'Finished research and discoveries.',
-      figLabel: 'scientific figure', sample: 'recent work',
       found1plain: 'A structural change involving more than ten thousand atoms turned out to be governed by just two collective motions.',
       found1tech: 'Moiré Phonon Condensation in Magic-Angle Twisted Bilayer Graphene',
-      pubKicker: 'Publications',
-      pubIntro: 'Peer-reviewed papers and preprints — deep-learning electronic structure, quantum transport, and quantum embedding.',
+      found2plain: 'A neural network can read only a material’s local structure and predict its quantum operators directly — reaching near first-principles accuracy while staying local enough to scale toward whole devices.',
+      found3plain: 'Neural quantum states can act as the impurity solver inside quantum embedding, matching exact diagonalization on correlated models — where the real bottleneck is how precisely you sample observables, not training the network.',
+      found4plain: 'Trained only on first-principles eigenvalues, a deep-learning tight-binding model predicts the electronic structure of structures it has never seen — making million-atom, finite-temperature electronic simulations feasible.',
+      found5plain: 'Making the non-equilibrium Green’s function method differentiable end to end turns a quantum transport simulator into something you can optimize through — providing gradients for sensitivity analysis and inverse design.',
       pubAll: 'All publications',
       s5kicker: "What I'm building",
       s5intro: 'Building tools that help people understand the world.',
@@ -421,7 +416,7 @@ layout: raw
     },
     zh: {
       brand: '为好奇心留一盏灯',
-      navWork: '工作', navPubs: '论文', navNotes: '随笔', navAbout: '关于', navContact: '联系', langLabel: 'EN',
+      navWork: '工作', navNotes: '随笔', navAbout: '关于', navContact: '联系', langLabel: 'EN',
       heroName: '周寅张皓',
       heroTitle: '为好奇心留一盏灯。',
       heroSub: '我在物理和 AI 之间，试着多理解一点这个世界，也为同样想知道的人点一盏灯。',
@@ -432,11 +427,12 @@ layout: raw
       s2body: '小时候，奶奶家佛桌前总点着一盏灯心草油灯。一个浅浅黄铜托盘，盛点做饭用的菜油，黄豆大小的火苗，但几乎从不熄灭。几十年，油变脂，脂变膏，黏在托盘上，有像蜡烛一样的味道。我常坐在它旁边——拨一拨灯芯，看火焰忽大忽小，烧一点小东西。有时候是供香，纸片，头发，抓的小蚂蚁。\n\n那时候的玩耍无关收益，只是好奇。现在夹杂了很多别的想法，但是本心不改。CS，AI，物理——底下藏着的还是一个想要理解世界的、简单的心愿。',
       s4kicker: '我发现的一些事',
       s4intro: '已完成的研究与发现。',
-      figLabel: '科学图', sample: '近期工作',
       found1plain: '一个涉及上万个原子的结构变化，最终被证明只由两种集体运动所主导。',
       found1tech: 'Moiré Phonon Condensation in Magic-Angle Twisted Bilayer Graphene',
-      pubKicker: '论文',
-      pubIntro: '同行评审论文与预印本——深度学习电子结构、量子输运与量子嵌入。',
+      found2plain: '神经网络只需读取材料的局域结构，就能直接预测它的量子算符——在接近第一性原理精度的同时，保持足够的局域性，从而向整个器件尺度扩展。',
+      found3plain: '神经量子态可以充当量子嵌入中的杂质求解器，在关联模型上与精确对角化吻合——真正的瓶颈在于物理量采样的精度，而非网络的训练。',
+      found4plain: '仅用第一性原理本征值训练，深度学习紧束缚模型就能预测从未见过的结构的电子结构——让百万原子、有限温度下的电子模拟成为可能。',
+      found5plain: '让非平衡格林函数方法端到端可微，量子输运模拟器就变成了可以“反向优化”的对象——为灵敏度分析与逆向设计提供梯度。',
       pubAll: '全部论文',
       s5kicker: '在做的东西',
       s5intro: '建造一些工具，帮助人理解世界。',
