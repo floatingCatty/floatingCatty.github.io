@@ -27,6 +27,12 @@ layout: raw
   a{color:#D8B27A;text-decoration:none;transition:color .3s ease,border-color .3s ease,opacity .3s ease}
   a:hover{color:#E9C784}
   ::selection{background:rgba(224,173,88,.28);color:#F4DFC2}
+  *{scrollbar-width:thin;scrollbar-color:rgba(224,173,88,.30) transparent}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-track{background:transparent}
+  ::-webkit-scrollbar-thumb{background:rgba(224,173,88,.24);border-radius:8px;border:2px solid transparent;background-clip:padding-box}
+  ::-webkit-scrollbar-thumb:hover{background:rgba(224,173,88,.44);background-clip:padding-box}
+  ::-webkit-scrollbar-corner{background:transparent}
   .serif{font-family:'Newsreader','Noto Serif SC',serif}
   .mono{font-family:'IBM Plex Mono',monospace}
 
