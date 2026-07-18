@@ -45,6 +45,11 @@ Conventions:
   or `essay` (narrative). This is the only required non-obvious field.
 - **Math** works out of the box: inline `$…$` and display `$$…$$` (and `\begin{align*}…\end{align*}`).
   Equations are auto-numbered and wide ones scroll horizontally on small screens.
+  - ⚠️ **Never put a raw `|` inside inline `$…$` math.** kramdown's GFM parser treats the
+    line as a table and mangles the equation. Use `\vert`, `\mid`, or `\lvert…\rvert`
+    instead (they render identically). Inside `$$…$$` display blocks, `|` is fine.
+  - Keep `$$` balanced, and don't glue `$$` directly to a word (`When$$…$$` breaks — write
+    `When $…$` with a space). Prefer `\tilde{G}` over `\~G`, `\operatorname*{argmax}` over `\argmax`.
 - **Headings** inside the body use `#`, `##`, `###`. The `title` is already rendered at
   the top, so you can start the body at `##` (or a short intro paragraph) to avoid a
   duplicate top-level heading.
