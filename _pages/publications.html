@@ -1,0 +1,83 @@
+---
+layout: raw
+permalink: /publications/
+title: Publications
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Publications · 周寅张皓</title>
+<meta name="description" content="Publications by Zhanghao Zhouyin — physics, AI, and scientific software: deep-learning electronic structure, quantum transport, and quantum embedding.">
+{% include lamp-head.html %}
+<style>
+  .pub-list{max-width:760px;margin:0 auto;padding-left:28px;position:relative}
+  .pub-list::before{content:'';position:absolute;left:3px;top:6px;bottom:6px;width:1px;background:linear-gradient(180deg,rgba(224,173,88,.5),rgba(224,173,88,.12))}
+  .pub-item{display:block;position:relative;padding:24px 0;border-bottom:1px solid rgba(175,164,151,.1)}
+  .pub-item:last-of-type{border-bottom:none}
+  .pub-dot{position:absolute;left:-28px;top:31px;width:7px;height:7px;border-radius:50%;background:#E0AD58;box-shadow:0 0 8px 2px rgba(224,173,88,.5)}
+  .pub-meta{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:11px}
+  .pub-year{color:#E0AD58;letter-spacing:.5px}
+  .pub-venue{color:#8F857A;letter-spacing:.3px}
+  .pub-title{font-family:'Newsreader','Noto Serif SC',serif;font-size:21px;color:#EAE0D0;margin-top:9px;line-height:1.38}
+  .pub-item:hover .pub-title{color:#F4DFC2}
+  .pub-authors{font-size:13px;color:#9E9488;margin-top:8px;line-height:1.55}
+  .pub-sub{font-size:14px;color:#9E9488;margin-top:7px;line-height:1.6}
+  .pub-arrow{display:inline-block;margin-top:11px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8F857A}
+  .pub-item:hover .pub-arrow{color:#D8B27A}
+</style>
+</head>
+<body>
+<div class="page">
+  {% include lamp-nav.html active="pubs" %}
+
+  <header class="page-head">
+    <p class="kicker"><span class="ember"></span>论文 · Publications</p>
+    <h1>Publications</h1>
+    <p class="en">Selected work</p>
+    <p class="page-intro">同行评审论文与预印本——深度学习电子结构、量子输运与量子嵌入。<br>Peer-reviewed papers and preprints — deep-learning electronic structure, quantum transport, and quantum embedding.</p>
+  </header>
+
+  <section class="section reveal" style="padding-top:clamp(20px,4vh,40px)">
+    <div class="pub-list">
+      {% assign pubs = site.publications | sort: 'date' | reverse %}
+      {% for pub in pubs %}
+      <a class="pub-item" href="{{ pub.paperurl }}" target="_blank" rel="noopener">
+        <span class="pub-dot"></span>
+        <div class="pub-meta">
+          <span class="pub-year">{{ pub.date | date: "%Y" }}</span>
+          {% if pub.venue %}<span class="pub-venue">{{ pub.venue }}</span>{% endif %}
+        </div>
+        <p class="pub-title">{{ pub.title | replace: '$', '' }}</p>
+        {% assign summary = pub.excerpt | strip_html | normalize_whitespace | replace: '$', '' %}
+        {% if summary and summary != "" %}<p class="pub-sub">{{ summary | truncate: 160 }}</p>{% endif %}
+        <span class="pub-arrow">Read paper ↗</span>
+      </a>
+      {% else %}
+      <p class="empty-note">Publications coming soon.</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  {% include lamp-footer.html %}
+</div>
+
+<script>
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('is-visible'); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.06 });
+    document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('is-visible'); });
+  }
+})();
+</script>
+{% include lamp-embers.html %}
+</body>
+</html>
