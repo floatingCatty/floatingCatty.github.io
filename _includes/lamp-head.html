@@ -1,0 +1,73 @@
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪔</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;500&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:#14110F;color:#E6DDCF;font-family:'Inter','Noto Sans SC',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden}
+  body::before{content:'';position:fixed;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(72% 52% at 50% -6%, rgba(224,173,88,.10), transparent 62%),radial-gradient(100% 72% at 50% 118%, rgba(140,86,44,.11), transparent 60%),radial-gradient(145% 118% at 50% 42%, #221B16 0%, #17130F 55%, #100C0A 100%)}
+  body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.06;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:170px 170px}
+  a{color:#D8B27A;text-decoration:none;transition:color .3s ease,border-color .3s ease,opacity .3s ease}
+  a:hover{color:#E9C784}
+  ::selection{background:rgba(224,173,88,.28);color:#F4DFC2}
+  .serif{font-family:'Newsreader','Noto Serif SC',serif}
+  .mono{font-family:'IBM Plex Mono',monospace}
+
+  .page{position:relative;min-height:100vh;background:transparent}
+
+  .ember{position:relative;display:inline-block;width:7px;height:7px;border-radius:50%;background:radial-gradient(circle,#FFF3DE,#E0AD58 60%,#C37D34);box-shadow:0 0 9px 2px rgba(224,173,88,.5);flex:none}
+  .ember-brand{width:9px;height:9px;box-shadow:0 0 10px 3px rgba(224,173,88,.6);animation:emberPulse 4.5s ease-in-out infinite}
+  @keyframes emberPulse{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:1;transform:scale(1.25)}}
+
+  .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px clamp(20px,5vw,64px);backdrop-filter:blur(10px);background:linear-gradient(180deg, rgba(20,17,15,.82), rgba(20,17,15,.35));border-bottom:1px solid rgba(224,173,88,.08)}
+  .brand{display:flex;align-items:center;gap:11px;color:#E6DDCF}
+  .brand:hover{color:#E6DDCF}
+  .brand-name{font-family:'Newsreader','Noto Serif SC',serif;font-size:16px;letter-spacing:.2px}
+  .navlinks{display:flex;align-items:center;gap:clamp(14px,2.6vw,30px)}
+  .navlinks a{font-size:13.5px;color:#AFA497}
+  .navlinks a:hover{color:#E6DDCF}
+  .navlinks a.active{color:#E6DDCF}
+
+  .kicker{display:flex;align-items:center;gap:11px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#8F857A;margin-bottom:22px}
+
+  .section{margin:0 auto;padding:clamp(48px,9vh,110px) clamp(24px,5vw,32px)}
+  .page-head{max-width:760px;margin:0 auto;padding:clamp(56px,11vh,120px) clamp(24px,5vw,32px) clamp(20px,4vh,40px)}
+  .page-head h1{font-family:'Newsreader','Noto Serif SC',serif;font-weight:400;font-size:clamp(34px,5vw,58px);line-height:1.08;letter-spacing:-.4px;color:#F0E8DA;text-wrap:balance}
+  .page-head .en{margin-top:8px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:3px;text-transform:uppercase;color:#8F857A}
+  .page-intro{margin-top:22px;font-size:15.5px;line-height:1.75;color:#9E9488;max-width:560px}
+
+  .wick{display:flex;justify-content:center}
+  .wick div{width:1px;height:56px;background:linear-gradient(180deg,transparent,rgba(224,173,88,.4),transparent)}
+
+  .timeline{position:relative;padding-left:28px;max-width:760px;margin:0 auto}
+  .timeline::before{content:'';position:absolute;left:3px;top:6px;bottom:6px;width:1px;background:linear-gradient(180deg,rgba(224,173,88,.5),rgba(224,173,88,.12))}
+  .note-item{display:block;position:relative;padding:22px 0;border-bottom:1px solid rgba(175,164,151,.1)}
+  .note-item:last-of-type{border-bottom:none}
+  .note-dot{position:absolute;left:-28px;top:28px;width:7px;height:7px;border-radius:50%;background:#E0AD58;box-shadow:0 0 8px 2px rgba(224,173,88,.5)}
+  .note-meta{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+  .note-date,.note-time{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#8F857A}
+  .note-time{color:#6E655B}
+  .chip{font-size:10.5px;letter-spacing:.5px;text-transform:uppercase;color:#9FAFBA;border:1px solid rgba(159,175,186,.25);border-radius:999px;padding:2px 9px}
+  .note-title{font-family:'Newsreader','Noto Serif SC',serif;font-size:21px;color:#EAE0D0;margin-top:10px;line-height:1.35}
+  .note-sub{font-size:14px;color:#9E9488;margin-top:7px;line-height:1.6}
+  .note-item:hover .note-title{color:#F4DFC2}
+  .empty-note{max-width:760px;margin:0 auto;font-family:'Newsreader','Noto Serif SC',serif;font-style:italic;font-size:16px;color:#8F857A}
+
+  .footer{border-top:1px solid rgba(224,173,88,.08);margin-top:clamp(48px,9vh,110px);padding:34px clamp(24px,5vw,64px);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .footer p{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#6E655B;letter-spacing:.5px}
+  .footer-cat{display:flex;align-items:center;gap:8px;opacity:.5}
+  .footer-cat span{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#5C5449}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity 1s ease,transform 1s cubic-bezier(.2,.7,.2,1)}
+  .reveal.is-visible{opacity:1;transform:translateY(0)}
+
+  @media (max-width:640px){
+    .navlinks a{font-size:12.5px}
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    .reveal{opacity:1;transform:none;transition:none}
+    .ember-brand{animation:none}
+  }
+</style>

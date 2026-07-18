@@ -1,2 +1,10 @@
 _site/
+.jekyll-cache/
+Gemfile.lock
 
+# Local tooling / preview config
+.claude/
+
+# Design source (Claude design export — not part of the built site)
+为好奇心留一盏灯/
+refdesign/

@@ -1,0 +1,37 @@
+<style>
+  .ember-field{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+  .ember-field span{position:absolute;bottom:-14px;border-radius:50%;opacity:0;
+    background:radial-gradient(circle,#FFE7B8 0%,#E7B463 45%,rgba(224,173,88,0) 72%);
+    will-change:transform,opacity;
+    animation-name:emberRise;animation-timing-function:linear;animation-iteration-count:infinite}
+  @keyframes emberRise{
+    0%{transform:translate3d(0,0,0) scale(.75);opacity:0}
+    14%{opacity:.55}
+    52%{transform:translate3d(calc(var(--drift) * .5),-48vh,0) scale(1);opacity:.45}
+    82%{opacity:.28}
+    100%{transform:translate3d(var(--drift),-94vh,0) scale(.65);opacity:0}
+  }
+  @media (prefers-reduced-motion: reduce){.ember-field{display:none}}
+</style>
+<script>
+(function () {
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var box = document.createElement('div');
+  box.className = 'ember-field';
+  box.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(box);
+  var N = 13;
+  for (var i = 0; i < N; i++) {
+    var e = document.createElement('span');
+    var size = 1.5 + Math.random() * 2.4;
+    var dur = 15 + Math.random() * 15;          // 15–30s: slow
+    e.style.cssText =
+      'left:' + (Math.random() * 100) + '%;' +
+      'width:' + size + 'px;height:' + size + 'px;' +
+      'animation-duration:' + dur + 's;' +
+      'animation-delay:' + (-Math.random() * dur) + 's;' +
+      '--drift:' + ((Math.random() * 2 - 1) * 44) + 'px;';
+    box.appendChild(e);
+  }
+})();
+</script>

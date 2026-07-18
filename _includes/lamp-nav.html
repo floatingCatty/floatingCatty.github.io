@@ -1,0 +1,12 @@
+<nav class="nav">
+  <a href="{{ '/' | relative_url }}" class="brand">
+    <span class="ember ember-brand"></span>
+    <span class="brand-name">为好奇心留一盏灯</span>
+  </a>
+  <div class="navlinks">
+    <a href="{{ '/essays/' | relative_url }}"{% if include.active == "essays" %} class="active"{% endif %}>随笔</a>
+    <a href="{{ '/study-notes/' | relative_url }}"{% if include.active == "study" %} class="active"{% endif %}>学习笔记</a>
+    <a href="{{ '/#about' | relative_url }}">关于</a>
+    <a href="{{ '/#contact' | relative_url }}">联系</a>
+  </div>
+</nav>

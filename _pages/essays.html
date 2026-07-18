@@ -1,0 +1,67 @@
+---
+layout: raw
+permalink: /essays/
+title: Essays
+---
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>随笔 · 周寅张皓</title>
+<meta name="description" content="随笔 — 关于发现、建造、AI 与科学，以及沿途的思考。Essays by Zhanghao Zhou on discovery, building, AI and science.">
+{% include lamp-head.html %}
+</head>
+<body>
+<div class="page">
+  {% include lamp-nav.html active="essays" %}
+
+  <header class="page-head">
+    <p class="kicker"><span class="ember"></span>随笔 · Essays</p>
+    <h1>随笔</h1>
+    <p class="en">Essays</p>
+    <p class="page-intro">一边想一边写，仍在进行中——关于发现、建造、AI 与科学，以及沿途的思考。<br>Thinking out loud, in progress — on discovery, building, AI and science, and the way there.</p>
+  </header>
+
+  <section class="section reveal" style="padding-top:clamp(20px,4vh,40px)">
+    <div class="timeline">
+      {% assign essays = site.categories.essay %}
+      {% for post in essays %}
+      <a class="note-item" href="{{ post.url | relative_url }}">
+        <span class="note-dot"></span>
+        <div class="note-meta">
+          <span class="note-date">{{ post.date | date: "%Y · %m" }}</span>
+          {% if post.tags and post.tags != empty %}<span class="chip">{{ post.tags | first }}</span>{% endif %}
+          <span class="note-time">{{ post.content | number_of_words | divided_by: 200 | plus: 1 }} min</span>
+        </div>
+        <p class="note-title">{{ post.title | escape }}</p>
+        {% assign summary = post.excerpt | strip_html | normalize_whitespace %}
+        {% if summary and summary != "" %}<p class="note-sub">{{ summary | truncate: 140 }}</p>{% endif %}
+      </a>
+      {% else %}
+      <p class="empty-note">第一篇随笔还在灯下写着。<br>The first essay is still being written by the lamp.</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  {% include lamp-footer.html %}
+</div>
+
+<script>
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('is-visible'); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('is-visible'); });
+  }
+})();
+</script>
+{% include lamp-embers.html %}
+</body>
+</html>
