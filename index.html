@@ -303,9 +303,10 @@ layout: raw
           {% if post.tags and post.tags != empty %}<span class="chip">{{ post.tags | first }}</span>{% endif %}
           <span class="note-time">{{ post.content | number_of_words | divided_by: 200 | plus: 1 }} min</span>
         </div>
-        <p class="note-title">{{ post.title | escape }}</p>
+        <p class="note-title">{% if post.title_en %}<span class="i18n-zh">{{ post.title | escape }}</span><span class="i18n-en">{{ post.title_en | escape }}</span>{% else %}{{ post.title | escape }}{% endif %}</p>
         {% assign summary = post.excerpt | strip_html | normalize_whitespace %}
-        {% if summary and summary != "" %}<p class="note-sub">{{ summary | truncate: 120 }}</p>{% endif %}
+        {% assign summary_en = post.excerpt_en | strip_html | normalize_whitespace %}
+        {% if summary and summary != "" %}<p class="note-sub">{% if post.excerpt_en %}<span class="i18n-zh">{{ summary | truncate: 120 }}</span><span class="i18n-en">{{ summary_en | truncate: 150 }}</span>{% else %}{{ summary | truncate: 120 }}{% endif %}</p>{% endif %}
       </a>
       {% else %}
       <p class="note-sub" style="padding:20px 0" data-i18n="essaysEmpty"></p>

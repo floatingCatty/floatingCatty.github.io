@@ -39,9 +39,10 @@ title: Essays
           {% if post.tags and post.tags != empty %}<span class="chip">{{ post.tags | first }}</span>{% endif %}
           <span class="note-time">{{ post.content | number_of_words | divided_by: 200 | plus: 1 }} min</span>
         </div>
-        <p class="note-title">{{ post.title | escape }}</p>
+        <p class="note-title">{% if post.title_en %}<span class="i18n-zh">{{ post.title | escape }}</span><span class="i18n-en">{{ post.title_en | escape }}</span>{% else %}{{ post.title | escape }}{% endif %}</p>
         {% assign summary = post.excerpt | strip_html | normalize_whitespace %}
-        {% if summary and summary != "" %}<p class="note-sub">{{ summary | truncate: 140 }}</p>{% endif %}
+        {% assign summary_en = post.excerpt_en | strip_html | normalize_whitespace %}
+        {% if summary and summary != "" %}<p class="note-sub">{% if post.excerpt_en %}<span class="i18n-zh">{{ summary | truncate: 140 }}</span><span class="i18n-en">{{ summary_en | truncate: 170 }}</span>{% else %}{{ summary | truncate: 140 }}{% endif %}</p>{% endif %}
       </a>
       {% else %}
       <p class="empty-note">第一篇随笔还在灯下写着。<br>The first essay is still being written by the lamp.</p>
