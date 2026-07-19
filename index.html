@@ -63,9 +63,12 @@ layout: raw
   .hero{position:relative;min-height:92vh;display:flex;align-items:center;padding:clamp(24px,6vh,64px) clamp(24px,7vw,96px) clamp(60px,10vh,96px);overflow:hidden}
   /* hero readability overlay (image itself is the fixed body background) */
   .hero-photo{position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(90deg, rgba(20,17,15,.92) 0%, rgba(20,17,15,.66) 34%, rgba(20,17,15,.22) 62%, rgba(20,17,15,.34) 100%),linear-gradient(180deg, rgba(20,17,15,.42) 0%, transparent 24%, transparent 74%, rgba(20,17,15,.22) 100%)}
-  .hero-glow{position:absolute;inset:0;z-index:1;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(circle at 74% 56%, rgba(255,178,88,.18), rgba(255,178,88,0) 24%);animation:heroGlow 4.5s ease-in-out infinite}
-  @keyframes heroFlicker{0%,100%{filter:brightness(.97) saturate(1)}22%{filter:brightness(1.05) saturate(1.04)}44%{filter:brightness(.95) saturate(1)}63%{filter:brightness(1.06) saturate(1.05)}80%{filter:brightness(.99) saturate(1)}}
-  @keyframes heroGlow{0%,100%{opacity:.62}30%{opacity:1}55%{opacity:.8}78%{opacity:1}}
+  @keyframes heroFlicker{0%,100%{filter:brightness(.97) saturate(1)}22%{filter:brightness(1.04) saturate(1.03)}44%{filter:brightness(.96) saturate(1)}63%{filter:brightness(1.05) saturate(1.04)}80%{filter:brightness(.99) saturate(1)}}
+  /* fixed, organically flickering lamp light — anchored on the flame in the fixed photo */
+  .lamp-light{position:fixed;inset:0;z-index:-1;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(circle at 74% 60%, rgba(240,150,66,.26), rgba(240,150,66,0) 19%),radial-gradient(circle at 74% 58%, rgba(255,214,150,.28), rgba(255,214,150,0) 8%);transform-origin:74% 60%;animation:lampFlicker 3.6s ease-in-out infinite;will-change:opacity,transform}
+  .lamp-light::after{content:'';position:absolute;inset:0;mix-blend-mode:screen;background:radial-gradient(circle at 74% 57.5%, rgba(255,236,196,.32), rgba(255,236,196,0) 5.5%);transform-origin:74% 59%;animation:lampCore 1.9s ease-in-out infinite;will-change:opacity,transform}
+  @keyframes lampFlicker{0%{opacity:.82;transform:scale(1)}9%{opacity:1;transform:scale(1.06)}19%{opacity:.72;transform:scale(.98)}29%{opacity:.96;transform:scale(1.03)}38%{opacity:.78;transform:scale(1)}49%{opacity:1;transform:scale(1.07)}58%{opacity:.72;transform:scale(.99)}69%{opacity:.92;transform:scale(1.02)}78%{opacity:.68;transform:scale(.97)}88%{opacity:1;transform:scale(1.05)}100%{opacity:.82;transform:scale(1)}}
+  @keyframes lampCore{0%,100%{opacity:.6;transform:translate(0,0) scaleY(1)}22%{opacity:1;transform:translate(-1px,-1px) scaleY(1.14)}44%{opacity:.68;transform:translate(1px,0) scaleY(.94)}63%{opacity:.94;transform:translate(-1px,-1px) scaleY(1.09)}82%{opacity:.74;transform:translate(1px,0) scaleY(1.02)}}
   .hero-copy{position:relative;max-width:560px;z-index:2}
   .kicker{display:flex;align-items:center;gap:11px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#8F857A;margin-bottom:26px}
   .hero-name{font-family:'Newsreader','Noto Serif SC',serif;font-weight:400;font-size:clamp(46px,6.6vw,80px);line-height:1.04;letter-spacing:-.5px;color:#F0E8DA;text-wrap:balance}
@@ -173,7 +176,8 @@ layout: raw
     .hero{min-height:82vh;padding-bottom:clamp(40px,8vh,72px)}
     body::before{background-position:62% 42%}
     .hero-photo{background:linear-gradient(180deg, rgba(20,17,15,.58) 0%, rgba(20,17,15,.3) 32%, rgba(20,17,15,.44) 70%, rgba(20,17,15,.26) 100%)}
-    .hero-glow{background:radial-gradient(circle at 62% 44%, rgba(255,178,88,.16), rgba(255,178,88,0) 30%)}
+    .lamp-light{background:radial-gradient(circle at 62% 48%, rgba(240,150,66,.24), rgba(240,150,66,0) 26%),radial-gradient(circle at 62% 46%, rgba(255,214,150,.26), rgba(255,214,150,0) 11%);transform-origin:62% 48%}
+    .lamp-light::after{background:radial-gradient(circle at 62% 45%, rgba(255,236,196,.3), rgba(255,236,196,0) 7%);transform-origin:62% 46%}
     .about-grid{grid-template-columns:1fr}
     .about-photo{max-width:360px}
     .find-item{grid-template-columns:1fr;gap:16px}
@@ -185,7 +189,7 @@ layout: raw
     html{scroll-behavior:auto}
     .reveal{opacity:1;transform:none;transition:none}
     .ember-brand{animation:none}
-    body::before,.hero-glow{animation:none}
+    body::before,.lamp-light,.lamp-light::after{animation:none}
   }
 </style>
 <script>
@@ -200,6 +204,7 @@ layout: raw
 </script>
 </head>
 <body>
+<div class="lamp-light" aria-hidden="true"></div>
 <div class="page">
 
   {% include lamp-nav.html %}
@@ -209,7 +214,6 @@ layout: raw
   <!-- HERO -->
   <section class="hero">
     <div class="hero-photo"></div>
-    <div class="hero-glow"></div>
     <div class="hero-copy">
       <h1 class="hero-name" data-i18n="heroName"></h1>
       <p class="hero-slogan" data-i18n="heroTitle"></p>
