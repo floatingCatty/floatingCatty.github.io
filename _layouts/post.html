@@ -77,18 +77,20 @@
   {% if isEssay %}
     {% assign navActive = 'essays' %}
     {% assign backUrl = '/essays/' | relative_url %}
-    {% assign streamLabel = '随笔 · Essays' %}
+    {% assign streamZh = '随笔' %}
+    {% assign streamEn = 'Essays' %}
   {% else %}
     {% assign navActive = 'study' %}
     {% assign backUrl = '/study-notes/' | relative_url %}
-    {% assign streamLabel = '学习笔记 · Study notes' %}
+    {% assign streamZh = '学习笔记' %}
+    {% assign streamEn = 'Study notes' %}
   {% endif %}
 
   {% include lamp-nav.html active=navActive %}
 
   <article class="article">
     <header class="article-head reveal">
-      <p class="kicker"><span class="ember"></span>{{ streamLabel }}</p>
+      <p class="kicker"><span class="ember"></span><span class="i18n-zh">{{ streamZh }}</span><span class="i18n-en">{{ streamEn }}</span></p>
       <h1>{{ page.title }}</h1>
       <div class="article-meta">
         <span class="note-date">{{ page.date | date: "%Y · %m · %d" }}</span>
@@ -102,7 +104,7 @@
     </div>
 
     <div class="article-foot reveal">
-      <a href="{{ backUrl }}">← {{ streamLabel }}</a>
+      <a href="{{ backUrl }}">← <span class="i18n-zh">{{ streamZh }}</span><span class="i18n-en">{{ streamEn }}</span></a>
     </div>
   </article>
 

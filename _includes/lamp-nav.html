@@ -1,13 +1,14 @@
 <nav class="nav">
   <a href="{{ '/' | relative_url }}" class="brand">
     <span class="ember ember-brand"></span>
-    <span class="brand-name">为好奇心留一盏灯</span>
+    <span class="brand-name"><span class="i18n-zh">为好奇心留一盏灯</span><span class="i18n-en">Keep a light on for curiosity</span></span>
   </a>
   <div class="navlinks">
-    <a href="{{ '/essays/' | relative_url }}"{% if include.active == "essays" %} class="active"{% endif %}>随笔</a>
-    <a href="{{ '/study-notes/' | relative_url }}"{% if include.active == "study" %} class="active"{% endif %}>学习笔记</a>
-    <a href="{{ '/publications/' | relative_url }}"{% if include.active == "pubs" %} class="active"{% endif %}>论文</a>
-    <a href="{{ '/#about' | relative_url }}">关于</a>
-    <a href="{{ '/#contact' | relative_url }}">联系</a>
+    <a href="{{ '/essays/' | relative_url }}"{% if include.active == "essays" %} class="active"{% endif %}><span class="i18n-zh">随笔</span><span class="i18n-en">Essays</span></a>
+    <a href="{{ '/study-notes/' | relative_url }}"{% if include.active == "study" %} class="active"{% endif %}><span class="i18n-zh">学习笔记</span><span class="i18n-en">Study notes</span></a>
+    <a href="{{ '/publications/' | relative_url }}"{% if include.active == "pubs" %} class="active"{% endif %}><span class="i18n-zh">论文</span><span class="i18n-en">Publications</span></a>
+    <a href="{{ '/#about' | relative_url }}"><span class="i18n-zh">关于</span><span class="i18n-en">About</span></a>
+    <a href="{{ '/#contact' | relative_url }}"><span class="i18n-zh">联系</span><span class="i18n-en">Contact</span></a>
+    <button id="lang-toggle" class="lang-btn" type="button" aria-label="Switch language"></button>
   </div>
 </nav>

@@ -36,6 +36,12 @@
   .navlinks a{font-size:13.5px;color:#AFA497}
   .navlinks a:hover{color:#E6DDCF}
   .navlinks a.active{color:#E6DDCF}
+  .lang-btn{cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.5px;color:#E6DDCF;background:transparent;border:1px solid rgba(224,173,88,.28);border-radius:999px;padding:5px 12px;transition:border-color .3s,background .3s}
+  .lang-btn:hover{border-color:rgba(224,173,88,.6);background:rgba(224,173,88,.08)}
+  /* bilingual toggle — default Chinese; [data-lang=en] flips to English */
+  .i18n-en{display:none}
+  :root[data-lang="en"] .i18n-zh{display:none}
+  :root[data-lang="en"] .i18n-en{display:initial}
 
   .kicker{display:flex;align-items:center;gap:11px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#8F857A;margin-bottom:22px}
 
@@ -79,3 +85,30 @@
     .ember-brand{animation:none}
   }
 </style>
+<script>
+/* shared EN/ZH toggle — same language preference as the homepage (localStorage 'lang') */
+(function () {
+  function stored(){ try { return localStorage.getItem('lang'); } catch (e) { return null; } }
+  var lang = stored() || (((navigator.language || '').toLowerCase().indexOf('zh') === 0) ? 'zh' : 'en');
+  if (lang !== 'en' && lang !== 'zh') lang = 'en';
+  var root = document.documentElement;
+  function apply(l){
+    lang = l;
+    root.setAttribute('data-lang', l);
+    root.lang = (l === 'zh') ? 'zh-Hans' : 'en';
+    var b = document.getElementById('lang-toggle');
+    if (b) b.textContent = (l === 'en') ? '中文' : 'EN';
+    try { localStorage.setItem('lang', l); } catch (e) {}
+  }
+  root.setAttribute('data-lang', lang);            // set before body paints (no flash)
+  root.lang = (lang === 'zh') ? 'zh-Hans' : 'en';
+  function wire(){
+    var b = document.getElementById('lang-toggle');
+    if (b) {
+      b.textContent = (lang === 'en') ? '中文' : 'EN';
+      b.addEventListener('click', function(){ apply(lang === 'en' ? 'zh' : 'en'); });
+    }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wire); else wire();
+})();
+</script>

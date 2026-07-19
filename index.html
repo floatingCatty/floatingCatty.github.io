@@ -35,6 +35,10 @@ layout: raw
   ::-webkit-scrollbar-corner{background:transparent}
   .serif{font-family:'Newsreader','Noto Serif SC',serif}
   .mono{font-family:'IBM Plex Mono',monospace}
+  /* bilingual toggle — default Chinese; [data-lang=en] flips to English */
+  .i18n-en{display:none}
+  :root[data-lang="en"] .i18n-zh{display:none}
+  :root[data-lang="en"] .i18n-en{display:initial}
 
   .page{position:relative;min-height:100vh;background:transparent}
 
@@ -84,7 +88,10 @@ layout: raw
 
   /* things I've found — findings list */
   .finds{border-top:1px solid rgba(175,164,151,.1)}
-  .find-item{padding:26px 0;border-bottom:1px solid rgba(175,164,151,.1)}
+  .find-item{display:grid;grid-template-columns:172px 1fr;gap:clamp(20px,3vw,34px);align-items:start;padding:28px 0;border-bottom:1px solid rgba(175,164,151,.1)}
+  .find-fig{aspect-ratio:4/3;border-radius:5px;overflow:hidden;border:1px solid rgba(175,164,151,.14);background:#12100E;box-shadow:0 16px 40px -30px rgba(0,0,0,.8)}
+  .find-fig img{width:100%;height:100%;object-fit:cover;display:block}
+  .find-body{min-width:0}
   .find-plain{font-family:'Newsreader','Noto Serif SC',serif;font-weight:400;font-size:clamp(18px,2vw,22px);line-height:1.5;color:#EAE0D0}
   .find-tech{font-family:'Newsreader','Noto Serif SC',serif;font-style:italic;font-size:14px;color:#9FAFBA;margin-top:14px;line-height:1.5}
   .find-meta{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;margin-top:11px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.4px}
@@ -163,8 +170,10 @@ layout: raw
     .hero-lamp{height:min(46vh,360px);order:-1;margin-bottom:8px}
     .about-grid{grid-template-columns:1fr}
     .about-photo{max-width:360px}
-    .navlinks a:not(.lang-btn){display:none}
-    .navlinks .keep{display:inline}
+    .find-item{grid-template-columns:1fr;gap:16px}
+    .find-fig{max-width:240px}
+    .navlinks{gap:12px;flex-wrap:wrap;justify-content:flex-end}
+    .navlinks a{font-size:12px}
   }
   @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto}
@@ -172,23 +181,21 @@ layout: raw
     .ember-brand{animation:none}
   }
 </style>
+<script>
+/* set language before paint to avoid a flash of the wrong language in the nav */
+(function () {
+  try {
+    var l = localStorage.getItem('lang') || (((navigator.language || '').toLowerCase().indexOf('zh') === 0) ? 'zh' : 'en');
+    if (l !== 'en' && l !== 'zh') l = 'en';
+    document.documentElement.setAttribute('data-lang', l);
+  } catch (e) { document.documentElement.setAttribute('data-lang', 'en'); }
+})();
+</script>
 </head>
 <body>
 <div class="page">
 
-  <nav class="nav">
-    <a href="#top" class="brand">
-      <span class="ember ember-brand"></span>
-      <span class="brand-name" data-i18n="brand"></span>
-    </a>
-    <div class="navlinks">
-      <a href="#found" data-i18n="navWork"></a>
-      <a href="#notes" class="keep" data-i18n="navNotes"></a>
-      <a href="#about" data-i18n="navAbout"></a>
-      <a href="#contact" data-i18n="navContact"></a>
-      <button id="lang-toggle" class="lang-btn" type="button"></button>
-    </div>
-  </nav>
+  {% include lamp-nav.html %}
 
   <a id="top"></a>
 
@@ -257,38 +264,53 @@ layout: raw
     <div class="finds">
 
       <article class="find-item">
-        <p class="find-plain" data-i18n="found1plain"></p>
-        <p class="find-tech">Moiré Phonon Condensation in Magic-Angle Twisted Bilayer Graphene</p>
-        <div class="find-meta"><span class="find-year">2026</span><span class="find-venue">preprint</span></div>
-        <div class="find-links"><a href="https://arxiv.org/abs/2607.06711" target="_blank" rel="noopener">Paper ↗</a><a href="https://github.com/floatingCatty" target="_blank" rel="noopener">Code ↗</a></div>
+        <div class="find-fig"><img src="{{ '/images/found/placeholder.svg' | relative_url }}" alt="Moiré phonon figure"></div>
+        <div class="find-body">
+          <p class="find-plain" data-i18n="found1plain"></p>
+          <p class="find-tech">Moiré Phonon Condensation in Magic-Angle Twisted Bilayer Graphene</p>
+          <div class="find-meta"><span class="find-year">2026</span><span class="find-venue">preprint</span></div>
+          <div class="find-links"><a href="https://arxiv.org/abs/2607.06711" target="_blank" rel="noopener">Paper ↗</a><a href="https://github.com/floatingCatty" target="_blank" rel="noopener">Code ↗</a></div>
+        </div>
       </article>
 
       <article class="find-item">
-        <p class="find-plain" data-i18n="found2plain"></p>
-        <p class="find-tech">Learning local equivariant representations for quantum operators (SLEM)</p>
-        <div class="find-meta"><span class="find-year">2025</span><span class="find-venue">ICLR 2025</span></div>
-        <div class="find-links"><a href="https://arxiv.org/abs/2407.06053" target="_blank" rel="noopener">Paper ↗</a></div>
+        <div class="find-fig"><img src="{{ '/images/found/placeholder.svg' | relative_url }}" alt="SLEM figure"></div>
+        <div class="find-body">
+          <p class="find-plain" data-i18n="found2plain"></p>
+          <p class="find-tech">Learning local equivariant representations for quantum operators (SLEM)</p>
+          <div class="find-meta"><span class="find-year">2025</span><span class="find-venue">ICLR 2025</span></div>
+          <div class="find-links"><a href="https://arxiv.org/abs/2407.06053" target="_blank" rel="noopener">Paper ↗</a></div>
+        </div>
       </article>
 
       <article class="find-item">
-        <p class="find-plain" data-i18n="found3plain"></p>
-        <p class="find-tech">Neural-Quantum-States Impurity Solver for Quantum Embedding Problems</p>
-        <div class="find-meta"><span class="find-year">2025</span><span class="find-venue">Phys. Rev. B (2026)</span></div>
-        <div class="find-links"><a href="https://arxiv.org/abs/2509.12431" target="_blank" rel="noopener">Paper ↗</a></div>
+        <div class="find-fig"><img src="{{ '/images/found/placeholder.svg' | relative_url }}" alt="NQS impurity solver figure"></div>
+        <div class="find-body">
+          <p class="find-plain" data-i18n="found3plain"></p>
+          <p class="find-tech">Neural-Quantum-States Impurity Solver for Quantum Embedding Problems</p>
+          <div class="find-meta"><span class="find-year">2025</span><span class="find-venue">Phys. Rev. B (2026)</span></div>
+          <div class="find-links"><a href="https://arxiv.org/abs/2509.12431" target="_blank" rel="noopener">Paper ↗</a></div>
+        </div>
       </article>
 
       <article class="find-item">
-        <p class="find-plain" data-i18n="found4plain"></p>
-        <p class="find-tech">Deep learning tight-binding approach for large-scale electronic simulations (DeePTB)</p>
-        <div class="find-meta"><span class="find-year">2024</span><span class="find-venue">Nature Communications</span></div>
-        <div class="find-links"><a href="https://www.nature.com/articles/s41467-024-51006-4" target="_blank" rel="noopener">Paper ↗</a><a href="https://github.com/deepmodeling/DeePTB" target="_blank" rel="noopener">Code ↗</a></div>
+        <div class="find-fig"><img src="{{ '/images/found/placeholder.svg' | relative_url }}" alt="DeePTB figure"></div>
+        <div class="find-body">
+          <p class="find-plain" data-i18n="found4plain"></p>
+          <p class="find-tech">Deep learning tight-binding approach for large-scale electronic simulations (DeePTB)</p>
+          <div class="find-meta"><span class="find-year">2024</span><span class="find-venue">Nature Communications</span></div>
+          <div class="find-links"><a href="https://www.nature.com/articles/s41467-024-51006-4" target="_blank" rel="noopener">Paper ↗</a><a href="https://github.com/deepmodeling/DeePTB" target="_blank" rel="noopener">Code ↗</a></div>
+        </div>
       </article>
 
       <article class="find-item">
-        <p class="find-plain" data-i18n="found5plain"></p>
-        <p class="find-tech">Automatic differentiable nonequilibrium Green's function formalism (AD-NEGF)</p>
-        <div class="find-meta"><span class="find-year">2023</span><span class="find-venue">Phys. Rev. B</span></div>
-        <div class="find-links"><a href="https://doi.org/10.1103/PhysRevB.108.195143" target="_blank" rel="noopener">Paper ↗</a></div>
+        <div class="find-fig"><img src="{{ '/images/found/placeholder.svg' | relative_url }}" alt="AD-NEGF figure"></div>
+        <div class="find-body">
+          <p class="find-plain" data-i18n="found5plain"></p>
+          <p class="find-tech">Automatic differentiable nonequilibrium Green's function formalism (AD-NEGF)</p>
+          <div class="find-meta"><span class="find-year">2023</span><span class="find-venue">Phys. Rev. B</span></div>
+          <div class="find-links"><a href="https://doi.org/10.1103/PhysRevB.108.195143" target="_blank" rel="noopener">Paper ↗</a></div>
+        </div>
       </article>
 
     </div>
@@ -429,10 +451,10 @@ layout: raw
       s4intro: '已完成的研究与发现。',
       found1plain: '一个涉及上万个原子的结构变化，最终被证明只由两种集体运动所主导。',
       found1tech: 'Moiré Phonon Condensation in Magic-Angle Twisted Bilayer Graphene',
-      found2plain: '神经网络只需读取材料的局域结构，就能直接预测它的量子算符——在接近第一性原理精度的同时，保持足够的局域性，从而向整个器件尺度扩展。',
-      found3plain: '神经量子态可以充当量子嵌入中的杂质求解器，在关联模型上与精确对角化吻合——真正的瓶颈在于物理量采样的精度，而非网络的训练。',
-      found4plain: '仅用第一性原理本征值训练，深度学习紧束缚模型就能预测从未见过的结构的电子结构——让百万原子、有限温度下的电子模拟成为可能。',
-      found5plain: '让非平衡格林函数方法端到端可微，量子输运模拟器就变成了可以“反向优化”的对象——为灵敏度分析与逆向设计提供梯度。',
+      found2plain: '让物理对称性和局域性引导神经网络，直接预测 DFT 中的量子算符：局域性让神经网络模拟器件尺度材料成为可能。',
+      found3plain: '探索神经网络求解多体量子材料，对于强关联体系，NQS真正的瓶颈在于物理量采样的精度。',
+      found4plain: '深度学习紧束缚模型，用AI让百万原子、有限温度下的电子模拟成为可能。',
+      found5plain: '让非平衡格林函数方法端到端可微，让量子器件的设计优化更自动，更精确。',
       pubAll: '全部论文',
       s5kicker: '在做的东西',
       s5intro: '建造一些工具，帮助人理解世界。',
@@ -464,6 +486,7 @@ layout: raw
     });
     document.getElementById('lang-toggle').textContent = t.langLabel;
     document.documentElement.lang = lang === 'zh' ? 'zh-Hans' : 'en';
+    document.documentElement.setAttribute('data-lang', lang);
     try { localStorage.setItem('lang', lang); } catch (e) {}
     currentLang = lang;
   }
