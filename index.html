@@ -20,10 +20,10 @@ layout: raw
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{background:#14110F;color:#E6DDCF;font-family:'Inter','Noto Sans SC',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden}
-  /* fixed lamplight field + vignette behind everything */
-  body::before{content:'';position:fixed;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(72% 52% at 50% -6%, rgba(224,173,88,.10), transparent 62%),radial-gradient(100% 72% at 50% 118%, rgba(140,86,44,.11), transparent 60%),radial-gradient(145% 118% at 50% 42%, #221B16 0%, #17130F 55%, #100C0A 100%)}
+  /* stable, fixed oil-lamp photo behind the whole page */
+  body::before{content:'';position:fixed;inset:0;z-index:-3;pointer-events:none;background:url("{{ '/images/flame.jpg' | relative_url }}") 74% 55%/cover no-repeat;animation:heroFlicker 8s ease-in-out infinite}
   /* fixed fine paper grain */
-  body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.06;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:170px 170px}
+  body::after{content:'';position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.05;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:170px 170px}
   a{color:#D8B27A;text-decoration:none;transition:color .3s ease,border-color .3s ease,opacity .3s ease}
   a:hover{color:#E9C784}
   ::selection{background:rgba(224,173,88,.28);color:#F4DFC2}
@@ -40,7 +40,8 @@ layout: raw
   :root[data-lang="en"] .i18n-zh{display:none}
   :root[data-lang="en"] .i18n-en{display:initial}
 
-  .page{position:relative;min-height:100vh;background:transparent}
+  /* content sits over the fixed photo + a filter: bright in the hero, dimmed below */
+  .page{position:relative;min-height:100vh;background:linear-gradient(180deg, rgba(20,17,15,0) 0, rgba(20,17,15,0) 84vh, rgba(20,17,15,.82) 106vh)}
 
   /* ember dot */
   .ember{position:relative;display:inline-block;width:7px;height:7px;border-radius:50%;background:radial-gradient(circle,#FFF3DE,#E0AD58 60%,#C37D34);box-shadow:0 0 9px 2px rgba(224,173,88,.5);flex:none}
@@ -60,9 +61,9 @@ layout: raw
 
   /* hero */
   .hero{position:relative;min-height:92vh;display:flex;align-items:center;padding:clamp(24px,6vh,64px) clamp(24px,7vw,96px) clamp(60px,10vh,96px);overflow:hidden}
-  .hero-photo{position:absolute;inset:0;z-index:0;background-image:url("{{ '/images/flame.jpg' | relative_url }}");background-size:cover;background-position:74% 55%;will-change:filter;animation:heroFlicker 7s ease-in-out infinite}
-  .hero-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg, rgba(20,17,15,.95) 0%, rgba(20,17,15,.72) 34%, rgba(20,17,15,.3) 64%, rgba(20,17,15,.44) 100%),linear-gradient(180deg, rgba(20,17,15,.5) 0%, transparent 20%, transparent 60%, #14110F 100%)}
-  .hero-glow{position:absolute;inset:0;z-index:1;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(circle at 74% 56%, rgba(255,178,88,.20), rgba(255,178,88,0) 24%);animation:heroGlow 4.5s ease-in-out infinite}
+  /* hero readability overlay (image itself is the fixed body background) */
+  .hero-photo{position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(90deg, rgba(20,17,15,.92) 0%, rgba(20,17,15,.66) 34%, rgba(20,17,15,.22) 62%, rgba(20,17,15,.34) 100%),linear-gradient(180deg, rgba(20,17,15,.42) 0%, transparent 24%, transparent 74%, rgba(20,17,15,.22) 100%)}
+  .hero-glow{position:absolute;inset:0;z-index:1;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(circle at 74% 56%, rgba(255,178,88,.18), rgba(255,178,88,0) 24%);animation:heroGlow 4.5s ease-in-out infinite}
   @keyframes heroFlicker{0%,100%{filter:brightness(.97) saturate(1)}22%{filter:brightness(1.05) saturate(1.04)}44%{filter:brightness(.95) saturate(1)}63%{filter:brightness(1.06) saturate(1.05)}80%{filter:brightness(.99) saturate(1)}}
   @keyframes heroGlow{0%,100%{opacity:.62}30%{opacity:1}55%{opacity:.8}78%{opacity:1}}
   .hero-copy{position:relative;max-width:560px;z-index:2}
@@ -170,9 +171,9 @@ layout: raw
 
   @media (max-width:860px){
     .hero{min-height:82vh;padding-bottom:clamp(40px,8vh,72px)}
-    .hero-photo{background-position:64% 46%}
-    .hero-photo::after{background:linear-gradient(180deg, rgba(20,17,15,.62) 0%, rgba(20,17,15,.35) 34%, rgba(20,17,15,.5) 66%, #14110F 100%)}
-    .hero-glow{background:radial-gradient(circle at 62% 44%, rgba(255,178,88,.18), rgba(255,178,88,0) 30%)}
+    body::before{background-position:62% 42%}
+    .hero-photo{background:linear-gradient(180deg, rgba(20,17,15,.58) 0%, rgba(20,17,15,.3) 32%, rgba(20,17,15,.44) 70%, rgba(20,17,15,.26) 100%)}
+    .hero-glow{background:radial-gradient(circle at 62% 44%, rgba(255,178,88,.16), rgba(255,178,88,0) 30%)}
     .about-grid{grid-template-columns:1fr}
     .about-photo{max-width:360px}
     .find-item{grid-template-columns:1fr;gap:16px}
@@ -184,7 +185,7 @@ layout: raw
     html{scroll-behavior:auto}
     .reveal{opacity:1;transform:none;transition:none}
     .ember-brand{animation:none}
-    .hero-photo,.hero-glow{animation:none}
+    body::before,.hero-glow{animation:none}
   }
 </style>
 <script>
