@@ -7,6 +7,9 @@
 {% if page.excerpt %}<meta name="description" content="{{ page.excerpt | strip_html | normalize_whitespace | truncate: 160 | escape }}">{% endif %}
 {% include lamp-head.html %}
 <style>
+  /* fixed candlelit-desk reading surface + readability filter (long-form, so kept even) */
+  body::before{background:url("{{ '/images/desk.jpg' | relative_url }}") 50% 32%/cover no-repeat}
+  .page{background:linear-gradient(180deg, rgba(18,15,13,.60) 0%, rgba(18,15,13,.74) 42vh, rgba(18,15,13,.82) 100%)}
   .article{max-width:none}
   .article-head{max-width:760px;margin:0 auto;padding:clamp(48px,10vh,110px) clamp(24px,5vw,32px) 0}
   .article-head h1{font-family:'Newsreader','Noto Serif SC',serif;font-weight:500;font-size:clamp(29px,4.6vw,46px);line-height:1.14;letter-spacing:-.3px;color:#F0E8DA;text-wrap:balance;margin-top:10px}

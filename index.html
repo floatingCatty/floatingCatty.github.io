@@ -12,7 +12,8 @@ layout: raw
 <meta property="og:title" content="Keep a light on for curiosity — Zhanghao Zhouyin">
 <meta property="og:description" content="A physicist working across physics, AI, and scientific software, building better tools for people who want to understand the world.">
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪔</text></svg>">
+<link rel="icon" type="image/svg+xml" href="{{ '/images/favicon.svg' | relative_url }}">
+<link rel="alternate icon" href="{{ '/images/favicon.svg' | relative_url }}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;500&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
@@ -63,15 +64,23 @@ layout: raw
   .hero{position:relative;min-height:92vh;display:flex;align-items:center;padding:clamp(24px,6vh,64px) clamp(24px,7vw,96px) clamp(60px,10vh,96px);overflow:hidden}
   /* hero readability overlay (image itself is the fixed body background) */
   .hero-photo{position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(90deg, rgba(20,17,15,.92) 0%, rgba(20,17,15,.66) 34%, rgba(20,17,15,.22) 62%, rgba(20,17,15,.34) 100%),linear-gradient(180deg, rgba(20,17,15,.42) 0%, transparent 24%, transparent 74%, rgba(20,17,15,.22) 100%)}
-  @keyframes heroFlicker{0%,100%{filter:brightness(.97) saturate(1)}22%{filter:brightness(1.04) saturate(1.03)}44%{filter:brightness(.96) saturate(1)}63%{filter:brightness(1.05) saturate(1.04)}80%{filter:brightness(.99) saturate(1)}}
-  /* fixed lamp light anchored on the flame — layered elliptical glow, each layer
-     flickering at its own rate so the light shifts organically (not a pulsing circle) */
-  .lamp-light{position:fixed;inset:0;z-index:-1;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(30% 52% at 74% 60%, rgba(232,140,58,.12) 0%, transparent 72%),radial-gradient(19% 34% at 74% 59%, rgba(246,168,80,.20) 0%, transparent 74%);transform-origin:74% 60%;animation:glowA 4.7s ease-in-out infinite;will-change:opacity,transform}
-  .lamp-light::before{content:'';position:absolute;inset:0;mix-blend-mode:screen;background:radial-gradient(13% 26% at 74% 58%, rgba(255,196,120,.24) 0%, transparent 74%);transform-origin:74% 58%;animation:glowB 3.1s ease-in-out infinite;will-change:opacity,transform}
-  .lamp-light::after{content:'';position:absolute;inset:0;mix-blend-mode:screen;background:radial-gradient(6% 12% at 74% 56.5%, rgba(255,236,196,.32) 0%, transparent 78%);transform-origin:74% 57%;animation:glowC 1.7s ease-in-out infinite;will-change:opacity,transform}
-  @keyframes glowA{0%{opacity:.86;transform:scale(1)}18%{opacity:1;transform:scale(1.035)}33%{opacity:.82;transform:scale(.99)}52%{opacity:.97;transform:scale(1.02)}68%{opacity:.8;transform:scale(1)}84%{opacity:.95;transform:scale(1.03)}100%{opacity:.86;transform:scale(1)}}
-  @keyframes glowB{0%{opacity:.72;transform:scaleY(1) translateX(0)}22%{opacity:1;transform:scaleY(1.07) translateX(-.3%)}40%{opacity:.7;transform:scaleY(.96) translateX(.2%)}60%{opacity:.94;transform:scaleY(1.04) translateX(-.15%)}80%{opacity:.76;transform:scaleY(1.01) translateX(.15%)}100%{opacity:.72;transform:scaleY(1) translateX(0)}}
-  @keyframes glowC{0%,100%{opacity:.5;transform:translate(0,0) scaleY(1)}15%{opacity:1;transform:translate(-.12%,-.3%) scaleY(1.2)}33%{opacity:.6;transform:translate(.12%,0) scaleY(.9)}55%{opacity:.92;transform:translate(-.08%,-.2%) scaleY(1.12)}74%{opacity:.66;transform:translate(.1%,0) scaleY(1.02)}90%{opacity:.85;transform:scaleY(1.06)}}
+  @keyframes heroFlicker{0%{filter:brightness(.965) saturate(1)}13%{filter:brightness(1.02) saturate(1.02)}26%{filter:brightness(.955) saturate(.99)}39%{filter:brightness(1.05) saturate(1.04)}52%{filter:brightness(.99) saturate(1.01)}66%{filter:brightness(1.03) saturate(1.03)}79%{filter:brightness(.96) saturate(1)}91%{filter:brightness(1.015) saturate(1.02)}100%{filter:brightness(.965) saturate(1)}}
+  /* a masked copy of the flame, warped by animated turbulence — makes the actual
+     flame tip lick and dance while the rest of the photo stays perfectly still */
+  .flame-warp{position:fixed;inset:0;z-index:-3;pointer-events:none;background:url("{{ '/images/flame.jpg' | relative_url }}") 74% 55%/cover no-repeat;filter:url(#flameWarp) brightness(1.02);-webkit-mask:radial-gradient(6% 12% at 74% 58%, #000 0%, rgba(0,0,0,.7) 50%, transparent 80%);mask:radial-gradient(6% 12% at 74% 58%, #000 0%, rgba(0,0,0,.7) 50%, transparent 80%);animation:heroFlicker 8s ease-in-out infinite;will-change:filter}
+  /* fixed lamp light anchored on the flame — soft ambient wash + layered elliptical
+     glow + hot core + rising heat haze, each on its own clock so nothing pulses in
+     sync; a slow turbulence warp keeps the light edge from ever being a clean circle */
+  .lamp-ambient{position:fixed;inset:0;z-index:-1;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(48% 62% at 74% 62%, rgba(214,120,44,.09) 0%, rgba(214,120,44,.04) 42%, transparent 76%);animation:ambientBreath 9.3s ease-in-out infinite;will-change:opacity}
+  .lamp-light{position:fixed;inset:0;z-index:-1;pointer-events:none;mix-blend-mode:screen;filter:url(#glowWarp);background:radial-gradient(28% 50% at 74% 60%, rgba(232,140,58,.13) 0%, transparent 72%),radial-gradient(18% 33% at 74% 59%, rgba(246,168,80,.20) 0%, transparent 74%);transform-origin:74% 60%;animation:glowA 4.7s ease-in-out infinite;will-change:opacity,transform}
+  .lamp-light::before{content:'';position:absolute;inset:0;mix-blend-mode:screen;background:radial-gradient(11% 24% at 74% 59%, rgba(255,196,120,.24) 0%, transparent 74%);transform-origin:74% 59%;animation:glowB 3.1s ease-in-out infinite;will-change:opacity,transform}
+  .lamp-light::after{content:'';position:absolute;inset:0;mix-blend-mode:screen;background:radial-gradient(5% 11% at 74% 58.5%, rgba(255,236,196,.34) 0%, transparent 78%);transform-origin:74% 58.5%;animation:glowC 1.7s ease-in-out infinite;will-change:opacity,transform}
+  .lamp-haze{position:fixed;inset:0;z-index:-1;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(7% 20% at 74% 48%, rgba(255,214,150,.10) 0%, transparent 72%);filter:blur(3px);transform-origin:74% 54%;animation:haze 2.7s ease-in-out infinite;will-change:opacity,transform}
+  @keyframes ambientBreath{0%,100%{opacity:.72}24%{opacity:.9}44%{opacity:.66}64%{opacity:.86}82%{opacity:.74}}
+  @keyframes glowA{0%{opacity:.84;transform:scale(1) translateX(0)}9%{opacity:.93;transform:scale(1.017) translateX(-.08%)}21%{opacity:1;transform:scale(1.034) translateX(.05%)}34%{opacity:.8;transform:scale(.992) translateX(.1%)}47%{opacity:.96;transform:scale(1.02) translateX(-.06%)}58%{opacity:.85;transform:scale(1.004) translateX(.08%)}69%{opacity:.78;transform:scale(.998) translateX(-.04%)}81%{opacity:.98;transform:scale(1.027) translateX(.06%)}92%{opacity:.83;transform:scale(1.006) translateX(-.08%)}100%{opacity:.84;transform:scale(1) translateX(0)}}
+  @keyframes glowB{0%{opacity:.7;transform:scaleY(1) translateX(0)}12%{opacity:.9;transform:scaleY(1.05) translateX(-.4%)}24%{opacity:1;transform:scaleY(1.09) translateX(-.2%)}37%{opacity:.68;transform:scaleY(.95) translateX(.3%)}50%{opacity:.92;transform:scaleY(1.04) translateX(.15%)}63%{opacity:.74;transform:scaleY(.99) translateX(-.25%)}78%{opacity:.95;transform:scaleY(1.06) translateX(-.1%)}90%{opacity:.72;transform:scaleY(1) translateX(.2%)}100%{opacity:.7;transform:scaleY(1) translateX(0)}}
+  @keyframes glowC{0%,100%{opacity:.46;transform:translate(0,0) scaleY(1)}11%{opacity:.9;transform:translate(-.12%,-.28%) scaleY(1.18)}23%{opacity:1;transform:translate(.06%,-.42%) scaleY(1.26)}34%{opacity:.55;transform:translate(.12%,0) scaleY(.9)}46%{opacity:.88;transform:translate(-.08%,-.2%) scaleY(1.12)}58%{opacity:.6;transform:translate(.1%,-.04%) scaleY(1)}71%{opacity:.95;transform:translate(-.05%,-.3%) scaleY(1.2)}84%{opacity:.6;transform:translate(.08%,0) scaleY(.95)}}
+  @keyframes haze{0%{opacity:0;transform:translateY(0) scaleX(1)}22%{opacity:.5;transform:translateY(-1.4%) scaleX(.9)}46%{opacity:.32;transform:translateY(-2.6%) scaleX(1.12)}70%{opacity:.42;transform:translateY(-3.6%) scaleX(.86)}100%{opacity:0;transform:translateY(-4.8%) scaleX(1)}}
   .hero-copy{position:relative;max-width:560px;z-index:2}
   .kicker{display:flex;align-items:center;gap:11px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#8F857A;margin-bottom:26px}
   .hero-name{font-family:'Newsreader','Noto Serif SC',serif;font-weight:400;font-size:clamp(46px,6.6vw,80px);line-height:1.04;letter-spacing:-.5px;color:#F0E8DA;text-wrap:balance}
@@ -178,10 +187,13 @@ layout: raw
   @media (max-width:860px){
     .hero{min-height:82vh;padding-bottom:clamp(40px,8vh,72px)}
     body::before{background-position:62% 42%}
+    .flame-warp{background-position:62% 42%;-webkit-mask:radial-gradient(19% 20% at 62% 40%, #000 0%, rgba(0,0,0,.72) 52%, transparent 80%);mask:radial-gradient(19% 20% at 62% 40%, #000 0%, rgba(0,0,0,.72) 52%, transparent 80%)}
     .hero-photo{background:linear-gradient(180deg, rgba(20,17,15,.58) 0%, rgba(20,17,15,.3) 32%, rgba(20,17,15,.44) 70%, rgba(20,17,15,.26) 100%)}
+    .lamp-ambient{background:radial-gradient(56% 52% at 62% 50%, rgba(214,120,44,.09) 0%, rgba(214,120,44,.04) 42%, transparent 76%)}
     .lamp-light{background:radial-gradient(38% 46% at 62% 48%, rgba(232,140,58,.12) 0%, transparent 72%),radial-gradient(24% 30% at 62% 47%, rgba(246,168,80,.20) 0%, transparent 74%);transform-origin:62% 48%}
     .lamp-light::before{background:radial-gradient(16% 22% at 62% 46%, rgba(255,196,120,.24) 0%, transparent 74%);transform-origin:62% 46%}
     .lamp-light::after{background:radial-gradient(8% 11% at 62% 45%, rgba(255,236,196,.3) 0%, transparent 78%);transform-origin:62% 45%}
+    .lamp-haze{background:radial-gradient(10% 17% at 62% 36%, rgba(255,214,150,.10) 0%, transparent 72%);transform-origin:62% 42%}
     .about-grid{grid-template-columns:1fr}
     .about-photo{max-width:360px}
     .find-item{grid-template-columns:1fr;gap:16px}
@@ -193,7 +205,9 @@ layout: raw
     html{scroll-behavior:auto}
     .reveal{opacity:1;transform:none;transition:none}
     .ember-brand{animation:none}
-    body::before,.lamp-light,.lamp-light::before,.lamp-light::after{animation:none}
+    body::before,.flame-warp,.lamp-ambient,.lamp-light,.lamp-light::before,.lamp-light::after,.lamp-haze{animation:none}
+    .flame-warp{filter:none}
+    .lamp-light{filter:none}
   }
 </style>
 <script>
@@ -208,7 +222,25 @@ layout: raw
 </script>
 </head>
 <body>
+<!-- animated turbulence: #flameWarp makes the flame tip lick; #glowWarp keeps the cast light's edge irregular -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <filter id="flameWarp" x="-25%" y="-25%" width="150%" height="150%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.019 0.046" numOctaves="2" seed="4" result="n">
+      <animate attributeName="baseFrequency" dur="6.5s" values="0.019 0.046;0.026 0.062;0.016 0.04;0.019 0.046" repeatCount="indefinite"/>
+    </feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="12" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <filter id="glowWarp" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.006 0.011" numOctaves="2" seed="9" result="n2">
+      <animate attributeName="baseFrequency" dur="10.5s" values="0.006 0.011;0.009 0.016;0.005 0.010;0.006 0.011" repeatCount="indefinite"/>
+    </feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="n2" scale="30" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+<div class="flame-warp" aria-hidden="true"></div>
+<div class="lamp-ambient" aria-hidden="true"></div>
 <div class="lamp-light" aria-hidden="true"></div>
+<div class="lamp-haze" aria-hidden="true"></div>
 <div class="page">
 
   {% include lamp-nav.html %}
@@ -485,11 +517,11 @@ layout: raw
       essaysEmpty: '第一篇随笔正在路上。',
       s7kicker: '关于',
       aboutName: '周寅张皓',
-      aboutBody: '我早期接受计算机与电子信息训练，后来因为一个固执的问题——技术背后的物理世界到底是什么样子——一步步走向材料、量子输运与计算物理。今天，我工作在物理、机器学习和科学计算的交界处。最近，我尝试让 AI 智能体不只负责整理资料或编写代码，而是真正参与其中：提出假设、设计计算、发现隐藏的结构。无论最终成为研究、软件，还是我亲手建造的东西，我关心的问题始终如一——能否造出更好的科学工具，让个人和小团队也拥有理解复杂世界、验证想法并创造新事物的能力。',
+      aboutBody: '我早期学习计算机与人工智能，后来因为一个固执的问题——技术背后的物理世界到底是什么样子——一步步走向材料、量子模拟与计算物理。今天，我工作在物理、化学、AI和科学计算的交界处。我用AI和物理理论建造一些工具，让我们能够探索更大，更多样的物质世界；也在用这些工具探索和挖掘未知的现象，描述和预测和优化真实世界的材料、器件。探索边界的过程让我激动，也想让每个团队，每个人都可以拥有理解复杂世界、验证想法并创造新事物的能力。',
       aboutMeta: '物理学博士候选人 · 麦吉尔大学\n开源贡献：DeePTB · DFTio · AD-NEGF · VBCSR',
       cvLink: '完整 CV 与经历',
-      contactTitle: '有些问题，一起探索会更好。',
-      contactBody: '我始终乐于聊聊科学工具、面向发现的 AI，以及那些值得长期投入去建造的宏大问题。',
+      contactTitle: '有些问题，一起探索更好。',
+      contactBody: '我们可以聊聊科学、社会、AI，以及那些值得长期投入去建造的宏大问题。',
       footer: '© 2026'
     }
   };
