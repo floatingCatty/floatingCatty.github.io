@@ -59,8 +59,13 @@ layout: raw
   .lang-btn:hover{border-color:rgba(224,173,88,.6);background:rgba(224,173,88,.08)}
 
   /* hero */
-  .hero{position:relative;min-height:92vh;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:24px;padding:clamp(24px,6vh,64px) clamp(24px,7vw,96px) clamp(60px,10vh,96px)}
-  .hero-copy{max-width:560px;z-index:2}
+  .hero{position:relative;min-height:92vh;display:flex;align-items:center;padding:clamp(24px,6vh,64px) clamp(24px,7vw,96px) clamp(60px,10vh,96px);overflow:hidden}
+  .hero-photo{position:absolute;inset:0;z-index:0;background-image:url("{{ '/images/flame.jpg' | relative_url }}");background-size:cover;background-position:74% 55%;will-change:filter;animation:heroFlicker 7s ease-in-out infinite}
+  .hero-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg, rgba(20,17,15,.95) 0%, rgba(20,17,15,.72) 34%, rgba(20,17,15,.3) 64%, rgba(20,17,15,.44) 100%),linear-gradient(180deg, rgba(20,17,15,.5) 0%, transparent 20%, transparent 60%, #14110F 100%)}
+  .hero-glow{position:absolute;inset:0;z-index:1;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(circle at 74% 56%, rgba(255,178,88,.20), rgba(255,178,88,0) 24%);animation:heroGlow 4.5s ease-in-out infinite}
+  @keyframes heroFlicker{0%,100%{filter:brightness(.97) saturate(1)}22%{filter:brightness(1.05) saturate(1.04)}44%{filter:brightness(.95) saturate(1)}63%{filter:brightness(1.06) saturate(1.05)}80%{filter:brightness(.99) saturate(1)}}
+  @keyframes heroGlow{0%,100%{opacity:.62}30%{opacity:1}55%{opacity:.8}78%{opacity:1}}
+  .hero-copy{position:relative;max-width:560px;z-index:2}
   .kicker{display:flex;align-items:center;gap:11px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#8F857A;margin-bottom:26px}
   .hero-name{font-family:'Newsreader','Noto Serif SC',serif;font-weight:400;font-size:clamp(46px,6.6vw,80px);line-height:1.04;letter-spacing:-.5px;color:#F0E8DA;text-wrap:balance}
   .hero-slogan{display:flex;align-items:center;gap:15px;margin-top:22px;font-family:'Newsreader','Noto Serif SC',serif;font-style:italic;font-weight:400;font-size:clamp(20px,2.5vw,30px);line-height:1.3;letter-spacing:.2px;color:#D8B27A}
@@ -72,8 +77,6 @@ layout: raw
   .cta-dot{width:6px;height:6px;border-radius:50%;background:#E0AD58;box-shadow:0 0 8px 2px rgba(224,173,88,.7);flex:none}
   .cta-alt{font-size:14.5px;color:#AFA497}
   .cta-alt:hover{color:#E6DDCF}
-  .hero-lamp{position:relative;height:min(74vh,640px);display:flex;align-items:center;justify-content:center}
-  .hero-lamp canvas{width:100%;height:100%;display:block}
   .hero-scroll{position:absolute;left:0;right:0;bottom:26px;display:flex;justify-content:center;pointer-events:none}
   .hero-scroll span{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:2px;color:#6E655B}
 
@@ -166,8 +169,10 @@ layout: raw
   .reveal.is-visible{opacity:1;transform:translateY(0)}
 
   @media (max-width:860px){
-    .hero{grid-template-columns:1fr;min-height:auto;gap:0;padding-bottom:clamp(40px,8vh,72px)}
-    .hero-lamp{height:min(46vh,360px);order:-1;margin-bottom:8px}
+    .hero{min-height:82vh;padding-bottom:clamp(40px,8vh,72px)}
+    .hero-photo{background-position:64% 46%}
+    .hero-photo::after{background:linear-gradient(180deg, rgba(20,17,15,.62) 0%, rgba(20,17,15,.35) 34%, rgba(20,17,15,.5) 66%, #14110F 100%)}
+    .hero-glow{background:radial-gradient(circle at 62% 44%, rgba(255,178,88,.18), rgba(255,178,88,0) 30%)}
     .about-grid{grid-template-columns:1fr}
     .about-photo{max-width:360px}
     .find-item{grid-template-columns:1fr;gap:16px}
@@ -179,6 +184,7 @@ layout: raw
     html{scroll-behavior:auto}
     .reveal{opacity:1;transform:none;transition:none}
     .ember-brand{animation:none}
+    .hero-photo,.hero-glow{animation:none}
   }
 </style>
 <script>
@@ -201,6 +207,8 @@ layout: raw
 
   <!-- HERO -->
   <section class="hero">
+    <div class="hero-photo"></div>
+    <div class="hero-glow"></div>
     <div class="hero-copy">
       <h1 class="hero-name" data-i18n="heroName"></h1>
       <p class="hero-slogan" data-i18n="heroTitle"></p>
@@ -210,7 +218,6 @@ layout: raw
         <a href="#notes" class="cta-alt"><span data-i18n="cta2"></span> →</a>
       </div>
     </div>
-    <div class="hero-lamp"><canvas id="lamp-canvas"></canvas></div>
     <div class="hero-scroll"><span data-i18n="scroll"></span></div>
   </section>
 
@@ -752,7 +759,6 @@ layout: raw
     else requestAnimationFrame(draw);
   }
 
-  startLamp('lamp-canvas', true);
   startLamp('lamp-mini', false);
 })();
 </script>
