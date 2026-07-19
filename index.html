@@ -21,8 +21,8 @@ layout: raw
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{background:#14110F;color:#E6DDCF;font-family:'Inter','Noto Sans SC',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden}
-  /* stable, fixed oil-lamp photo behind the whole page */
-  body::before{content:'';position:fixed;inset:0;z-index:-3;pointer-events:none;background:url("{{ '/images/flame.jpg' | relative_url }}") 74% 55%/cover no-repeat;animation:heroFlicker 8s ease-in-out infinite}
+  /* stable, fixed oil-lamp photo behind the whole page (static — no per-frame repaint) */
+  body::before{content:'';position:fixed;inset:0;z-index:-3;pointer-events:none;background:url("{{ '/images/flame.jpg' | relative_url }}") 74% 55%/cover no-repeat}
   /* fixed fine paper grain */
   body::after{content:'';position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.05;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:170px 170px}
   a{color:#D8B27A;text-decoration:none;transition:color .3s ease,border-color .3s ease,opacity .3s ease}
@@ -64,23 +64,27 @@ layout: raw
   .hero{position:relative;min-height:92vh;display:flex;align-items:center;padding:clamp(24px,6vh,64px) clamp(24px,7vw,96px) clamp(60px,10vh,96px);overflow:hidden}
   /* hero readability overlay (image itself is the fixed body background) */
   .hero-photo{position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(90deg, rgba(20,17,15,.92) 0%, rgba(20,17,15,.66) 34%, rgba(20,17,15,.22) 62%, rgba(20,17,15,.34) 100%),linear-gradient(180deg, rgba(20,17,15,.42) 0%, transparent 24%, transparent 74%, rgba(20,17,15,.22) 100%)}
-  @keyframes heroFlicker{0%{filter:brightness(.965) saturate(1)}13%{filter:brightness(1.02) saturate(1.02)}26%{filter:brightness(.955) saturate(.99)}39%{filter:brightness(1.05) saturate(1.04)}52%{filter:brightness(.99) saturate(1.01)}66%{filter:brightness(1.03) saturate(1.03)}79%{filter:brightness(.96) saturate(1)}91%{filter:brightness(1.015) saturate(1.02)}100%{filter:brightness(.965) saturate(1)}}
   /* a masked copy of the flame, warped by animated turbulence — makes the actual
-     flame tip lick and dance while the rest of the photo stays perfectly still */
-  .flame-warp{position:fixed;inset:0;z-index:-3;pointer-events:none;background:url("{{ '/images/flame.jpg' | relative_url }}") 74% 55%/cover no-repeat;filter:url(#flameWarp) brightness(1.02);-webkit-mask:radial-gradient(6% 12% at 74% 58%, #000 0%, rgba(0,0,0,.7) 50%, transparent 80%);mask:radial-gradient(6% 12% at 74% 58%, #000 0%, rgba(0,0,0,.7) 50%, transparent 80%);animation:heroFlicker 8s ease-in-out infinite;will-change:filter}
+     flame tip lick and dance while the rest of the photo stays perfectly still. The
+     licking comes from the SMIL turbulence inside #flameWarp (a small region), so we
+     do NOT animate the CSS filter property here (that would re-run the whole filter). */
+  .flame-warp{position:fixed;inset:0;z-index:-3;pointer-events:none;background:url("{{ '/images/flame.jpg' | relative_url }}") 74% 55%/cover no-repeat;filter:url(#flameWarp) brightness(1.02);-webkit-mask:radial-gradient(6% 12% at 74% 58%, #000 0%, rgba(0,0,0,.7) 50%, transparent 80%);mask:radial-gradient(6% 12% at 74% 58%, #000 0%, rgba(0,0,0,.7) 50%, transparent 80%)}
   /* fixed lamp light — the sole light source. A continuous graded falloff built from
      overlapping elliptical layers (deep amber far field -> warm body -> bright inner ->
      small white-hot heart) so there are no visible rings; two mid layers are warped by
      different turbulence and flicker on their own clocks, easing the irregular inner
      light smoothly out into the dark. Colour cools from white -> gold -> amber outward. */
   .glow-far{position:fixed;inset:0;z-index:-1;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(42% 62% at 74% 63%, rgba(198,102,44,.06) 0%, rgba(198,102,44,.028) 40%, transparent 78%);animation:breathe 11s ease-in-out infinite;will-change:opacity}
-  .glow-body{position:fixed;inset:0;z-index:-1;pointer-events:none;mix-blend-mode:screen;filter:url(#glowWarp);background:radial-gradient(24% 45% at 74% 61.5%, rgba(224,134,58,.085) 0%, transparent 76%),radial-gradient(15% 30% at 74% 60.5%, rgba(244,166,84,.12) 0%, transparent 76%);transform-origin:74% 61%;animation:flickA 5.3s ease-in-out infinite;will-change:opacity,transform}
-  .glow-mid{position:fixed;inset:0;z-index:-1;pointer-events:none;mix-blend-mode:screen;filter:url(#glowWarp2);background:radial-gradient(10.5% 22% at 74% 59.5%, rgba(255,188,108,.13) 0%, transparent 78%);transform-origin:74% 59.5%;animation:flickB 3.7s ease-in-out infinite;will-change:opacity,transform}
+  .glow-body{position:fixed;inset:0;z-index:-1;pointer-events:none;mix-blend-mode:screen;filter:url(#glowWarp);background:radial-gradient(24% 45% at 74% 61.5%, rgba(224,134,58,.085) 0%, transparent 76%),radial-gradient(15% 30% at 74% 60.5%, rgba(244,166,84,.12) 0%, transparent 76%);animation:pulseA 5.3s ease-in-out infinite;will-change:opacity}
+  .glow-mid{position:fixed;inset:0;z-index:-1;pointer-events:none;mix-blend-mode:screen;filter:url(#glowWarp2);background:radial-gradient(10.5% 22% at 74% 59.5%, rgba(255,188,108,.13) 0%, transparent 78%);animation:pulseB 3.7s ease-in-out infinite;will-change:opacity}
   .glow-inner{position:fixed;inset:0;z-index:-1;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(6.5% 14% at 74% 59%, rgba(255,214,150,.19) 0%, transparent 80%);transform-origin:74% 59%;animation:flickB 2.9s ease-in-out infinite reverse;will-change:opacity,transform}
   .glow-core{position:fixed;inset:0;z-index:-1;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(3.2% 7% at 74% 58.5%, rgba(255,244,218,.30) 0%, rgba(255,236,198,.14) 46%, transparent 82%);transform-origin:74% 58.5%;animation:flickCore 1.7s ease-in-out infinite;will-change:opacity,transform}
-  .lamp-haze{position:fixed;inset:0;z-index:-1;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(7% 20% at 74% 48%, rgba(255,214,150,.10) 0%, transparent 72%);filter:blur(3px);transform-origin:74% 54%;animation:haze 2.7s ease-in-out infinite;will-change:opacity,transform}
+  .lamp-haze{position:fixed;inset:0;z-index:-1;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(7% 20% at 74% 48%, rgba(255,214,150,.09) 0%, transparent 72%);transform-origin:74% 54%;animation:haze 2.7s ease-in-out infinite;will-change:opacity,transform}
   @keyframes breathe{0%,100%{opacity:.72}30%{opacity:.9}55%{opacity:.64}80%{opacity:.84}}
-  @keyframes flickA{0%{opacity:.82;transform:scale(1) translateX(0)}11%{opacity:.92;transform:scale(1.016) translateX(-.1%)}23%{opacity:1;transform:scale(1.03) translateX(.05%)}36%{opacity:.8;transform:scale(.994) translateX(.1%)}50%{opacity:.95;transform:scale(1.018) translateX(-.06%)}63%{opacity:.84;transform:scale(1.004) translateX(.08%)}77%{opacity:.97;transform:scale(1.024) translateX(-.05%)}90%{opacity:.83;transform:scale(1.006) translateX(.06%)}100%{opacity:.82;transform:scale(1) translateX(0)}}
+  /* opacity-only flicker for the two turbulence-warped layers, so their (now static)
+     filter is rasterised once and only composited each frame — no per-frame recompute */
+  @keyframes pulseA{0%,100%{opacity:.8}14%{opacity:.9}27%{opacity:1}44%{opacity:.76}60%{opacity:.94}78%{opacity:.82}91%{opacity:.97}}
+  @keyframes pulseB{0%,100%{opacity:.68}12%{opacity:.9}25%{opacity:1}40%{opacity:.7}56%{opacity:.92}72%{opacity:.74}88%{opacity:.95}}
   @keyframes flickB{0%{opacity:.7;transform:scaleY(1) translateX(0)}13%{opacity:.9;transform:scaleY(1.05) translateX(-.35%)}26%{opacity:1;transform:scaleY(1.09) translateX(-.15%)}39%{opacity:.68;transform:scaleY(.95) translateX(.28%)}53%{opacity:.9;transform:scaleY(1.04) translateX(.12%)}67%{opacity:.74;transform:scaleY(.99) translateX(-.2%)}81%{opacity:.95;transform:scaleY(1.06) translateX(-.08%)}93%{opacity:.72;transform:scaleY(1) translateX(.16%)}100%{opacity:.7;transform:scaleY(1) translateX(0)}}
   @keyframes flickCore{0%,100%{opacity:.5;transform:translate(0,0) scaleY(1)}10%{opacity:.92;transform:translate(-.1%,-.2%) scaleY(1.18)}22%{opacity:1;transform:translate(.05%,-.34%) scaleY(1.28)}33%{opacity:.58;transform:translate(.1%,0) scaleY(.9)}45%{opacity:.9;transform:translate(-.06%,-.16%) scaleY(1.14)}58%{opacity:.64;transform:translate(.08%,-.03%) scaleY(1)}70%{opacity:.96;transform:translate(-.04%,-.24%) scaleY(1.22)}84%{opacity:.6;transform:translate(.06%,0) scaleY(.94)}}
   @keyframes haze{0%{opacity:0;transform:translateY(0) scaleX(1)}22%{opacity:.5;transform:translateY(-1.4%) scaleX(.9)}46%{opacity:.32;transform:translateY(-2.6%) scaleX(1.12)}70%{opacity:.42;transform:translateY(-3.6%) scaleX(.86)}100%{opacity:0;transform:translateY(-4.8%) scaleX(1)}}
@@ -225,24 +229,23 @@ layout: raw
 </script>
 </head>
 <body>
-<!-- animated turbulence: #flameWarp makes the flame tip lick; #glowWarp keeps the cast light's edge irregular -->
+<!-- Turbulence warps. Only #flameWarp animates (the flame lick), and its region is
+     clipped to a small box around the flame so the per-frame noise is cheap. #glowWarp
+     and #glowWarp2 are STATIC (computed once) — they only give the cast light an
+     irregular, non-circular edge; the light's life comes from cheap opacity flicker. -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <filter id="flameWarp" x="-25%" y="-25%" width="150%" height="150%" color-interpolation-filters="sRGB">
-    <feTurbulence type="fractalNoise" baseFrequency="0.019 0.046" numOctaves="2" seed="4" result="n">
+  <filter id="flameWarp" x="0.58" y="0.36" width="0.32" height="0.46" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.019 0.046" numOctaves="1" seed="4" result="n">
       <animate attributeName="baseFrequency" dur="6.5s" values="0.019 0.046;0.026 0.062;0.016 0.04;0.019 0.046" repeatCount="indefinite"/>
     </feTurbulence>
     <feDisplacementMap in="SourceGraphic" in2="n" scale="12" xChannelSelector="R" yChannelSelector="G"/>
   </filter>
   <filter id="glowWarp" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
-    <feTurbulence type="fractalNoise" baseFrequency="0.006 0.011" numOctaves="2" seed="9" result="n2">
-      <animate attributeName="baseFrequency" dur="10.5s" values="0.006 0.011;0.009 0.016;0.005 0.010;0.006 0.011" repeatCount="indefinite"/>
-    </feTurbulence>
+    <feTurbulence type="fractalNoise" baseFrequency="0.006 0.011" numOctaves="2" seed="9" result="n2"/>
     <feDisplacementMap in="SourceGraphic" in2="n2" scale="30" xChannelSelector="R" yChannelSelector="G"/>
   </filter>
   <filter id="glowWarp2" x="-35%" y="-35%" width="170%" height="170%" color-interpolation-filters="sRGB">
-    <feTurbulence type="fractalNoise" baseFrequency="0.009 0.017" numOctaves="2" seed="2" result="n3">
-      <animate attributeName="baseFrequency" dur="7.7s" values="0.009 0.017;0.013 0.024;0.008 0.015;0.009 0.017" repeatCount="indefinite"/>
-    </feTurbulence>
+    <feTurbulence type="fractalNoise" baseFrequency="0.009 0.017" numOctaves="2" seed="2" result="n3"/>
     <feDisplacementMap in="SourceGraphic" in2="n3" scale="22" xChannelSelector="R" yChannelSelector="G"/>
   </filter>
 </svg>
