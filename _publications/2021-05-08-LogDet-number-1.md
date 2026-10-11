@@ -14,6 +14,7 @@ journal: 'Neurocomputing'
 volume: 657
 doi: '10.1016/j.neucom.2025.131520'
 article_number: '131520'
+research_url: '/research/logdet-entropy/'
 ---
 Understanding the informative behaviour of deep neural networks is challenged by misused estimators and the complexity of network structure, which leads to inconsistent observations and diversified interpretation. Here we propose the LogDet estimator -- a reliable matrix-based entropy estimator that approximates Shannon differential entropy. We construct informative measurements based on LogDet estimator, verify our method with comparable experiments and utilize it to analyse neural network behaviour. Our results demonstrate the LogDet estimator overcomes the drawbacks that emerge from highly diverse and degenerated distribution thus is reliable to estimate entropy in neural networks. The Network analysis results also find a functional distinction between shallow and deeper layers, which can help understand the compression phenomenon in the Information bottleneck theory of neural networks.
 
