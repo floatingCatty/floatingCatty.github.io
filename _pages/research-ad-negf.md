@@ -1,10 +1,10 @@
 ---
 layout: research
 permalink: /research/ad-negf/
-title: "算出了电流，下一步怎么改器件？"
-title_en: "We've calculated the current. What should we change in the device?"
-description: "AD-NEGF adds differentiable gradients to tight-binding quantum transport calculations for sensitivity analysis and Hamiltonian inverse design."
-description_zh: "AD-NEGF 如何为紧束缚量子输运计算增加梯度，用于灵敏度分析和哈密顿量逆向设计。"
+title: "AD-NEGF：可微的量子输运计算"
+title_en: "AD-NEGF: differentiable quantum transport calculations"
+description: "AD-NEGF computes gradients through tight-binding quantum-transport calculations for sensitivity analysis and inverse Hamiltonian design."
+description_zh: "AD-NEGF 为紧束缚量子输运计算增加梯度，用于灵敏度分析和哈密顿量逆向设计。"
 paper_year: 2023
 paper_url: "https://doi.org/10.1103/PhysRevB.108.195143"
 code_url: "https://github.com/floatingCatty/ADNEGF"
@@ -12,44 +12,24 @@ code_url: "https://github.com/floatingCatty/ADNEGF"
 
 <div class="post-zh" lang="zh-Hans" markdown="1">
 
-做量子器件模拟时，我们通常先给出结构和电压，让程序算出有多少电流通过。算出来的电流可能太小，也可能漏电太大。接下来的问题就更具体了：如果把模型里的一个势垒稍微调高一点，电流会变多少？
+我在天津大学做量子输运的时候，常常用 NEGF（非平衡格林函数）方法算电子通过一个器件的透射和电流。给定描述电子能量和耦合的哈密顿量，再加上电极和偏压，程序就能算出结果。但如果想知道某个参数改一点，电流会变多少，往往只能改完再跑一次。参数多的时候，这个办法很慢。
 
-参数不多时，可以修改一个、重跑一次模拟，再比较结果。但材料参数、轨道耦合和器件条件可能有许多可调量。每次都从头算，既慢，也不容易看清哪个参数影响最大。我们做 AD-NEGF，就是想从模拟器里直接取得这类灵敏度信息。
+我们当时想试试，能不能直接对整个输运计算求导。比如，电流对某个轨道耦合、原子位置或其他输入变量的梯度。有了这些导数，可以分析模型对什么最敏感，也可以尝试反过来调整哈密顿量，让它接近某个目标输运性质。
 
-纳米尺度的电子器件里，电子会体现出波动性，也会受到电极和外加偏压的影响。非平衡格林函数（NEGF）方法就是研究这类开放量子体系的常用工具。给它一个描述电子运动的哈密顿量（可以理解为一张记录电子能量和轨道耦合的矩阵），再指定电极和偏压等条件，就可以计算电子透射和电流。
+AD-NEGF 用 PyTorch 实现了 NEGF 计算流程，并针对部分求解步骤写了专门的反向传播。NEGF 里有矩阵求逆和需要数值求解的中间量，直接依赖一般的自动微分不一定合适，所以论文中也用了隐式求导的方法。我们验证了梯度计算，还展示了从目标输运性质反过来优化哈密顿量的例子。
 
-我们的论文使用紧束缚模型下的 NEGF。这一点很重要：论文中的可微模拟器有清楚的物理模型，并不是把电流交给一个神经网络直接猜。我们在原有求解流程上增加求导能力，让输出的电流、透射等量可以对模型参数求梯度。
-
-计算里还有一个不那么显眼的难处。NEGF 求解包含矩阵运算和需要通过方程确定的中间量，直接把整个计算当成普通算术一路反传，并不总是合适。因此论文把自动微分与隐式层（implicit layer）的求导方法结合起来。
-
-## 梯度能把问题推进到哪里
-
-拿到梯度以后，我们就能估计在当前参数附近，哪个变量的微小变化会显著影响某个输运量。它既能用于灵敏度分析，也能帮助计算依赖电流或透射导数的物性。论文还演示了一个逆向问题：给定希望得到的输运性质，在紧束缚描述中反过来寻找可能实现它的哈密顿量。
-
-这里的逆向设计有明确的范围。论文并没有证明真实芯片的任意工艺参数都可以直接这样优化。哈密顿量里的一个参数，也未必总能一一对应到可制造的结构。模型如果忽略了重要的散射、缺陷或接触效应，导数再准确也无法补上缺失的物理。
-
-梯度描述的还是当前参数附近的变化趋势，不会自动保证找到全局最优解。不过，对那些需要反复运行的输运计算，能同时得到结果和它对参数的敏感程度，已经让我们可以少做许多盲目的试算。
+不过，这里的设计主要还在模型层面。哈密顿量参数怎样对应到实际能够制造的器件结构，散射、缺陷、接触等效应怎么处理，都需要另外建模。能对求解器求导，确实方便了很多原本只能反复试算的工作，但离直接用于真实器件设计，还有不少事情要做。
 
 </div>
 
 <div class="post-en" lang="en" markdown="1">
 
-A quantum-device simulation usually begins with a structure and an applied voltage. The program calculates how much current flows through the device. Perhaps the current is too small, or perhaps the leakage is too large. The next question is more specific: if we raise one of the barriers in the model a little, how much will the current change?
+When I was working on quantum transport at Tianjin University, I often used the non-equilibrium Green's function (NEGF) method to calculate electron transmission and current through a device. Given a Hamiltonian describing electronic energies and couplings, along with electrodes and an applied bias, the program produces a result. But if we want to know how much the current changes when a parameter is adjusted, we usually have to run the calculation again. That gets slow when there are many parameters.
 
-With only a few parameters, we can change one, rerun the simulation, and compare the results. But a device model can have many adjustable material parameters, orbital couplings, and boundary conditions. Repeating the calculation for every change is slow, and it does not readily show which parameter matters most. With AD-NEGF, we wanted the simulator itself to provide that sensitivity information.
+We wanted to see whether we could differentiate the transport calculation itself. For example, we might want the gradient of the current with respect to an orbital coupling, an atomic position or another input variable. Those derivatives tell us what the model is sensitive to. We can also try adjusting the Hamiltonian in the other direction to reproduce a target transport property.
 
-At nanometer scales, electrons show wave behavior and are affected by electrodes and applied bias. The non-equilibrium Green's function (NEGF) method is a standard way to study such open quantum systems. Given a Hamiltonian (a matrix encoding orbital energies and couplings), along with the electrodes and bias conditions, it can calculate electron transmission and current.
+In AD-NEGF, we implemented the NEGF workflow with PyTorch and wrote custom backward calculations for some of the solver steps. NEGF includes matrix inversions and intermediate quantities that must be obtained numerically, so ordinary automatic differentiation is not always the best approach. We also used implicit differentiation. We checked the gradients and demonstrated an example of optimizing a Hamiltonian for a target transport property.
 
-Our paper uses NEGF with a tight-binding model. This matters: the differentiable simulator in the paper has an explicit physical model. It does not ask a neural network to guess the current. We added a way to compute derivatives through the solver, so quantities such as current and transmission can provide gradients with respect to model parameters.
-
-There is a less visible numerical difficulty. NEGF involves matrix operations and intermediate quantities defined by equations. Treating the whole calculation as a long chain of ordinary arithmetic operations is not always the best way to differentiate it. We therefore combined automatic differentiation with the implicit-layer approach.
-
-## What the gradients let us ask
-
-Once we have a gradient, we can estimate which small parameter changes near the current design have a strong effect on a transport quantity. That helps with sensitivity analysis and with properties that depend on derivatives of current or transmission. The paper also demonstrates an inverse problem: given a desired transport property, find a possible tight-binding Hamiltonian that produces it.
-
-The scope of that inverse design is specific. The paper does not establish that arbitrary fabrication parameters of a real chip can be optimized this way. A parameter in a Hamiltonian does not always correspond directly to something we can manufacture. And if the model leaves out important scattering, defects, or contact effects, accurate derivatives cannot replace the missing physics.
-
-A gradient also describes behavior near the current parameter values; it does not promise a global optimum. Still, when a transport calculation must be repeated many times, obtaining the result and its sensitivity together can save a good deal of trial and error.
+That design exercise is still mostly at the level of the model. Connecting a Hamiltonian parameter to a device structure we can actually fabricate, and dealing with scattering, defects and contacts, requires additional modeling. Differentiating the solver makes many calculations easier than repeated trial and error, but there is still work to do before it can be used directly for device design.
 
 </div>
