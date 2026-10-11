@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ page.title_en | default: page.title | escape }} | Zhanghao Zhouyin</title>
+<meta name="description" content="{{ page.description | escape }}">
+{% include lamp-head.html %}
+<style>
+  /* fixed candlelit-desk reading surface + readability filter (long-form, so kept even) */
+  body::before{background:url("{{ '/images/desk.jpg' | relative_url }}") 50% 32%/cover no-repeat}
+  .page{background:linear-gradient(180deg, rgba(18,15,13,.60) 0%, rgba(18,15,13,.74) 42vh, rgba(18,15,13,.82) 100%)}
+  .article{max-width:none}
+  .research-links{display:flex;flex-wrap:wrap;gap:10px 24px;margin-top:24px}
+  .research-links a{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#D8B27A;border-bottom:1px solid rgba(216,178,122,.25);padding-bottom:3px}
+  .research-links a:hover{border-color:#E9C784}
+  .research-note{margin-top:7px;font-size:13px;color:#9E9488;font-family:'Inter','Noto Sans SC',sans-serif}
+  .article-head{max-width:760px;margin:0 auto;padding:clamp(48px,10vh,110px) clamp(24px,5vw,32px) 0}
+  .article-head h1{font-family:'Newsreader','Noto Serif SC',serif;font-weight:500;font-size:clamp(29px,4.6vw,46px);line-height:1.14;letter-spacing:-.3px;color:#F0E8DA;text-wrap:balance;margin-top:10px}
+  .article-meta{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-top:20px;padding-bottom:26px;border-bottom:1px solid rgba(175,164,151,.12)}
+
+  /* bilingual article body — block-level, so it needs display:block (not the inline
+     `initial` the shared .i18n-* spans use). Toggles with the site language. */
+  .post-en{display:none}
+  :root[data-lang="en"] .post-zh{display:none}
+  :root[data-lang="en"] .post-en{display:block}
+
+  /* ---- prose ---- */
+  .prose{max-width:720px;margin:0 auto;padding:34px clamp(24px,5vw,32px) 0;
+    font-family:'Newsreader','Noto Serif SC',serif;font-size:18px;line-height:1.82;color:#C6BCAD}
+  .prose > *:first-child{margin-top:0}
+  .prose h1,.prose h2,.prose h3,.prose h4{font-family:'Newsreader','Noto Serif SC',serif;color:#EDE3D4;font-weight:500;line-height:1.28;letter-spacing:-.2px;text-wrap:balance}
+  .prose h1{font-size:26px;margin:46px 0 4px;padding-bottom:9px;border-bottom:1px solid rgba(224,173,88,.16)}
+  .prose h2{font-size:23px;margin:40px 0 2px}
+  .prose h3{font-size:20px;margin:32px 0 0;color:#E3D8C7}
+  .prose h4{font-size:17px;margin:26px 0 0;color:#C9BFB0;font-style:italic}
+  .prose p{margin:16px 0}
+  .prose a{color:#D8B27A;text-decoration:none;border-bottom:1px solid rgba(216,178,122,.32);word-break:break-word}
+  .prose a:hover{color:#E9C784;border-color:rgba(233,199,132,.7)}
+  .prose strong{color:#E3D8C7;font-weight:600}
+  .prose em{color:#CFC4B4}
+  .prose ul,.prose ol{margin:16px 0;padding-left:1.5em}
+  .prose li{margin:7px 0}
+  .prose li::marker{color:#9E9488}
+  .prose blockquote{margin:22px 0;padding:6px 20px;border-left:2px solid rgba(224,173,88,.45);color:#A99F92;font-style:italic}
+  .prose hr{border:none;height:1px;margin:38px 0;background:linear-gradient(90deg,transparent,rgba(224,173,88,.32),transparent)}
+  .prose img{max-width:100%;height:auto;display:block;margin:26px auto;border-radius:6px;border:1px solid rgba(175,164,151,.16)}
+
+  /* inline + block code */
+  .prose code{font-family:'IBM Plex Mono',monospace;font-size:.84em;background:rgba(224,173,88,.10);color:#E9C784;padding:.12em .42em;border-radius:4px}
+  .prose pre{background:#17120F;border:1px solid rgba(175,164,151,.14);border-radius:9px;padding:16px 18px;overflow-x:auto;margin:24px 0;box-shadow:0 18px 44px -30px rgba(0,0,0,.8)}
+  .prose pre code{background:none;color:#D6CCBD;padding:0;font-size:13.5px;line-height:1.65}
+  .prose .highlight,.prose figure.highlight{margin:24px 0}
+
+  /* tables */
+  .prose table{border-collapse:collapse;width:100%;margin:24px 0;font-family:'Inter','Noto Sans SC',sans-serif;font-size:14.5px;display:block;overflow-x:auto}
+  .prose th,.prose td{border:1px solid rgba(175,164,151,.16);padding:8px 13px;text-align:left}
+  .prose th{background:rgba(224,173,88,.07);color:#E3D8C7;font-weight:600}
+
+  /* MathJax — keep long equations from breaking the layout; wide ones scroll in place.
+     MathJax v2 CommonHTML wraps display math in .MJXc-display; the others are fallbacks. */
+  .prose .MJXc-display{overflow-x:auto;overflow-y:hidden;max-width:100%;padding-bottom:3px}
+  .prose .MathJax_Display,.prose mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;max-width:100%}
+  .prose .MathJax{color:inherit}
+
+  .article-foot{max-width:720px;margin:0 auto;padding:44px clamp(24px,5vw,32px) 0}
+  .article-foot a{font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.4px;color:#AFA497}
+  .article-foot a:hover{color:#E9C784}
+
+  @media (max-width:640px){
+    .prose{font-size:17px}
+    .prose h1{font-size:23px}
+    .prose h2{font-size:21px}
+  }
+</style>
+
+<!-- MathJax v2 (matches the previous theme so existing notes render identically) -->
+<script type="text/x-mathjax-config"> MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "all" } } }); </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], processEscapes: true }
+  });
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
+</head>
+<body>
+<div class="page">
+  {% assign navActive = 'research' %}
+  {% assign backUrl = '/research/' | relative_url %}
+  {% assign streamZh = '研究解读' %}
+  {% assign streamEn = 'Research explained' %}
+
+  {% include lamp-nav.html active=navActive %}
+
+  <article class="article">
+    <header class="article-head reveal">
+      <p class="kicker"><span class="ember"></span><span class="i18n-zh">{{ streamZh }}</span><span class="i18n-en">{{ streamEn }}</span></p>
+      <h1>{% if page.title_en %}<span class="i18n-zh">{{ page.title }}</span><span class="i18n-en">{{ page.title_en }}</span>{% else %}{{ page.title }}{% endif %}</h1>
+      <div class="article-meta">
+        <span class="note-date">{{ page.paper_year }} · <span class="i18n-zh">研究解读</span><span class="i18n-en">Research note</span></span>
+        {% for tag in page.tags %}<span class="chip">{{ tag }}</span>{% endfor %}
+        <span class="note-time">{{ content | number_of_words | divided_by: 200 | plus: 1 }} min</span>
+      </div>
+      <div class="research-links">
+        {% if page.paper_url %}<a href="{{ page.paper_url }}" target="_blank" rel="noopener"><span class="i18n-zh">原始论文</span><span class="i18n-en">Original paper</span> ↗</a>{% endif %}
+        {% if page.code_url %}<a href="{{ page.code_url }}" target="_blank" rel="noopener"><span class="i18n-zh">开源代码</span><span class="i18n-en">Code</span> ↗</a>{% endif %}
+        {% if page.docs_url %}<a href="{{ page.docs_url }}" target="_blank" rel="noopener"><span class="i18n-zh">文档</span><span class="i18n-en">Documentation</span> ↗</a>{% endif %}
+      </div>
+    </header>
+
+    <div class="prose reveal">
+      {{ content }}
+    </div>
+
+    <div class="article-foot reveal">
+      <a href="{{ backUrl }}">← <span class="i18n-zh">{{ streamZh }}</span><span class="i18n-en">{{ streamEn }}</span></a>
+    </div>
+  </article>
+
+  {% include lamp-footer.html %}
+</div>
+
+<script>
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('is-visible'); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.04 });
+    document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('is-visible'); });
+  }
+})();
+</script>
+{% include lamp-embers.html %}
+</body>
+</html>
