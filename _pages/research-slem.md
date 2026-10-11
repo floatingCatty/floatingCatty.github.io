@@ -19,6 +19,8 @@ paper_url: "https://arxiv.org/abs/2407.06053"
 
 从密度泛函理论（DFT）得到的电子信息不只是一串能级。哈密顿矩阵描述能量和轨道耦合；重叠矩阵记录不同原子轨道之间并不总是正交；密度矩阵与电子怎样分布有关。这些矩阵可以交给后续的数值程序，继续算别的物性。
 
+## 让网络只看附近的原子
+
 在 SLEM 中，我们让同一类模型学习这些量子算符的矩阵元素。一个关键选择是严格局域：预测某处的矩阵元素时，网络只读取有限范围内的原子环境。普通的多层消息传递网络会随着层数增加，把信息从越来越远的邻居传过来；SLEM 则把有效感受范围控制在局部。
 
 这样一来，计算更容易按不同原子区域并行展开。论文里我们在二维和三维材料上测试了多种量子算符的预测，也研究了训练数据较少时的表现。不过局域性是一种模型假设；如果所研究的物理过程依赖重要的长程效应，还需要仔细检验。
@@ -42,6 +44,8 @@ That sounds obvious to us. A neural network trained directly on atomic coordinat
 ## Why predict a matrix?
 
 Electronic-structure calculations based on density-functional theory (DFT) contain more information than a list of energy levels. The Hamiltonian matrix describes orbital energies and couplings. The overlap matrix accounts for atomic orbitals that are not necessarily orthogonal. The density matrix relates to how the electrons are distributed. These matrices can be handed to numerical programs that calculate other properties.
+
+## Limiting the model to nearby atoms
 
 In SLEM, we train the same type of model to predict elements of these quantum operators. An important design choice is strict locality: to predict a matrix element, the network looks only at atoms within a bounded neighborhood. In an ordinary deep message-passing network, information can travel from more distant neighbors as layers are added. SLEM keeps the effective receptive field local.
 
