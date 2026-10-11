@@ -100,15 +100,16 @@
   .footer-cat{display:flex;align-items:center;gap:8px;opacity:.5}
   .footer-cat span{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#5C5449}
 
-  .reveal{opacity:0;transform:translateY(18px);transition:opacity 1s ease,transform 1s cubic-bezier(.2,.7,.2,1)}
-  .reveal.is-visible{opacity:1;transform:translateY(0)}
+  .reveal{opacity:1;transform:none}
+  :root.js .reveal{opacity:0;transform:translateY(18px);transition:opacity 1s ease,transform 1s cubic-bezier(.2,.7,.2,1)}
+  :root.js .reveal.is-visible{opacity:1;transform:translateY(0)}
 
   @media (max-width:640px){
     .navlinks a{font-size:12.5px}
   }
   @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto}
-    .reveal{opacity:1;transform:none;transition:none}
+    :root.js .reveal{opacity:1;transform:none;transition:none}
     .ember-brand{animation:none}
   }
 </style>
@@ -119,6 +120,7 @@
   var lang = stored() || (((navigator.language || '').toLowerCase().indexOf('zh') === 0) ? 'zh' : 'en');
   if (lang !== 'en' && lang !== 'zh') lang = 'en';
   var root = document.documentElement;
+  root.classList.add('js');
   function apply(l){
     lang = l;
     root.setAttribute('data-lang', l);
