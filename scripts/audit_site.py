@@ -11,6 +11,7 @@ import sys
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
+from xml.etree import ElementTree
 
 
 class Metadata(HTMLParser):
@@ -103,7 +104,19 @@ def main(root: Path) -> int:
             errors.append("Invalid " + name + ": " + str(exc))
             return {}
 
-    expect((root / "sitemap.xml").is_file(), "Missing sitemap.xml")
+    sitemap = root / "sitemap.xml"
+    expect(sitemap.is_file(), "Missing sitemap.xml")
+    sitemap_urls = set()
+    if sitemap.is_file():
+        try:
+            xml = ElementTree.fromstring(sitemap.read_text(encoding="utf-8"))
+            sitemap_urls = {
+                node.text.strip().rstrip("/")
+                for node in xml.iter()
+                if node.tag.rsplit("}", 1)[-1] == "loc" and node.text
+            }
+        except ElementTree.ParseError as exc:
+            errors.append("Invalid sitemap.xml: " + str(exc))
     robots = root / "robots.txt"
     expect(robots.is_file(), "Missing robots.txt")
     if robots.is_file():
@@ -127,6 +140,10 @@ def main(root: Path) -> int:
     entries = papers.get("papers", [])
     expect(len(notes) >= 9, "Fewer than nine research/software notes in generated feed")
     expect(len(entries) >= 7, "Fewer than seven publications in generated feed")
+    for item in notes + entries:
+        url = item.get("url", "")
+        expect(url.rstrip("/") in sitemap_urls,
+               "Research or publication missing from sitemap: " + url)
 
     for item in notes:
         url = item.get("url", "")
