@@ -17,6 +17,8 @@ permalink: /publications.json
       "venue": {{ paper.venue | default: '' | jsonify }},
       "doi": {{ paper.doi | default: '' | jsonify }},
       "paper_url": {{ paper.paperurl | jsonify }},
+      "preprint_url": {{ paper.preprint_url | default: '' | jsonify }},
+      "research_url": {% if paper.research_url %}{{ paper.research_url | absolute_url | jsonify }}{% else %}""{% endif %},
       "summary": {{ paper.excerpt | default: '' | jsonify }}
     }{% unless forloop.last %},{% endunless %}
   {% endfor %}

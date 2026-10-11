@@ -17,6 +17,7 @@ journal: 'Physical Review B'
 volume: 113
 doi: '10.1103/rkd8-q6yl'
 article_number: '155123'
+research_url: '/research/nqs-impurity/'
 ---
 We design and benchmark a neural-quantum-states (NQS) impurity solver for quantum embedding methods, focusing on the ghost Gutzwiller Approximation (gGA) framework. We introduce a graph-transformer-based NQS architecture capable of representing arbitrarily connected impurity orbitals, and develop an error-control mechanism to stabilize the iterative updates throughout the quantum embedding loops. The approach is validated with benchmark gGA calculations of the Anderson Lattice Model, yielding results in excellent agreement with exact-diagonalization impurity solvers. Analyzing the computational budget, we identify the principal bottleneck to be the high-accuracy sampling of physical observables required by the embedding loop, rather than the NQS variational optimization itself.
 

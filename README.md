@@ -6,19 +6,22 @@ Live at <https://floatingCatty.github.io>.
 
 ## Structure
 
-The site is a Jekyll project. The landing experience uses a custom, self-contained "oil lamp" design; the deeper content (posts, publications, CV) still renders through the underlying [academicpages](https://github.com/academicpages/academicpages.github.io) / Minimal Mistakes theme.
+The site is a Jekyll project. The homepage, research, essays, study notes and publication index use the oil-lamp design. The CV, About page and individual publication abstracts use the underlying [academicpages](https://github.com/academicpages/academicpages.github.io) / Minimal Mistakes theme.
 
 | Path | Purpose |
 | --- | --- |
 | `index.html` | Home page (lamp design, `layout: raw`) |
 | `_pages/essays.html` | 随笔 · Essays listing (`category: essay` posts) |
 | `_pages/study-notes.html` | 学习笔记 · Study notes listing (`category: study` posts) |
-| `_pages/about.md`, `cv.md`, `publications.md` | Inner pages |
+| `_pages/about.md`, `cv.md`, `publications.html`, `research.html` | Profile and research indexes |
 | `_posts/` | Blog posts — set `category: essay` or `category: study` in front matter |
-| `_publications/` | Publication entries |
+| `_publications/` | Individual scholarly abstracts, author lists, citation metadata and source links |
+| `_pages/research-*.md` | Bilingual research and software notes (`layout: research`) |
+| `publications.json`, `research.json` | Jekyll-generated public machine-readable indexes |
+| `scripts/audit_site.py` | Checks generated pages, research links and citation metadata |
 | `_includes/lamp-*.html` | Shared markup for the lamp-styled pages (head, nav, footer, embers) |
 | `_layouts/raw.html` | Pass-through layout for the lamp landing/listing pages |
-| `_layouts/post.html` | Lamp-styled article layout for individual posts (essays + study notes), incl. MathJax |
+| `_layouts/post.html`, `_layouts/research.html` | Lamp-styled article layouts, incl. MathJax |
 | `_sass/`, `assets/`, other `_includes/`, `_layouts/` | Underlying theme engine (still used by /about/, /cv/, /publications/) |
 
 ## Writing a post
@@ -55,6 +58,41 @@ Conventions:
   duplicate top-level heading.
 - **Permalink** is optional; without one the URL follows `_config.yml` (`/year/month/slug/`).
 - Code blocks, blockquotes, tables, and images are all lamp-styled automatically.
+
+## Adding publications and research notes
+
+A research note belongs in `_pages/research-<slug>.md` with `layout: research`,
+`permalink`, `title`, `title_en`, `description`, `description_zh`, and
+`paper_url` or `code_url`. Keep the two language bodies in their existing
+`post-zh` and `post-en` wrappers, and add one short card to
+`_pages/research.html`. This is a personal explanation of a project, not an
+abstract or a replacement for the original paper.
+
+An academic paper belongs in `_publications/`. Its front matter should
+include the **published** author list, journal or conference, date/year, DOI
+when available, and the original paper URL. Set `research_url` to the
+corresponding note. If a conference paper and its preprint have different
+author lists or dates, record both versions rather than merging their
+bibliographic metadata. Do not invent day/month precision when only a
+publication year is verified.
+
+The public `/research.json` and `/publications.json` feeds are generated
+from Jekyll front matter. They need no separate manual edits.
+
+## Verify a site change
+
+GitHub Actions builds a Pages-compatible version and runs the site audit for
+relevant PR changes. Locally, run:
+
+```bash
+bundle exec jekyll build
+python3 scripts/audit_site.py _site
+```
+
+The audit checks generated HTML, per-paper citation tags, canonical URLs,
+the researcher identity, language blocks, JSON feeds, sitemap membership and
+internal research links. It does not measure Google or ChatGPT indexing.
+Use Search Console to inspect crawl/indexing status after publishing.
 
 ## Run locally
 

@@ -18,6 +18,7 @@ journal: 'Nature Communications'
 volume: 15
 doi: '10.1038/s41467-024-51006-4'
 article_number: '6772'
+research_url: '/research/deeptb/'
 ---
 Simulating electronic behavior in materials and devices with realistic large system sizes remains a formidable task within the ab initio framework. We propose DeePTB, an efficient deep learning-based tight-binding (TB) approach with ab initio accuracy to address this issue. By training with ab initio eigenvalues, our method can efficiently predict TB Hamiltonians for unseen structures. This capability facilitates efficient simulation of large-size systems under external perturbations like strain, which are vital for semiconductor band gap engineering. Moreover, DeePTB, combined with molecular dynamics, can be used to perform efficient and accurate finite temperature simulations of both atomic and electronic behavior simultaneously. This is demonstrated by computing the temperature-dependent properties of a GaP system with 106 atoms.
 

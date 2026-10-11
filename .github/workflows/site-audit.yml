@@ -1,0 +1,34 @@
+name: Jekyll build and research SEO check
+
+on:
+  pull_request:
+    paths:
+      - 'index.html'
+      - '_pages/**'
+      - '_publications/**'
+      - '_layouts/**'
+      - '_includes/**'
+      - '_config.yml'
+      - 'scripts/audit_site.py'
+      - 'research.json'
+      - 'publications.json'
+      - 'robots.txt'
+      - '.github/workflows/site-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out site
+        uses: actions/checkout@v5
+      - name: Build with GitHub Pages Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+      - name: Check built pages, citations, and bilingual research data
+        run: python3 scripts/audit_site.py _site
