@@ -7,6 +7,8 @@ description: "VBCSR is a distributed variable-block sparse matrix library for el
 description_zh: "VBCSR 是一套支持 MPI 的变块稀疏矩阵工具，面向电子结构计算和其他科学计算任务。"
 project_kind: "software"
 code_url: "https://github.com/DeepElectron/vbcsr"
+paper_url: "https://arxiv.org/abs/2609.04397"
+paper_year: 2026
 ---
 
 <div class="post-zh" lang="zh-Hans" markdown="1">
