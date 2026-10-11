@@ -2,7 +2,7 @@
 title: "Understanding neural networks with logarithm determinant entropy estimator"
 collection: publications
 permalink: /publication/2021-05-08-LogDet-number-1
-excerpt: 'We design a metric to estimating information entropy in neural networks.'
+excerpt: 'A matrix-based logarithm-determinant entropy estimator for high-dimensional information measurements and neural-network analysis.'
 date: 2025-12-07
 venue: 'Neurocomputing 657, 131520 (2025)'
 paperurl: 'https://doi.org/10.1016/j.neucom.2025.131520'
