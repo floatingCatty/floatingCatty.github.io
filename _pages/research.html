@@ -1,0 +1,63 @@
+---
+layout: raw
+permalink: /research/
+title: Research explained
+description: Plain-language introductions to DeePTB, SLEM and AD-NEGF by Zhanghao Zhouyin, with bilingual explanations, papers and software links.
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Research explained | Zhanghao Zhouyin</title>
+<meta name="description" content="{{ page.description | escape }}">
+{% include lamp-head.html %}
+<style>
+  body::before{background:url("{{ '/images/flamebg3.jpg' | relative_url }}") 50% 38%/cover no-repeat}
+  .page{background:linear-gradient(180deg,rgba(20,17,15,.45),rgba(20,17,15,.68) 48vh,rgba(20,17,15,.78))}
+  .research-list{max-width:760px;margin:0 auto}
+  .research-card{display:block;padding:28px 0;border-bottom:1px solid rgba(175,164,151,.16)}
+  .research-card:last-child{border-bottom:none}
+  .research-card h2{font-family:'Newsreader','Noto Serif SC',serif;color:#EAE0D0;font-size:25px;font-weight:400;line-height:1.28;margin:10px 0}
+  .research-card:hover h2{color:#F4DFC2}
+  .research-card p{color:#B5AA9C;font-size:15px;line-height:1.7;max-width:650px}
+  .research-card .year{font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;font-size:12px;color:#D8B27A}
+  .research-card .arrow{display:inline-block;margin-top:14px;font-family:'IBM Plex Mono',monospace;color:#D8B27A;font-size:12px}
+</style>
+</head>
+<body>
+<div class="page">
+  {% include lamp-nav.html active="research" %}
+  <header class="page-head">
+    <p class="kicker"><span class="ember"></span><span class="i18n-zh">研究解读</span><span class="i18n-en">Research explained</span></p>
+    <h1><span class="i18n-zh">我的研究，讲清楚一点</span><span class="i18n-en">The questions behind the papers</span></h1>
+    <p class="page-intro"><span class="i18n-zh">论文往往从公式与术语开始，我更想从问题开始。下面这几篇短文谈谈为什么做这些工作，它们解决了什么，以及还有哪些事情没有解决。</span><span class="i18n-en">Papers often begin with equations and terminology. Here I start with the questions: why we worked on these problems, what we found, and what remains difficult.</span></p>
+  </header>
+  <section class="section" style="padding-top:20px">
+    <div class="research-list">
+      <a class="research-card" href="{{ '/research/deeptb/' | relative_url }}">
+        <span class="year">2024 · Nature Communications</span>
+        <h2><span class="i18n-zh">把量子计算带到更大的材料里：DeePTB</span><span class="i18n-en">How can we study the electrons in a million-atom material?</span></h2>
+        <p><span class="i18n-zh">为什么常规电子结构计算很难直接处理真实尺度的材料？我们怎样让模型从高精度计算里学习，而不是每次重头再算？</span><span class="i18n-en">Why do quantum calculations become so expensive for real-sized materials? A learned tight-binding model offers one way to reuse what expensive calculations teach us.</span></p>
+        <span class="arrow"><span class="i18n-zh">读这篇</span><span class="i18n-en">Read the story</span> ↗</span>
+      </a>
+      <a class="research-card" href="{{ '/research/slem/' | relative_url }}">
+        <span class="year">2025 · ICLR</span>
+        <h2><span class="i18n-zh">让 AI 学会材料里的量子算符：SLEM</span><span class="i18n-en">Can a model learn the quantum rules around each atom?</span></h2>
+        <p><span class="i18n-zh">只预测一个材料性质还不够。我们试着让模型学习更基础的量子矩阵，并尊重原子周围的局域结构与空间对称性。</span><span class="i18n-en">Rather than predict one material property, we try to learn the quantum operators behind many calculations, while respecting locality and symmetry.</span></p>
+        <span class="arrow"><span class="i18n-zh">读这篇</span><span class="i18n-en">Read the story</span> ↗</span>
+      </a>
+      <a class="research-card" href="{{ '/research/ad-negf/' | relative_url }}">
+        <span class="year">2023 · Physical Review B</span>
+        <h2><span class="i18n-zh">如果能对量子器件求导：AD-NEGF</span><span class="i18n-en">What if a quantum-device simulator could tell us how to improve a design?</span></h2>
+        <p><span class="i18n-zh">模拟器能算电流，但能不能告诉我们：如果要改进器件，先调整哪个参数？可微量子输运是一次这样的尝试。</span><span class="i18n-en">A device simulator can predict current. Can it also show which design parameter matters most? Differentiable transport makes that question easier to ask.</span></p>
+        <span class="arrow"><span class="i18n-zh">读这篇</span><span class="i18n-en">Read the story</span> ↗</span>
+      </a>
+    </div>
+    <p class="page-intro" style="margin:34px auto 0;max-width:760px"><span class="i18n-zh">想读论文原文？也可以看</span><span class="i18n-en">For the original papers, see</span> <a href="{{ '/publications/' | relative_url }}">Publications ↗</a>.</p>
+  </section>
+  {% include lamp-footer.html %}
+</div>
+{% include lamp-embers.html %}
+</body>
+</html>
