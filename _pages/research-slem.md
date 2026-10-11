@@ -11,7 +11,9 @@ paper_url: "https://arxiv.org/abs/2407.06053"
 
 <div class="post-zh" lang="zh-Hans" markdown="1">
 
-DeePTB 里我们主要学习紧束缚参数。后来做 SLEM 时，想把这件事推进到更一般的原子轨道基组，直接预测 DFT 里的哈密顿量、重叠矩阵和密度矩阵。它们本来就是电子结构程序要用的量，得到这些矩阵后，还可以继续做别的物理计算。
+在电子结构计算里，一张能带图其实只是结果的一部分。哈密顿矩阵记录轨道的能量和耦合，重叠矩阵描述轨道之间的重叠，密度矩阵则和电子的分布有关。它们都是后面继续算物性时要用到的东西。
+
+DeePTB 里我们主要学习紧束缚参数。后来做 SLEM 时，想把这件事推进到更一般的原子轨道基组，直接从原子结构预测 DFT 里的这些矩阵。
 
 这里有个挺麻烦的地方：原子轨道有方向。比如 p、d 轨道，不能把它们当成原子上附着的普通数字。晶体转一个角度，描述轨道耦合的矩阵也得按对应规则变化；但仅仅换个坐标方向，又不能改变材料本身的能谱。所以我们把旋转等变性（equivariance）的要求直接写进了网络结构里。
 
@@ -23,7 +25,9 @@ DeePTB 里我们主要学习紧束缚参数。后来做 SLEM 时，想把这件�
 
 <div class="post-en" lang="en" markdown="1">
 
-In DeePTB, we mainly learned the parameters of a tight-binding model. With SLEM, we wanted to work with more general atomic-orbital bases and predict the Hamiltonian, overlap matrix and density matrix from DFT directly. Electronic-structure programs already work with these quantities, so the predicted matrices could be used in further physical calculations.
+A band diagram is only part of what comes out of an electronic-structure calculation. The Hamiltonian matrix records orbital energies and couplings, the overlap matrix describes how the orbitals overlap, and the density matrix relates to where electrons are distributed. These are the quantities we often need for later property calculations.
+
+In DeePTB, we mainly learned the parameters of a tight-binding model. With SLEM, we wanted to go further and predict these DFT matrices directly from atomic structures using a more general atomic-orbital basis.
 
 There is a tricky part: atomic orbitals have directions. The p and d orbitals, for example, are not just numbers attached to atoms. If we rotate a crystal, the matrices describing orbital couplings must transform accordingly. Yet changing the coordinate frame alone should not change the material's energy spectrum. We therefore built rotational equivariance into the network itself.
 
