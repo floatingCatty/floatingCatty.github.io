@@ -177,7 +177,7 @@ def main(root: Path) -> int:
                        "Chinese article needs reciprocal hreflang annotations: " + zh_url)
                 expect(any(x.get("inLanguage") == "zh-Hans" for x in zh.schemas if isinstance(x, dict)),
                        "Wrong Chinese schema language: " + zh_url)
-                expect(any(urlparse in (href or "") for urlparse in [url] for href in zh.links),
+                expect(any(urlsplit(href or "").path == urlsplit(url).path for href in zh.links),
                        "Missing visible link back to English: " + zh_url)
         else:
             expect({"post-zh", "post-en"}.issubset(page.languages),
