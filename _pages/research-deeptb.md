@@ -10,7 +10,7 @@ paper_url: "https://www.nature.com/articles/s41467-024-51006-4"
 code_url: "https://github.com/deepmodeling/DeePTB"
 ---
 
-<div class="post-zh" markdown="1">
+<div class="post-zh" lang="zh-Hans" markdown="1">
 
 把一块半导体加热，原子不会一直待在晶格上的同一个位置。它们在振动，原子之间的距离也在变，电子感受到的环境便跟着改变。想知道温度怎样影响材料的电子状态和光学性质，光计算一个整齐的、静止的晶胞是不够的。
 
@@ -34,7 +34,7 @@ DeePTB 让神经网络读取原子附近的局部环境，预测这组紧束缚�
 
 </div>
 
-<div class="post-en" markdown="1">
+<div class="post-en" lang="en" markdown="1">
 
 Heat a semiconductor and its atoms do not stay neatly fixed on their lattice sites. They vibrate, the distances between them change, and so does the environment felt by the electrons. If we want to study how temperature affects electronic states and optical properties, a calculation on a single, perfectly ordered unit cell will not tell us enough.
 
