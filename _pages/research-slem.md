@@ -9,7 +9,7 @@ paper_year: 2025
 paper_url: "https://arxiv.org/abs/2407.06053"
 ---
 
-<div class="post-zh" markdown="1">
+<div class="post-zh" lang="zh-Hans" markdown="1">
 
 把一块晶体转个方向，它仍然是同一种材料。可是在计算机里，电子结构并不总是用几个与方向无关的数字来表示。原子轨道有形状和朝向，晶体旋转后，描述它们的矩阵元素也得按一定规律改变。材料的能谱却不该仅仅因为我们换了坐标方向就变掉。
 
@@ -33,7 +33,7 @@ paper_url: "https://arxiv.org/abs/2407.06053"
 
 </div>
 
-<div class="post-en" markdown="1">
+<div class="post-en" lang="en" markdown="1">
 
 Turn a crystal around and it is still the same material. In a computer, though, electronic structure is not always represented by numbers that ignore direction. Atomic orbitals have shapes and orientations. When the crystal rotates, the matrix elements describing those orbitals must transform in a particular way, even though the energy spectrum should not change merely because we chose a different coordinate frame.
 
