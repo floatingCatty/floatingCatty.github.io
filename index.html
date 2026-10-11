@@ -6,12 +6,17 @@ layout: raw
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Zhanghao Zhouyin · Keep a light on for curiosity</title>
-<meta name="description" content="Zhanghao Zhouyin — Physics PhD at McGill University, working across physics, AI, machine learning, and scientific computing. Building better scientific tools for discovery. 为好奇心留一盏灯。">
-<meta name="keywords" content="Zhanghao Zhouyin, McGill University, Physics, AI for Science, Scientific computing, Machine learning, Materials simulation, Quantum transport, DeePTB">
-<meta property="og:title" content="Keep a light on for curiosity — Zhanghao Zhouyin">
-<meta property="og:description" content="A physicist working across physics, AI, and scientific software, building better tools for people who want to understand the world.">
-<meta property="og:type" content="website">
+<title>Zhanghao Zhouyin | Computational Physics &amp; AI for Science</title>
+<meta name="description" content="Zhanghao Zhouyin, Physics PhD candidate at McGill University. Research in scalable electronic structure, machine-learned Hamiltonians, quantum transport, and scientific computing.">
+<link rel="canonical" href="{{ '/' | absolute_url }}">
+<meta property="og:title" content="Zhanghao Zhouyin | Computational Physics &amp; AI for Science">
+<meta property="og:description" content="Research in scalable electronic structure, machine-learned Hamiltonians and quantum transport.">
+<meta property="og:type" content="profile">
+<meta property="og:url" content="{{ '/' | absolute_url }}">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","@id":"https://floatingcatty.github.io/#person","name":"Zhanghao Zhouyin","alternateName":["Yinzhanghao Zhou","周寅张皓"],"url":"https://floatingcatty.github.io/","affiliation":{"@type":"CollegeOrUniversity","name":"McGill University"},"knowsAbout":["Computational physics","Electronic structure","Machine-learned Hamiltonians","Quantum transport","AI for Science"],"sameAs":["https://github.com/floatingCatty","https://scholar.google.com/citations?user=vSMmfvUAAAAJ","https://www.linkedin.com/in/zhanghao-zhouyin-4aaa471a5/"]}
+</script>
 <link rel="icon" type="image/svg+xml" href="{{ '/images/favicon.svg' | relative_url }}">
 <link rel="alternate icon" href="{{ '/images/favicon.svg' | relative_url }}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -266,24 +271,24 @@ layout: raw
   <section class="hero">
     <div class="hero-photo"></div>
     <div class="hero-copy">
-      <h1 class="hero-name" data-i18n="heroName"></h1>
-      <p class="hero-slogan" data-i18n="heroTitle"></p>
-      <p class="hero-sub" data-i18n="heroSub"></p>
+      <h1 class="hero-name" data-i18n="heroName">Zhanghao Zhouyin</h1>
+      <p class="hero-slogan" data-i18n="heroTitle">Keep a light on for curiosity.</p>
+      <p class="hero-sub" data-i18n="heroSub">I work between physics and AI, trying to understand a little more of the world — and to keep a light on for others who want to know too.</p>
       <div class="hero-ctas">
-        <a href="#building" class="cta-main"><span class="cta-dot"></span><span data-i18n="cta1"></span></a>
-        <a href="#notes" class="cta-alt"><span data-i18n="cta2"></span> →</a>
+        <a href="#building" class="cta-main"><span class="cta-dot"></span><span data-i18n="cta1">What I'm building</span></a>
+        <a href="#notes" class="cta-alt"><span data-i18n="cta2">Notes by the lamp</span> →</a>
       </div>
     </div>
-    <div class="hero-scroll"><span data-i18n="scroll"></span></div>
+    <div class="hero-scroll"><span data-i18n="scroll">scroll</span></div>
   </section>
 
   <div class="wick"><div></div></div>
 
   <!-- THE FIRST FLAME -->
   <section class="section reveal" style="max-width:720px">
-    <p class="kicker"><span class="ember"></span><span data-i18n="s2kicker"></span></p>
-    <h2 data-i18n="s2title"></h2>
-    <p class="prose" data-i18n="s2body"></p>
+    <p class="kicker"><span class="ember"></span><span data-i18n="s2kicker">The first flame</span></p>
+    <h2 data-i18n="s2title">It began with a small flame.</h2>
+    <p class="prose" data-i18n="s2body">In my grandmother's house, a rush-wick oil lamp always burned before the family altar — a shallow brass dish, a little cooking oil, a flame the size of a soybean, yet it almost never went out. Over the years the oil turned to grease and the grease to a waxy crust on the dish, with a faint smell like a candle. I would sit beside it — trimming the wick, watching the flame swell and shrink, burning small things: a stick of incense, a scrap of paper, a strand of hair, an ant I had caught.  Back then the play had no purpose; it was only curiosity. Other motives are mixed in now, but the heart of it hasn't changed. CS, AI, physics — underneath them all is still the same simple wish to understand the world.</p>
   </section>
 
   <div class="wick"><div></div></div>
@@ -291,8 +296,8 @@ layout: raw
   <!-- ESSAYS / NOTES BY THE LAMP -->
   <a id="notes"></a>
   <section class="section reveal" style="max-width:760px">
-    <p class="kicker" style="margin-bottom:14px"><span class="ember"></span><span data-i18n="s6kicker"></span></p>
-    <p class="section-intro" style="max-width:520px" data-i18n="s6intro"></p>
+    <p class="kicker" style="margin-bottom:14px"><span class="ember"></span><span data-i18n="s6kicker">Essays</span></p>
+    <p class="section-intro" style="max-width:520px" data-i18n="s6intro">Thinking out loud, in progress — on discovery, building, AI and science, and the way there.</p>
     <div class="timeline">
       {% assign essays = site.categories.essay %}
       {% for post in essays limit:3 %}
@@ -309,12 +314,12 @@ layout: raw
         {% if summary and summary != "" %}<p class="note-sub">{% if post.excerpt_en %}<span class="i18n-zh">{{ summary | truncate: 120 }}</span><span class="i18n-en">{{ summary_en | truncate: 150 }}</span>{% else %}{{ summary | truncate: 120 }}{% endif %}</p>{% endif %}
       </a>
       {% else %}
-      <p class="note-sub" style="padding:20px 0" data-i18n="essaysEmpty"></p>
+      <p class="note-sub" style="padding:20px 0" data-i18n="essaysEmpty">The first essay is on its way.</p>
       {% endfor %}
     </div>
     <p class="all-notes" style="display:flex;gap:26px;flex-wrap:wrap">
-      <a href="{{ '/essays/' | relative_url }}"><span data-i18n="allNotes"></span> →</a>
-      <a href="{{ '/study-notes/' | relative_url }}"><span data-i18n="studyNotesLink"></span> →</a>
+      <a href="{{ '/essays/' | relative_url }}"><span data-i18n="allNotes">All essays</span> →</a>
+      <a href="{{ '/study-notes/' | relative_url }}"><span data-i18n="studyNotesLink">Study notes</span> →</a>
     </p>
   </section>
 
@@ -323,14 +328,14 @@ layout: raw
   <!-- THINGS I'VE FOUND -->
   <a id="found"></a>
   <section class="section reveal" style="max-width:800px">
-    <p class="kicker" style="margin-bottom:14px"><span class="ember"></span><span data-i18n="s4kicker"></span></p>
-    <p class="section-intro" style="margin-bottom:46px" data-i18n="s4intro"></p>
+    <p class="kicker" style="margin-bottom:14px"><span class="ember"></span><span data-i18n="s4kicker">Things I've found</span></p>
+    <p class="section-intro" style="margin-bottom:46px" data-i18n="s4intro">Finished research and discoveries.</p>
     <div class="finds">
 
       <article class="find-item">
         <div class="find-fig"><img src="{{ '/images/found/placeholder.svg' | relative_url }}" alt="Moiré phonon figure"></div>
         <div class="find-body">
-          <p class="find-plain" data-i18n="found1plain"></p>
+          <p class="find-plain" data-i18n="found1plain">A structural change involving more than ten thousand atoms turned out to be governed by just two collective motions.</p>
           <p class="find-tech">Moiré Phonon Condensation in Magic-Angle Twisted Bilayer Graphene</p>
           <div class="find-meta"><span class="find-year">2026</span><span class="find-venue">preprint</span></div>
           <div class="find-links"><a href="https://arxiv.org/abs/2607.06711" target="_blank" rel="noopener">Paper ↗</a><a href="https://github.com/floatingCatty" target="_blank" rel="noopener">Code ↗</a></div>
@@ -340,7 +345,7 @@ layout: raw
       <article class="find-item">
         <div class="find-fig"><img src="{{ '/images/found/placeholder.svg' | relative_url }}" alt="SLEM figure"></div>
         <div class="find-body">
-          <p class="find-plain" data-i18n="found2plain"></p>
+          <p class="find-plain" data-i18n="found2plain">A neural network can read only a material’s local structure and predict its quantum operators directly — reaching near first-principles accuracy while staying local enough to scale toward whole devices.</p>
           <p class="find-tech">Learning local equivariant representations for quantum operators (SLEM)</p>
           <div class="find-meta"><span class="find-year">2025</span><span class="find-venue">ICLR 2025</span></div>
           <div class="find-links"><a href="https://arxiv.org/abs/2407.06053" target="_blank" rel="noopener">Paper ↗</a></div>
@@ -350,7 +355,7 @@ layout: raw
       <article class="find-item">
         <div class="find-fig"><img src="{{ '/images/found/placeholder.svg' | relative_url }}" alt="NQS impurity solver figure"></div>
         <div class="find-body">
-          <p class="find-plain" data-i18n="found3plain"></p>
+          <p class="find-plain" data-i18n="found3plain">Neural quantum states can act as the impurity solver inside quantum embedding, matching exact diagonalization on correlated models — where the real bottleneck is how precisely you sample observables, not training the network.</p>
           <p class="find-tech">Neural-Quantum-States Impurity Solver for Quantum Embedding Problems</p>
           <div class="find-meta"><span class="find-year">2025</span><span class="find-venue">Phys. Rev. B (2026)</span></div>
           <div class="find-links"><a href="https://arxiv.org/abs/2509.12431" target="_blank" rel="noopener">Paper ↗</a></div>
@@ -360,7 +365,7 @@ layout: raw
       <article class="find-item">
         <div class="find-fig"><img src="{{ '/images/found/placeholder.svg' | relative_url }}" alt="DeePTB figure"></div>
         <div class="find-body">
-          <p class="find-plain" data-i18n="found4plain"></p>
+          <p class="find-plain" data-i18n="found4plain">Trained only on first-principles eigenvalues, a deep-learning tight-binding model predicts the electronic structure of structures it has never seen — making million-atom, finite-temperature electronic simulations feasible.</p>
           <p class="find-tech">Deep learning tight-binding approach for large-scale electronic simulations (DeePTB)</p>
           <div class="find-meta"><span class="find-year">2024</span><span class="find-venue">Nature Communications</span></div>
           <div class="find-links"><a href="https://www.nature.com/articles/s41467-024-51006-4" target="_blank" rel="noopener">Paper ↗</a><a href="https://github.com/deepmodeling/DeePTB" target="_blank" rel="noopener">Code ↗</a></div>
@@ -370,7 +375,7 @@ layout: raw
       <article class="find-item">
         <div class="find-fig"><img src="{{ '/images/found/placeholder.svg' | relative_url }}" alt="AD-NEGF figure"></div>
         <div class="find-body">
-          <p class="find-plain" data-i18n="found5plain"></p>
+          <p class="find-plain" data-i18n="found5plain">Making the non-equilibrium Green’s function method differentiable end to end turns a quantum transport simulator into something you can optimize through — providing gradients for sensitivity analysis and inverse design.</p>
           <p class="find-tech">Automatic differentiable nonequilibrium Green's function formalism (AD-NEGF)</p>
           <div class="find-meta"><span class="find-year">2023</span><span class="find-venue">Phys. Rev. B</span></div>
           <div class="find-links"><a href="https://doi.org/10.1103/PhysRevB.108.195143" target="_blank" rel="noopener">Paper ↗</a></div>
@@ -378,7 +383,8 @@ layout: raw
       </article>
 
     </div>
-    <a class="pub-all" href="{{ '/publications/' | relative_url }}"><span data-i18n="pubAll"></span> →</a>
+    <a class="pub-all" href="{{ '/publications/' | relative_url }}"><span data-i18n="pubAll">All publications</span> →</a>
+    <a class="pub-all" href="{{ '/research/' | relative_url }}" style="margin-left:22px"><span class="i18n-zh">研究解读</span><span class="i18n-en">Research notes</span> →</a>
   </section>
 
   <div class="wick"><div></div></div>
@@ -386,20 +392,20 @@ layout: raw
   <!-- THINGS I'M BUILDING -->
   <a id="building"></a>
   <section class="section reveal" style="max-width:820px">
-    <p class="kicker" style="margin-bottom:14px"><span class="ember"></span><span data-i18n="s5kicker"></span></p>
-    <p class="section-intro" style="margin-bottom:48px" data-i18n="s5intro"></p>
+    <p class="kicker" style="margin-bottom:14px"><span class="ember"></span><span data-i18n="s5kicker">What I'm building</span></p>
+    <p class="section-intro" style="margin-bottom:48px" data-i18n="s5intro">Building tools that help people understand the world.</p>
     <div>
       <article class="build-item">
-        <div class="build-head"><h3>DeePTB</h3><span class="status status-active" data-i18n="statusActive"></span></div>
-        <p data-i18n="build1"></p>
+        <div class="build-head"><h3>DeePTB</h3><span class="status status-active" data-i18n="statusActive">open source · active</span></div>
+        <p data-i18n="build1">A deep-learning tight-binding framework that predicts electronic structure at close to first-principles accuracy, for a fraction of the cost — built for researchers who need large-scale quantum simulations without a supercomputer’s budget.</p>
         <a class="build-link" href="https://github.com/deepmodeling/DeePTB" target="_blank" rel="noopener">github.com/deepmodeling/DeePTB ↗</a>
       </article>
       <article class="build-item">
-        <div class="build-head"><h3>VBCSR</h3><span class="status status-early" data-i18n="statusEarly"></span></div>
-        <p data-i18n="build2"></p>
+        <div class="build-head"><h3>VBCSR</h3><span class="status status-early" data-i18n="statusEarly">open source · early</span></div>
+        <p data-i18n="build2">Infrastructure for representing and computing with very large sparse operators in electronic-structure and quantum-transport work — the quiet plumbing that lets bigger simulations run on smaller machines.</p>
         <a class="build-link" href="https://github.com/DeepElectron/vbcsr" target="_blank" rel="noopener">github.com/DeepElectron/vbcsr ↗</a>
       </article>
-      <div class="build-more"><p data-i18n="buildMore"></p></div>
+      <div class="build-more"><p data-i18n="buildMore">And a few things still forming — AI-native DFT, scientific agents, and the beginnings of new project around.</p></div>
     </div>
   </section>
 
@@ -413,11 +419,11 @@ layout: raw
         <div class="frame"><img src="{{ '/images/profile.jpg?v=2' | relative_url }}" alt="Zhanghao Zhouyin"></div>
       </div>
       <div>
-        <p class="kicker" style="margin-bottom:20px"><span class="ember"></span><span data-i18n="s7kicker"></span></p>
-        <h2 class="about-name" data-i18n="aboutName"></h2>
-        <p class="about-body" data-i18n="aboutBody"></p>
-        <p class="about-meta" data-i18n="aboutMeta"></p>
-        <p class="about-cv"><a href="{{ '/cv/' | relative_url }}"><span data-i18n="cvLink"></span> ↗</a></p>
+        <p class="kicker" style="margin-bottom:20px"><span class="ember"></span><span data-i18n="s7kicker">About</span></p>
+        <h2 class="about-name" data-i18n="aboutName">Zhanghao Zhouyin</h2>
+        <p class="about-body" data-i18n="aboutBody">I trained early in computer science and electronic engineering, then followed a stubborn question — what is the physical world behind all this technology? — into materials, quantum transport, and computational physics. Today I work where physics, machine learning, and scientific computing meet. Lately I’ve been trying to make AI agents that don’t just organize references or write code, but genuinely take part: proposing hypotheses, designing calculations, finding hidden structure. Whether it becomes research, software, or something I build, the question stays the same — can we make better scientific tools, so that individuals and small teams can understand complex things, test their ideas, and create.</p>
+        <p class="about-meta" data-i18n="aboutMeta">PhD candidate, Physics · McGill University Contributor: DeePTB · DFTio · AD-NEGF · VBCSR</p>
+        <p class="about-cv"><a href="{{ '/cv/' | relative_url }}"><span data-i18n="cvLink">Full CV &amp; history</span> ↗</a></p>
       </div>
     </div>
   </section>
@@ -428,8 +434,8 @@ layout: raw
   <a id="contact"></a>
   <section class="section contact reveal" style="max-width:720px;padding-bottom:clamp(48px,9vh,120px)">
     <div class="contact-lamp"><canvas id="lamp-mini" style="width:120px;height:150px;display:block"></canvas></div>
-    <h2 data-i18n="contactTitle"></h2>
-    <p class="contact-body" data-i18n="contactBody"></p>
+    <h2 data-i18n="contactTitle">Some questions are better explored together.</h2>
+    <p class="contact-body" data-i18n="contactBody">I’m always glad to talk about scientific tools, AI for discovery, and ambitious problems worth building around.</p>
     <div class="contact-links">
       <a href="mailto:zhouyinzhanghao@gmail.com">Email</a>
       <a href="https://github.com/floatingCatty" target="_blank" rel="noopener">GitHub</a>
@@ -440,7 +446,7 @@ layout: raw
 
   <!-- FOOTER -->
   <footer class="footer">
-    <p>Zhanghao Zhouyin · McGill University · <span data-i18n="footer"></span></p>
+    <p>Zhanghao Zhouyin · McGill University · <span data-i18n="footer">© 2026</span></p>
     <div class="footer-cat">
       <svg width="26" height="18" viewBox="0 0 26 18" fill="none">
         <path d="M4 15c0-3 2-5 5-5s5 2 5 5" stroke="#8F857A" stroke-width="1" fill="none"/>

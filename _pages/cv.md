@@ -1,6 +1,6 @@
 ---
 layout: archive
-title: "CV"
+title: "Academic CV"
 permalink: /cv/
 author_profile: true
 redirect_from:
@@ -9,16 +9,21 @@ redirect_from:
 
 {% include base_path %}
 
+Academic profile
+======
+Zhanghao Zhouyin (also published as Yinzhanghao Zhou) works on electronic structure, quantum transport, machine-learning quantum operators, and scientific computing. See [Research explained]({{ '/research/' | relative_url }}) for accessible introductions and [Google Scholar](https://scholar.google.com/citations?user=vSMmfvUAAAAJ) for an updated publication list.
+
 Education
 ======
-* M.E. in Computer Science, Tianjin University, Feb 2024 (expected)
+* Ph.D. candidate in Physics, McGill University (ongoing)
+* M.E. in Computer Science, Tianjin University, 2024
 * B.S. in Computer Science, Tiangong University, Jun 2021
 
 
 
 Experiences
 ======
-* AI for Science Institute - May 2022 - Till date
+* AI for Science Institute — research internship
   * Machine Learning Researcher (intern)
 
 * Tianjin University - Jun 2021 - May 2022

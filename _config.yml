@@ -7,11 +7,11 @@
 
 # Site Settings
 locale                   : "en-US"
-title                    : "Zhanghao's Blog"
+title                    : "Zhanghao Zhouyin | Computational Physics & AI for Science"
 title_separator          : "-"
-name                     : &name "周寅张皓"
-description              : &description "A curious cat boating on a floating sea of knowledge."
-url                      : https://floatingCatty.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
+name                     : &name "Zhanghao Zhouyin"
+description              : &description "Physics PhD at McGill University researching electronic structure, quantum transport and AI for Science."
+url                      : https://floatingcatty.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : "floatingCatty/floatingCatty.github.io"
 teaser                   :  # filename of teaser fallback teaser image placed in /images/, .e.g. "500x300.png"
@@ -82,11 +82,11 @@ analytics:
 author:
   name             : "Zhanghao Zhouyin"
   avatar           : "profile.jpg"
-  bio              : "Alea iacta est."
-  location         : "Beijing, China"
-  employer         :
+  bio              : "Physics PhD candidate at McGill University working on electronic structure and AI for Science."
+  location         : "Montréal, Canada"
+  employer         : "McGill University"
   pubmed           : 
-  googlescholar    : "https://scholar.google.com/citations?user=vSMmfvUAAAAJ&hl=zh-TW&authuser=1"
+  googlescholar    : "https://scholar.google.com/citations?user=vSMmfvUAAAAJ"
   email            : "zhouyinzhanghao@gmail.com"
   researchgate     :  # example: "https://www.researchgate.net/profile/yourprofile"
   uri              :

@@ -1,0 +1,64 @@
+---
+layout: raw
+permalink: /research/
+title: "Research notes"
+description: "Short research notes by Zhanghao Zhouyin on DeePTB, SLEM and AD-NEGF, with original papers and code links."
+description_zh: "周寅张皓对 DeePTB、SLEM 与 AD-NEGF 的中英文研究介绍，附论文与代码链接。"
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Research notes | Zhanghao Zhouyin</title>
+<meta name="description" content="{{ page.description | escape }}">
+{% include lamp-head.html %}
+<style>
+  body::before{background:url("{{ '/images/flamebg3.jpg' | relative_url }}") 50% 38%/cover no-repeat}
+  .page{background:linear-gradient(180deg,rgba(20,17,15,.45),rgba(20,17,15,.68) 48vh,rgba(20,17,15,.78))}
+  .research-list{max-width:760px;margin:0 auto}
+  .research-card{display:block;padding:28px 0;border-bottom:1px solid rgba(175,164,151,.16)}
+  .research-card:last-child{border-bottom:none}
+  .research-card h2{font-family:'Newsreader','Noto Serif SC',serif;color:#EAE0D0;font-size:25px;font-weight:400;line-height:1.28;margin:10px 0}
+  .research-card:hover h2{color:#F4DFC2}
+  .research-card p{color:#B5AA9C;font-size:15px;line-height:1.7;max-width:650px}
+  .research-card .year{font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;font-size:12px;color:#D8B27A}
+  .research-card .arrow{display:inline-block;margin-top:14px;font-family:'IBM Plex Mono',monospace;color:#D8B27A;font-size:12px}
+</style>
+</head>
+<body>
+<div class="page">
+  {% include lamp-nav.html active="research" %}
+  <header class="page-head">
+    <p class="kicker"><span class="ember"></span><span class="i18n-zh">研究解读</span><span class="i18n-en">Research explained</span></p>
+    <h1><span class="i18n-zh">几项研究的来龙去脉</span><span class="i18n-en">The stories behind a few research projects</span></h1>
+    <p class="page-intro"><span class="i18n-zh">这里是我参与的几项工作。我暂时把论文里的公式放在一边，先说清楚我们究竟想算什么、为什么难算，以及论文里实际做到了哪一步。算法和测试结果都可以从文末的论文链接找到。</span><span class="i18n-en">Here are a few projects I worked on. I have left the equations aside for a moment to explain what we wanted to calculate, why it was difficult, and what we actually managed to do. The papers linked on each page have the algorithms and tests.</span></p>
+  </header>
+  <section class="section" style="padding-top:20px">
+    <div class="research-list">
+      <a class="research-card" href="{{ '/research/deeptb/' | relative_url }}">
+        <span class="year">2024 · Nature Communications</span>
+        <h2><span class="i18n-zh">一百万个原子的电子结构，怎么算？</span><span class="i18n-en">How do you calculate electronic structure in a million-atom material?</span></h2>
+        <p><span class="i18n-zh">高温下原子不断振动。DeePTB 从较小体系的第一性原理能级学习紧束缚参数，用它计算更大材料里的电子性质。</span><span class="i18n-en">Atoms vibrate as temperature rises. DeePTB learns tight-binding parameters from first-principles energy levels of smaller systems, then uses them to calculate electronic properties in larger materials.</span></p>
+        <span class="arrow"><span class="i18n-zh">读这篇</span><span class="i18n-en">Read the story</span> ↗</span>
+      </a>
+      <a class="research-card" href="{{ '/research/slem/' | relative_url }}">
+        <span class="year">2025 · ICLR</span>
+        <h2><span class="i18n-zh">原子轨道有方向，AI 怎么学电子结构？</span><span class="i18n-en">Atomic orbitals have directions. How can AI learn electronic structure?</span></h2>
+        <p><span class="i18n-zh">晶体转个方向，轨道矩阵也要按物理规律变换。SLEM 把局域性和旋转对称性放进模型，用来预测量子算符矩阵。</span><span class="i18n-en">When a crystal rotates, its orbital matrices must follow the physical transformation rules. SLEM builds locality and rotational symmetry into the prediction of quantum-operator matrices.</span></p>
+        <span class="arrow"><span class="i18n-zh">读这篇</span><span class="i18n-en">Read the story</span> ↗</span>
+      </a>
+      <a class="research-card" href="{{ '/research/ad-negf/' | relative_url }}">
+        <span class="year">2023 · Physical Review B</span>
+        <h2><span class="i18n-zh">算出了电流，下一步怎么改器件？</span><span class="i18n-en">We&#39;ve calculated the current. What should we change in the device?</span></h2>
+        <p><span class="i18n-zh">NEGF 能从器件模型计算电流。AD-NEGF 给求解器增加梯度，用来分析哪些模型参数影响输运，以及如何反过来寻找目标哈密顿量。</span><span class="i18n-en">NEGF calculates current from a device model. AD-NEGF adds gradients to the solver to examine which model parameters affect transport and how to search for a target Hamiltonian.</span></p>
+        <span class="arrow"><span class="i18n-zh">读这篇</span><span class="i18n-en">Read the story</span> ↗</span>
+      </a>
+    </div>
+    <p class="page-intro" style="margin:34px auto 0;max-width:760px"><span class="i18n-zh">论文原文和引用信息也收录在</span><span class="i18n-en">The original papers and citation details are also in</span> <a href="{{ '/publications/' | relative_url }}"><span class="i18n-zh">论文列表</span><span class="i18n-en">Publications</span> ↗</a>.</p>
+  </section>
+  {% include lamp-footer.html %}
+</div>
+{% include lamp-embers.html %}
+</body>
+</html>
