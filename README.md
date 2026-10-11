@@ -61,12 +61,27 @@ Conventions:
 
 ## Adding publications and research notes
 
-A research note belongs in `_pages/research-<slug>.md` with `layout: research`,
-`permalink`, `title`, `title_en`, `description`, `description_zh`, and
-`paper_url` or `code_url`. Keep the two language bodies in their existing
-`post-zh` and `post-en` wrappers, and add one short card to
-`_pages/research.html`. This is a personal explanation of a project, not an
-abstract or a replacement for the original paper.
+For the two **multilingual pilot notes** (`deeptb` and `flower`), each language has its
+own URL. The English source remains `_pages/research-<slug>.md` at
+`/research/<slug>/`; its Chinese counterpart is `_pages/research-<slug>-zh.md`
+at `/zh/research/<slug>/`. Both carry:
+
+- `research_locale: en` or `research_locale: zh`;
+- `translation_url`: the other language's page;
+- `alternate_en_url` and `alternate_zh_url`: both canonical variants;
+- `translation_of` **on the Chinese page only**, so `/research.json` lists
+  one entry per project but exposes both URLs.
+
+Keep the Chinese and English bodies in their respective `post-zh` and `post-en`
+wrappers. The existing language toggle navigates between the two pages;
+the HTML head has reciprocal `hreflang` and self-canonical links. A note can
+have separate language URLs without depending on JavaScript to show its content.
+
+Other research notes remain in the original single-URL bilingual format for now.
+When adding a new note to that format, keep both wrappers as before. Do not
+copy this pilot structure over all notes until the pilot has been reviewed.
+In all cases, add one short card to `_pages/research.html`. A research note is
+a personal explanation of a project, not the original paper abstract.
 
 An academic paper belongs in `_publications/`. Its front matter should
 include the **published** author list, journal or conference, date/year, DOI

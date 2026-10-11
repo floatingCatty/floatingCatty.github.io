@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-Hans">
+<html lang="{% if page.research_locale == 'en' %}en{% else %}zh-Hans{% endif %}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{{ page.title_en | default: page.title | escape }} | Zhanghao Zhouyin</title>
-<meta name="description" content="{{ page.description | escape }}">
+<title>{% if page.research_locale == 'zh' %}{{ page.title | escape }}{% else %}{{ page.title_en | default: page.title | escape }}{% endif %} | Zhanghao Zhouyin</title>
+<meta name="description" content="{% if page.research_locale == 'zh' %}{{ page.description_zh | default: page.description | escape }}{% else %}{{ page.description | escape }}{% endif %}">
 {% include lamp-head.html %}
 <style>
   /* fixed candlelit-desk reading surface + readability filter (long-form, so kept even) */
@@ -21,9 +21,15 @@
 
   /* bilingual article body — block-level, so it needs display:block (not the inline
      `initial` the shared .i18n-* spans use). Toggles with the site language. */
+  {% if page.research_locale %}
+  /* Each localized URL has one language's content: never hide that body by preference. */
+  .post-en,.post-zh{display:block}
+  {% else %}
+  /* Legacy pages still hold both languages and use the old on-page toggle. */
   .post-en{display:none}
   :root[data-lang="en"] .post-zh{display:none}
   :root[data-lang="en"] .post-en{display:block}
+  {% endif %}
 
   /* ---- prose ---- */
   .prose{max-width:720px;margin:0 auto;padding:34px clamp(24px,5vw,32px) 0;
@@ -95,7 +101,7 @@
   <article class="article">
     <header class="article-head reveal">
       <p class="kicker"><span class="ember"></span><span class="i18n-zh">{{ streamZh }}</span><span class="i18n-en">{{ streamEn }}</span></p>
-      <h1>{% if page.title_en %}<span class="i18n-zh">{{ page.title }}</span><span class="i18n-en">{{ page.title_en }}</span>{% else %}{{ page.title }}{% endif %}</h1>
+      <h1>{% if page.research_locale == 'en' %}{{ page.title_en | default: page.title }}{% elsif page.research_locale == 'zh' %}{{ page.title }}{% elsif page.title_en %}<span class="i18n-zh">{{ page.title }}</span><span class="i18n-en">{{ page.title_en }}</span>{% else %}{{ page.title }}{% endif %}</h1>
       <div class="article-meta">
         <span class="note-date">{% if page.paper_year %}{{ page.paper_year }} · {% endif %}<span class="i18n-zh">{% if page.project_kind == 'software' %}软件{% else %}论文{% endif %}</span><span class="i18n-en">{% if page.project_kind == 'software' %}Software{% else %}Research{% endif %}</span></span>
         {% for tag in page.tags %}<span class="chip">{{ tag }}</span>{% endfor %}
@@ -104,6 +110,11 @@
         {% if page.paper_url %}<a href="{{ page.paper_url }}" target="_blank" rel="noopener"><span class="i18n-zh">原始论文</span><span class="i18n-en">Original paper</span> ↗</a>{% endif %}
         {% if page.code_url %}<a href="{{ page.code_url }}" target="_blank" rel="noopener"><span class="i18n-zh">开源代码</span><span class="i18n-en">Code</span> ↗</a>{% endif %}
         {% if page.docs_url %}<a href="{{ page.docs_url }}" target="_blank" rel="noopener"><span class="i18n-zh">文档</span><span class="i18n-en">Documentation</span> ↗</a>{% endif %}
+        {% if page.translation_url %}
+        <a href="{{ page.translation_url | relative_url }}" hreflang="{% if page.research_locale == 'en' %}zh-Hans{% else %}en{% endif %}">
+          {% if page.research_locale == 'en' %}中文版本{% else %}English version{% endif %} ↗
+        </a>
+        {% endif %}
       </div>
     </header>
 
