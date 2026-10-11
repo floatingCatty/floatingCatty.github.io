@@ -87,8 +87,8 @@
 <div class="page">
   {% assign navActive = 'research' %}
   {% assign backUrl = '/research/' | relative_url %}
-  {% assign streamZh = '研究解读' %}
-  {% assign streamEn = 'Research explained' %}
+  {% assign streamZh = '研究' %}
+  {% assign streamEn = 'Research' %}
 
   {% include lamp-nav.html active=navActive %}
 
@@ -97,9 +97,8 @@
       <p class="kicker"><span class="ember"></span><span class="i18n-zh">{{ streamZh }}</span><span class="i18n-en">{{ streamEn }}</span></p>
       <h1>{% if page.title_en %}<span class="i18n-zh">{{ page.title }}</span><span class="i18n-en">{{ page.title_en }}</span>{% else %}{{ page.title }}{% endif %}</h1>
       <div class="article-meta">
-        <span class="note-date">{{ page.paper_year }} · <span class="i18n-zh">研究解读</span><span class="i18n-en">Research note</span></span>
+        <span class="note-date">{% if page.paper_year %}{{ page.paper_year }} · {% endif %}<span class="i18n-zh">{% if page.project_kind == 'software' %}软件{% else %}论文{% endif %}</span><span class="i18n-en">{% if page.project_kind == 'software' %}Software{% else %}Research{% endif %}</span></span>
         {% for tag in page.tags %}<span class="chip">{{ tag }}</span>{% endfor %}
-        <span class="note-time">{{ content | number_of_words | divided_by: 200 | plus: 1 }} min</span>
       </div>
       <div class="research-links">
         {% if page.paper_url %}<a href="{{ page.paper_url }}" target="_blank" rel="noopener"><span class="i18n-zh">原始论文</span><span class="i18n-en">Original paper</span> ↗</a>{% endif %}

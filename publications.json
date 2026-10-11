@@ -1,0 +1,24 @@
+---
+layout: null
+sitemap: false
+permalink: /publications.json
+---
+{% assign paper_entries = site.publications | sort: 'date' | reverse %}
+{
+  "author": "Zhanghao Zhouyin",
+  "author_url": {{ '/' | absolute_url | jsonify }},
+  "papers": [
+  {% for paper in paper_entries %}
+    {
+      "url": {{ paper.url | absolute_url | jsonify }},
+      "title": {{ paper.title | jsonify }},
+      "authors": {{ paper.paper_authors | jsonify }},
+      "publication_year": "{% if paper.citation_date %}{{ paper.citation_date }}{% else %}{{ paper.date | date: '%Y' }}{% endif %}",
+      "venue": {{ paper.venue | default: '' | jsonify }},
+      "doi": {{ paper.doi | default: '' | jsonify }},
+      "paper_url": {{ paper.paperurl | jsonify }},
+      "summary": {{ paper.excerpt | default: '' | jsonify }}
+    }{% unless forloop.last %},{% endunless %}
+  {% endfor %}
+  ]
+}

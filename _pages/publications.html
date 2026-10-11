@@ -8,9 +8,10 @@ title: Publications
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Publications · 周寅张皓</title>
+<title>Publications | Zhanghao Zhouyin</title>
 <meta name="description" content="Publications by Zhanghao Zhouyin — physics, AI, and scientific software: deep-learning electronic structure, quantum transport, and quantum embedding.">
 {% include lamp-head.html %}
+<link rel="alternate" type="application/json" href="{{ '/publications.json' | relative_url }}" title="Bibliography data">
 <style>
   .pub-list{max-width:760px;margin:0 auto;padding-left:28px;position:relative}
   .pub-list::before{content:'';position:absolute;left:3px;top:6px;bottom:6px;width:1px;background:linear-gradient(180deg,rgba(224,173,88,.5),rgba(224,173,88,.12))}
@@ -26,6 +27,10 @@ title: Publications
   .pub-sub{font-size:14px;color:#9E9488;margin-top:7px;line-height:1.6}
   .pub-arrow{display:inline-block;margin-top:11px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8F857A}
   .pub-item:hover .pub-arrow{color:#D8B27A}
+  .pub-title a{color:inherit}
+  .pub-links{display:flex;gap:20px;flex-wrap:wrap;margin-top:12px}
+  .pub-links a{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#D8B27A}
+  .pub-links a:hover{color:#F4DFC2}
   /* fixed incense-smoke backdrop + readability filter */
   body::before{background:url("{{ '/images/flamebg3.jpg' | relative_url }}") 50% 38%/cover no-repeat}
   .page{background:linear-gradient(180deg, rgba(20,17,15,.4) 0%, rgba(20,17,15,.56) 46vh, rgba(20,17,15,.6) 100%)}
@@ -38,8 +43,8 @@ title: Publications
   <header class="page-head">
     <p class="kicker"><span class="ember"></span><span class="i18n-zh">论文</span><span class="i18n-en">Publications</span></p>
     <h1><span class="i18n-zh">论文</span><span class="i18n-en">Publications</span></h1>
-    <p class="en"><span class="i18n-zh">Selected work</span><span class="i18n-en">精选著作</span></p>
-    <p class="page-intro"><span class="i18n-zh">同行评审论文与预印本——深度学习电子结构、量子输运与量子嵌入。</span><span class="i18n-en">Peer-reviewed papers and preprints — deep-learning electronic structure, quantum transport, and quantum embedding.</span></p>
+    <p class="en"><span class="i18n-zh">Publications</span><span class="i18n-en">论文</span></p>
+    <p class="page-intro"><span class="i18n-zh">论文、会议文章和预印本。完整列表也可以看</span><span class="i18n-en">Journal papers, conference papers and preprints. The full list is also on</span> <a href="https://scholar.google.com/citations?user=vSMmfvUAAAAJ" target="_blank" rel="noopener">Google Scholar ↗</a>.</p>
     <p class="page-intro"><span class="i18n-zh">关于其中几项工作，我也写了些简短的介绍，放在</span><span class="i18n-en">I've also written a few short notes about some of these projects under</span> <a href="{{ '/research/' | relative_url }}"><span class="i18n-zh">研究</span><span class="i18n-en">Research</span> ↗</a>.</p>
   </header>
 
@@ -47,17 +52,20 @@ title: Publications
     <div class="pub-list">
       {% assign pubs = site.publications | sort: 'date' | reverse %}
       {% for pub in pubs %}
-      <a class="pub-item" href="{{ pub.paperurl }}" target="_blank" rel="noopener">
+      <article class="pub-item">
         <span class="pub-dot"></span>
         <div class="pub-meta">
-          <span class="pub-year">{{ pub.date | date: "%Y" }}</span>
+          <span class="pub-year">{% if pub.citation_date %}{{ pub.citation_date }}{% else %}{{ pub.date | date: "%Y" }}{% endif %}</span>
           {% if pub.venue %}<span class="pub-venue">{{ pub.venue }}</span>{% endif %}
         </div>
-        <p class="pub-title">{{ pub.title | replace: '$', '' }}</p>
+        <p class="pub-title"><a href="{{ pub.paperurl }}" target="_blank" rel="noopener">{{ pub.title | replace: '$', '' }}</a></p>
         {% assign summary = pub.excerpt | strip_html | normalize_whitespace | replace: '$', '' %}
         {% if summary and summary != "" %}<p class="pub-sub">{{ summary | truncate: 160 }}</p>{% endif %}
-        <span class="pub-arrow">Read paper ↗</span>
-      </a>
+        <div class="pub-links">
+          <a href="{{ pub.paperurl }}" target="_blank" rel="noopener"><span class="i18n-zh">论文原文</span><span class="i18n-en">Paper</span> ↗</a>
+          <a href="{{ pub.url | relative_url }}"><span class="i18n-zh">摘要和引用</span><span class="i18n-en">Abstract &amp; citation</span> ↗</a>
+        </div>
+      </article>
       {% else %}
       <p class="empty-note">Publications coming soon.</p>
       {% endfor %}

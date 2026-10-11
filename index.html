@@ -193,8 +193,9 @@ layout: raw
   .footer-cat span{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#5C5449}
 
   /* reveal */
-  .reveal{opacity:0;transform:translateY(22px);transition:opacity 1.1s ease,transform 1.1s cubic-bezier(.2,.7,.2,1)}
-  .reveal.is-visible{opacity:1;transform:translateY(0)}
+  .reveal{opacity:1;transform:none}
+  :root.js .reveal{opacity:0;transform:translateY(22px);transition:opacity 1.1s ease,transform 1.1s cubic-bezier(.2,.7,.2,1)}
+  :root.js .reveal.is-visible{opacity:1;transform:translateY(0)}
 
   @media (max-width:860px){
     .hero{min-height:82vh;padding-bottom:clamp(40px,8vh,72px)}
@@ -216,15 +217,16 @@ layout: raw
   }
   @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto}
-    .reveal{opacity:1;transform:none;transition:none}
+    :root.js .reveal{opacity:1;transform:none;transition:none}
     .ember-brand{animation:none}
     body::before,.flame-warp,.glow-far,.glow-body,.glow-mid,.glow-inner,.glow-core,.lamp-haze{animation:none}
     .flame-warp,.glow-body,.glow-mid{filter:none}
   }
 </style>
 <script>
-/* set language before paint to avoid a flash of the wrong language in the nav */
+/* Set up progressive enhancement and language before the page paints. */
 (function () {
+  document.documentElement.classList.add('js');
   try {
     var l = localStorage.getItem('lang') || (((navigator.language || '').toLowerCase().indexOf('zh') === 0) ? 'zh' : 'en');
     if (l !== 'en' && l !== 'zh') l = 'en';
@@ -405,6 +407,12 @@ layout: raw
         <p data-i18n="build2">Infrastructure for representing and computing with very large sparse operators in electronic-structure and quantum-transport work — the quiet plumbing that lets bigger simulations run on smaller machines.</p>
         <a class="build-link" href="https://github.com/DeepElectron/vbcsr" target="_blank" rel="noopener">github.com/DeepElectron/vbcsr ↗</a>
       </article>
+      <article class="build-item">
+        <div class="build-head"><h3>flower</h3><span class="status status-early" data-i18n="statusEarly">open source · early</span></div>
+        <p data-i18n="buildFlower">Keeping the steps, logs and results of agent-run scientific calculations together, so a finished result can be checked and rerun.</p>
+        <a class="build-link" href="https://github.com/floatingCatty/flower" target="_blank" rel="noopener">github.com/floatingCatty/flower ↗</a>
+        <a class="build-link" href="{{ '/research/flower/' | relative_url }}"><span class="i18n-zh">关于 flower</span><span class="i18n-en">About flower</span> ↗</a>
+      </article>
       <div class="build-more"><p data-i18n="buildMore">And a few things still forming — AI-native DFT, scientific agents, and the beginnings of new project around.</p></div>
     </div>
   </section>
@@ -491,6 +499,7 @@ layout: raw
       statusActive: 'open source · active', statusEarly: 'open source · early',
       build1: 'A deep-learning tight-binding framework that predicts electronic structure at close to first-principles accuracy, for a fraction of the cost — built for researchers who need large-scale quantum simulations without a supercomputer’s budget.',
       build2: 'Infrastructure for representing and computing with very large sparse operators in electronic-structure and quantum-transport work — the quiet plumbing that lets bigger simulations run on smaller machines.',
+      buildFlower: 'Keeping the steps, logs and results of agent-run scientific calculations together, so a finished result can be checked and rerun.',
       buildMore: 'And a few things still forming — AI-native DFT, scientific agents, and the beginnings of new project around.',
       s6kicker: 'Essays',
       s6intro: 'Thinking out loud, in progress — on discovery, building, AI and science, and the way there.',
@@ -531,6 +540,7 @@ layout: raw
       statusActive: '开源 · 持续开发', statusEarly: '开源 · 早期',
       build1: '一个深度学习紧束缚框架，用接近第一性原理的精度预测电子结构，成本却低得多——为那些需要做大规模量子模拟、却没有超算预算的研究者而建。',
       build2: '一套用于表示和计算超大稀疏算子的基础设施，服务于电子结构与量子输运计算——是那些看不见的底层管道，让更大的模拟能在更小的机器上跑起来。',
+      buildFlower: '把 Agent 跑计算的步骤、日志和结果记录下来，整理成可以复现的流程。',
       buildMore: '还有一些仍在成形之中——AI-native DFT、科学智能体，以及一个正在酝酿计划。',
       s6kicker: '随笔',
       s6intro: '一边想一边写，仍在进行中——关于发现、建造、AI 与科学，以及沿途的思考。',

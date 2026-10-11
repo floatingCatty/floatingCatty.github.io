@@ -1,0 +1,9 @@
+# Search engines and AI search crawlers can read the public research pages.
+# OAI-SearchBot controls ChatGPT Search discovery; GPTBot training is a separate setting.
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: *
+Allow: /
+
+Sitemap: https://floatingcatty.github.io/sitemap.xml

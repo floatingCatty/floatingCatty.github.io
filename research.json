@@ -1,0 +1,29 @@
+---
+layout: null
+sitemap: false
+permalink: /research.json
+---
+{% assign research_pages = site.pages | where: 'layout', 'research' | sort: 'title_en' %}
+{
+  "name": "Research and software by Zhanghao Zhouyin",
+  "person": {
+    "name": "Zhanghao Zhouyin",
+    "url": {{ '/' | absolute_url | jsonify }},
+    "scholar": "https://scholar.google.com/citations?user=vSMmfvUAAAAJ",
+    "github": "https://github.com/floatingCatty"
+  },
+  "items": [
+  {% for item in research_pages %}
+    {
+      "url": {{ item.url | absolute_url | jsonify }},
+      "type": {{ item.project_kind | default: 'research' | jsonify }},
+      "title_en": {{ item.title_en | default: item.title | jsonify }},
+      "title_zh": {{ item.title | jsonify }},
+      "description_en": {{ item.description | default: '' | jsonify }},
+      "description_zh": {{ item.description_zh | default: '' | jsonify }},
+      "paper_url": {{ item.paper_url | default: '' | jsonify }},
+      "code_url": {{ item.code_url | default: '' | jsonify }}
+    }{% unless forloop.last %},{% endunless %}
+  {% endfor %}
+  ]
+}
