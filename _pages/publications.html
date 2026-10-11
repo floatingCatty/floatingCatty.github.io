@@ -58,64 +58,8 @@ title: Publications
           <span class="pub-year">{% if pub.citation_date %}{{ pub.citation_date }}{% else %}{{ pub.date | date: "%Y" }}{% endif %}</span>
           {% if pub.venue %}<span class="pub-venue">{{ pub.venue }}</span>{% endif %}
         </div>
-        <p class="pub-title"><a href="{{ pub.paperurl }}" target="_blank" rel="noopener">{{ pub.title | replace: '
-      {% else %}
-      <p class="empty-note">Publications coming soon.</p>
-      {% endfor %}
-    </div>
-  </section>
-
-  {% include lamp-footer.html %}
-</div>
-
-<script>
-(function () {
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!reduce && 'IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (en.isIntersecting) { en.target.classList.add('is-visible'); io.unobserve(en.target); }
-      });
-    }, { threshold: 0.06 });
-    document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
-  } else {
-    document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('is-visible'); });
-  }
-})();
-</script>
-{% include lamp-embers.html %}
-</body>
-</html>
-, '' }}</a></p>
-        {% assign summary = pub.excerpt | strip_html | normalize_whitespace | replace: '
-      {% else %}
-      <p class="empty-note">Publications coming soon.</p>
-      {% endfor %}
-    </div>
-  </section>
-
-  {% include lamp-footer.html %}
-</div>
-
-<script>
-(function () {
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!reduce && 'IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (en.isIntersecting) { en.target.classList.add('is-visible'); io.unobserve(en.target); }
-      });
-    }, { threshold: 0.06 });
-    document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
-  } else {
-    document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('is-visible'); });
-  }
-})();
-</script>
-{% include lamp-embers.html %}
-</body>
-</html>
-, '' %}
+        <p class="pub-title"><a href="{{ pub.paperurl }}" target="_blank" rel="noopener">{{ pub.title | replace: '$', '' }}</a></p>
+        {% assign summary = pub.excerpt | strip_html | normalize_whitespace | replace: '$', '' %}
         {% if summary and summary != "" %}<p class="pub-sub">{{ summary | truncate: 160 }}</p>{% endif %}
         <div class="pub-links">
           <a href="{{ pub.paperurl }}" target="_blank" rel="noopener"><span class="i18n-zh">论文原文</span><span class="i18n-en">Paper</span> ↗</a>
