@@ -17,6 +17,7 @@ paper_authors:
   - 'Zhanghao Zhouyin'
   - 'Qiangqiang Gu'
 citation: 'Shishir Kumar Pandey, Saikat Debnath, Zhanghao Zhouyin, and Qiangqiang Gu. "Pitfalls of exchange–correlation functionals in description of magnetism: Cautionary tale of the FeRh alloy." Computational Materials Science 248, 113561 (2025).'
+research_url: '/research/ferh-magnetism/'
 ---
 The magnetic state predicted for FeRh depends sensitively on the lattice constant and on the treatment of exchange and correlation in density-functional theory. This work compares several commonly used functionals, including local-density, generalized-gradient and SCAN meta-GGA approximations, for the FeRh alloy. The calculations highlight differences in how the approximations describe its structural, electronic and magnetic behavior, and why a result from one functional should not be treated as universally reliable for a difficult magnetic material.
 
