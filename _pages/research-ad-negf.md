@@ -16,8 +16,6 @@ code_url: "https://github.com/floatingCatty/ADNEGF"
 
 参数不多时，可以修改一个、重跑一次模拟，再比较结果。但材料参数、轨道耦合和器件条件可能有许多可调量。每次都从头算，既慢，也不容易看清哪个参数影响最大。我们做 AD-NEGF，就是想从模拟器里直接取得这类灵敏度信息。
 
-## 先要能正确计算电流
-
 纳米尺度的电子器件里，电子会体现出波动性，也会受到电极和外加偏压的影响。非平衡格林函数（NEGF）方法就是研究这类开放量子体系的常用工具。给它一个描述电子运动的哈密顿量，再指定电极和偏压等条件，就可以计算电子透射和电流。
 
 我们的论文使用紧束缚模型下的 NEGF。这一点很重要：论文中的可微模拟器有清楚的物理模型，并不是把电流交给一个神经网络直接猜。我们在原有求解流程上增加求导能力，让输出的电流、透射等量可以对模型参数求梯度。
@@ -39,8 +37,6 @@ code_url: "https://github.com/floatingCatty/ADNEGF"
 A quantum-device simulation usually begins with a structure and an applied voltage. The program calculates how much current flows through the device. Perhaps the current is too small, or perhaps the leakage is too large. The next question is more specific: if we raise one of the barriers in the model a little, how much will the current change?
 
 With only a few parameters, we can change one, rerun the simulation, and compare the results. But a device model can have many adjustable material parameters, orbital couplings, and boundary conditions. Repeating the calculation for every change is slow, and it does not readily show which parameter matters most. With AD-NEGF, we wanted the simulator itself to provide that sensitivity information.
-
-## First, calculate the current
 
 At nanometer scales, electrons show wave behavior and are affected by electrodes and applied bias. The non-equilibrium Green's function (NEGF) method is a standard way to study such open quantum systems. Given a Hamiltonian that describes the electronic motion, along with the electrodes and bias conditions, it can calculate electron transmission and current.
 
