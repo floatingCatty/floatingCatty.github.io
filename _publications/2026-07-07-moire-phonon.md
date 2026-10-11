@@ -13,6 +13,7 @@ paper_authors:
   - 'Xianghua Kong'
   - 'Hong Guo'
 citation: 'Zhanghao Zhouyin, Jyun-jie Jiang, Xianghua Kong, and Hong Guo. "Moiré Phonon Condensation in Magic-Angle Twisted Bilayer Graphene." arXiv:2607.06711 (2026).'
+research_url: '/research/moire-phonon/'
 ---
 Twisted bilayer graphene changes its structural reconstruction as the twist approaches the magic angle. This preprint studies that change using phonon modes and a continuum model. A layer-symmetric moiré flexural mode softens as the moiré period grows, and the atomic displacement develops a collective bending pattern. For a supercell containing 11,164 atoms at 1.08 degrees, two A1 modes account for more than 99.5% of the displacement spectral weight. The model relates this transition to the competition between stress and flexural stiffness. Tight-binding calculations indicate that the phonon coordinates also affect the electronic structure.
 
