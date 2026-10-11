@@ -10,7 +10,7 @@ paper_url: "https://doi.org/10.1103/PhysRevB.108.195143"
 code_url: "https://github.com/floatingCatty/ADNEGF"
 ---
 
-<div class="post-zh" markdown="1">
+<div class="post-zh" lang="zh-Hans" markdown="1">
 
 做量子器件模拟时，我们通常先给出结构和电压，让程序算出有多少电流通过。算出来的电流可能太小，也可能漏电太大。接下来的问题就更具体了：如果把模型里的一个势垒稍微调高一点，电流会变多少？
 
@@ -34,7 +34,7 @@ code_url: "https://github.com/floatingCatty/ADNEGF"
 
 </div>
 
-<div class="post-en" markdown="1">
+<div class="post-en" lang="en" markdown="1">
 
 A quantum-device simulation usually begins with a structure and an applied voltage. The program calculates how much current flows through the device. Perhaps the current is too small, or perhaps the leakage is too large. The next question is more specific: if we raise one of the barriers in the model a little, how much will the current change?
 
