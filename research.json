@@ -13,9 +13,13 @@ permalink: /research.json
     "github": "https://github.com/floatingCatty"
   },
   "items": [
+  {% assign separator = '' %}
   {% for item in research_pages %}
-    {
+  {% unless item.translation_of %}
+    {{ separator }}{
       "url": {{ item.url | absolute_url | jsonify }},
+      "url_en": {{ item.url | absolute_url | jsonify }},
+      "url_zh": {% if item.alternate_zh_url %}{{ item.alternate_zh_url | absolute_url | jsonify }}{% else %}""{% endif %},
       "type": {{ item.project_kind | default: 'research' | jsonify }},
       "title_en": {{ item.title_en | default: item.title | jsonify }},
       "title_zh": {{ item.title | jsonify }},
@@ -23,7 +27,9 @@ permalink: /research.json
       "description_zh": {{ item.description_zh | default: '' | jsonify }},
       "paper_url": {{ item.paper_url | default: '' | jsonify }},
       "code_url": {{ item.code_url | default: '' | jsonify }}
-    }{% unless forloop.last %},{% endunless %}
+    }
+    {% assign separator = ',' %}
+  {% endunless %}
   {% endfor %}
   ]
 }
