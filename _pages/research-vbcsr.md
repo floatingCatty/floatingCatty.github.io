@@ -21,6 +21,27 @@ VBCSR 是为这类计算写的一套工具。一个原子或者一个局部自�
 
 阈值过滤并不是免费的近似。扔掉多小的元素合适，要看具体体系和希望控制的误差；MPI 通信开销也会随矩阵分布方式而改变。这些细节很琐碎，但大规模计算很多时候就是被它们卡住的。
 
+### 如何检查实际性能
+
+仓库已经有一套 [benchmark 生成脚本](https://github.com/DeepElectron/vbcsr/blob/main/generate_benchmark_report.py)，底层调用 [`tests/benchmark_large_scale.py`](https://github.com/DeepElectron/vbcsr/blob/main/tests/benchmark_large_scale.py)。下面是一组特意缩小过的单机测试参数，便于先检查安装和计时流程，不是我们论文使用的正式性能数据。
+
+```bash
+git clone https://github.com/DeepElectron/vbcsr.git
+cd vbcsr
+# Install a working C++ / MPI / BLAS environment first (see the project README).
+python -m pip install -e .
+python -m pip install scipy matplotlib
+python generate_benchmark_report.py \
+  --output-dir bench-local --family random \
+  --min-block 4 --max-block 8 --target-neighbors 8 \
+  --spmv-blocks 80,160 --dense-blocks 100 --k-values 4,8 \
+  --sparse-blocks 20,40 --min-seconds 0.5 --min-iterations 3
+```
+
+运行后可以打开 `bench-local/benchmark_report.md` 和 `bench-local/benchmark_report_data.json`，查看 SpMV、稀疏矩阵乘多个向量和 SpMM 的计时，以及与 SciPy 的误差比较。真正要比较速度，必须同时写清 CPU、BLAS、线程数、块大小、非零结构和重复次数；小规模测试通过后，再逐步提高规模和运行时长。
+
+尤其要区分两件事：**运算结果与参照一致**和**在某台机器上更快**。如果输出里的相对差异无法接受，就不该只引用加速比。阈值过滤的误差也需要单独验证。这里给的是可执行的测试入口，我没有在这次网站修改中重新跑这些性能数字。
+
 </div>
 
 <div class="post-en" lang="en" markdown="1">
@@ -32,5 +53,26 @@ VBCSR is a library for that kind of work. An atom or a group of local degrees of
 One operation I care about is sparse matrix multiplication. Density-matrix calculations, for example, may require multiplying sparse matrices repeatedly. If every multiplication creates many tiny nonzero entries, the matrix gradually becomes dense and both memory use and runtime increase. VBCSR can discard small product entries according to a threshold, keeping later operations sparse. The repository includes examples involving density-matrix purification, density of states, and quantum dynamics.
 
 Thresholding is an approximation, of course. How much we can safely discard depends on the system and the error we can tolerate. MPI communication costs also depend on how the matrix is distributed. These details may sound mundane, but they often decide whether a large calculation can run at all.
+
+### How to check the performance yourself
+
+The repository has a [benchmark report generator](https://github.com/DeepElectron/vbcsr/blob/main/generate_benchmark_report.py) backed by [`tests/benchmark_large_scale.py`](https://github.com/DeepElectron/vbcsr/blob/main/tests/benchmark_large_scale.py). These deliberately small **serial** settings are a starting point for checking the installation and timing workflow. They are not the production benchmark used in the paper.
+
+```bash
+git clone https://github.com/DeepElectron/vbcsr.git
+cd vbcsr
+# Install a working C++ / MPI / BLAS environment first (see the project README).
+python -m pip install -e .
+python -m pip install scipy matplotlib
+python generate_benchmark_report.py \
+  --output-dir bench-local --family random \
+  --min-block 4 --max-block 8 --target-neighbors 8 \
+  --spmv-blocks 80,160 --dense-blocks 100 --k-values 4,8 \
+  --sparse-blocks 20,40 --min-seconds 0.5 --min-iterations 3
+```
+
+After running, inspect `bench-local/benchmark_report.md` and `bench-local/benchmark_report_data.json`. They report timings for sparse matrix-vector products, sparse matrix-dense matrix products and SpMM, along with SciPy comparison results. For a meaningful performance claim, record the CPU, BLAS backend, thread count, block sizes, sparsity structure and repetitions, then increase the test size and duration.
+
+Keep two questions separate: **does the operation agree with the reference?** and **is it faster on this hardware?** If the reported relative difference is unacceptable, a speedup alone is not a useful result. Threshold-filtering errors need their own validation. This is a reproducible starting point, not a claim that I reran or revalidated the benchmark numbers while editing this page.
 
 </div>
