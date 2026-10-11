@@ -21,7 +21,7 @@ paper_url: "https://arxiv.org/abs/2407.06053"
 
 ## 让网络只看附近的原子
 
-在 SLEM 中，我们让同一类模型学习这些量子算符的矩阵元素。一个关键选择是严格局域：预测某处的矩阵元素时，网络只读取有限范围内的原子环境。普通的多层消息传递网络会随着层数增加，把信息从越来越远的邻居传过来；SLEM 则把有效感受范围控制在局部。
+SLEM 要预测的就是这些量子算符的矩阵元素。设计网络时，我们给每次预测划定一个固定的局部范围，只让它读取附近的原子。论文里把这叫作“严格局域”。普通的多层消息传递网络会随着层数增加，把信息从越来越远的邻居传过来；SLEM 则把有效感受范围控制在局部。
 
 这样一来，计算更容易按不同原子区域并行展开。论文里我们在二维和三维材料上测试了多种量子算符的预测，也研究了训练数据较少时的表现。不过局域性是一种模型假设；如果所研究的物理过程依赖重要的长程效应，还需要仔细检验。
 
@@ -31,7 +31,7 @@ paper_url: "https://arxiv.org/abs/2407.06053"
 
 实现起来没有这句话那么简单。高角动量的轨道，例如 f、g 轨道，会带来更复杂的角度耦合。SLEM 使用 SO(2) 卷积等设计来降低相关计算的开销。它们听上去有点专门，但目的很朴素：在保留物理对称性的同时，不让高阶轨道的计算变得太贵。
 
-最后还剩下一个实际问题。预测出了大体系的哈密顿矩阵，并不等于已经算出了它的电导率或光学响应；后面还要处理大矩阵和求解误差。SLEM 让我们更容易得到这些算符，至于怎样从中高效提取物性，是另一段计算工作。
+预测出了大体系的哈密顿矩阵，电导率和光学响应也不会自己出现在屏幕上。后面还得对大矩阵做运算，控制数值误差。SLEM 让我们更容易得到这些算符；至于怎样从中高效算出物性，我后来又花了不少精力去研究。
 
 </div>
 
@@ -47,7 +47,7 @@ Electronic-structure calculations based on density-functional theory (DFT) conta
 
 ## Limiting the model to nearby atoms
 
-In SLEM, we train the same type of model to predict elements of these quantum operators. An important design choice is strict locality: to predict a matrix element, the network looks only at atoms within a bounded neighborhood. In an ordinary deep message-passing network, information can travel from more distant neighbors as layers are added. SLEM keeps the effective receptive field local.
+SLEM predicts the elements of these quantum operators. We give each prediction a fixed local neighborhood and let the network use only the atoms within it. That is what we mean by 'strictly localized'. In an ordinary deep message-passing network, information can travel from more distant neighbors as layers are added. SLEM keeps the effective receptive field local.
 
 This makes the work easier to distribute across different atomic regions. In the paper, we tested the prediction of several quantum operators on two- and three-dimensional materials, including cases with limited training data. Locality is still a modeling assumption. If an important part of the physics depends on long-range effects, that assumption needs checking.
 
@@ -57,6 +57,6 @@ The other choice is equivariance. In plain language, when the input crystal rota
 
 Making this work is less simple than the definition sounds. Orbitals with higher angular momentum, such as f and g orbitals, introduce more complicated angular couplings. SLEM uses techniques including SO(2) convolution to reduce the associated computational cost. The purpose is practical: respect the symmetry without making high-order orbitals prohibitively expensive.
 
-There is one more step after the prediction. Having a Hamiltonian matrix for a large system does not mean we already know its conductivity or optical response. Large matrices still have to be processed, and numerical errors still matter. SLEM helps us obtain the operators; extracting useful properties from them is a separate computation.
+A predicted Hamiltonian for a large system does not put its conductivity or optical response on the screen. Those properties still require large-matrix calculations and careful treatment of numerical errors. SLEM makes the operators easier to obtain; I went on to spend much of my time figuring out how to compute properties from them efficiently.
 
 </div>
