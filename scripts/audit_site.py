@@ -19,6 +19,8 @@ class Metadata(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.meta = {}
         self.canonical = []
+        self.alternates = {}
+        self.html_lang = None
         self.schemas = []
         self._reading_schema = False
         self._schema_parts = []
@@ -27,12 +29,16 @@ class Metadata(HTMLParser):
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
+        if tag == "html":
+            self.html_lang = a.get("lang")
         if tag == "meta":
             key = a.get("name") or a.get("property")
             if key:
                 self.meta.setdefault(key, []).append(a.get("content", ""))
         elif tag == "link" and "canonical" in (a.get("rel") or "").split():
             self.canonical.append(a.get("href", ""))
+        elif tag == "link" and "alternate" in (a.get("rel") or "").split() and a.get("hreflang"):
+            self.alternates[a["hreflang"]] = a.get("href")
         elif tag == "a":
             self.links.append(a.get("href", ""))
         elif tag == "script" and a.get("type") == "application/ld+json":
@@ -151,8 +157,31 @@ def main(root: Path) -> int:
         if not page:
             continue
         expect(len(page.canonical) == 1, "Canonical URL count for " + url)
-        expect({"post-zh", "post-en"}.issubset(page.languages),
-               "Chinese/English bodies not found in " + url)
+        if item.get("url_zh"):
+            expect(page.languages == {"post-en"}, "English article contains extra/missing language body: " + url)
+            expect(page.html_lang == "en", "Wrong English HTML language: " + url)
+            expect(page.alternates.get("en") == url, "Missing reciprocal English hreflang: " + url)
+            expect(page.alternates.get("zh-Hans") == item["url_zh"],
+                   "Missing Chinese hreflang on English page: " + url)
+            expect(any(x.get("inLanguage") == "en" for x in page.schemas if isinstance(x, dict)),
+                   "Wrong English schema language: " + url)
+            zh_url = item["url_zh"]
+            zh = parse_page(zh_url)
+            if zh:
+                expect(zh_url.rstrip("/") in sitemap_urls, "Chinese translation missing from sitemap: " + zh_url)
+                expect(len(zh.canonical) == 1 and zh.canonical[0] == zh_url,
+                       "Chinese page needs a self-canonical: " + zh_url)
+                expect(zh.languages == {"post-zh"}, "Chinese article contains extra/missing language body: " + zh_url)
+                expect(zh.html_lang == "zh-Hans", "Wrong Chinese HTML language: " + zh_url)
+                expect(zh.alternates.get("en") == url and zh.alternates.get("zh-Hans") == zh_url,
+                       "Chinese article needs reciprocal hreflang annotations: " + zh_url)
+                expect(any(x.get("inLanguage") == "zh-Hans" for x in zh.schemas if isinstance(x, dict)),
+                       "Wrong Chinese schema language: " + zh_url)
+                expect(any(urlparse in (href or "") for urlparse in [url] for href in zh.links),
+                       "Missing visible link back to English: " + zh_url)
+        else:
+            expect({"post-zh", "post-en"}.issubset(page.languages),
+                   "Legacy bilingual note lost one language: " + url)
         expect("BlogPosting" in page.schema_types(), "BlogPosting missing in " + url)
         expect(bool(item.get("title_zh")) and bool(item.get("title_en")),
                "Missing bilingual title in research feed for " + url)
