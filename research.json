@@ -1,5 +1,6 @@
 ---
 layout: null
+sitemap: false
 permalink: /research.json
 ---
 {% assign research_pages = site.pages | where: 'layout', 'research' | sort: 'title_en' %}
