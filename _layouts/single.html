@@ -57,7 +57,7 @@ layout: default
 
       <section class="page__content" itemprop="text">
         {% if page.collection == 'publications' and page.research_url %}
-          <p><a href="{{ page.research_url | relative_url }}">Research note / 研究介绍 ↗</a></p>
+          <p><a href="{{ page.research_url | relative_url }}">Research note ↗</a></p>
         {% endif %}
         {% if page.collection == 'publications' and page.preprint_url %}
           <p><a href="{{ page.preprint_url }}">arXiv preprint ↗</a></p>
