@@ -103,7 +103,7 @@
       <p class="kicker"><span class="ember"></span><span class="i18n-zh">{{ streamZh }}</span><span class="i18n-en">{{ streamEn }}</span></p>
       <h1>{% if page.research_locale == 'en' %}{{ page.title_en | default: page.title }}{% elsif page.research_locale == 'zh' %}{{ page.title }}{% elsif page.title_en %}<span class="i18n-zh">{{ page.title }}</span><span class="i18n-en">{{ page.title_en }}</span>{% else %}{{ page.title }}{% endif %}</h1>
       <div class="article-meta">
-        <span class="note-date">{% if page.paper_year %}{{ page.paper_year }} · {% endif %}<span class="i18n-zh">{% if page.project_kind == 'software' %}软件{% else %}论文{% endif %}</span><span class="i18n-en">{% if page.project_kind == 'software' %}Software{% else %}Research{% endif %}</span></span>
+        <span class="note-date">{% if page.paper_year %}{{ page.paper_year }} · {% endif %}<span class="i18n-zh">{% if page.project_kind == 'software' %}软件{% elsif page.project_kind == 'guide' %}技术综述{% else %}论文{% endif %}</span><span class="i18n-en">{% if page.project_kind == 'software' %}Software{% elsif page.project_kind == 'guide' %}Technical perspective{% else %}Research{% endif %}</span></span>
         {% for tag in page.tags %}<span class="chip">{{ tag }}</span>{% endfor %}
       </div>
       <div class="research-links">
