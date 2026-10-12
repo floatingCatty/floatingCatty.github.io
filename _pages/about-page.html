@@ -1,0 +1,62 @@
+---
+layout: raw
+permalink: /about/
+title: "About Zhanghao Zhouyin"
+description: "Zhanghao Zhouyin is a Physics PhD candidate at McGill University working on machine-learned quantum operators, scalable electronic structure and quantum transport."
+redirect_from:
+  - /about.html
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About Zhanghao Zhouyin | Computational Physics</title>
+<meta name="description" content="{{ page.description | escape }}">
+{% include lamp-head.html %}
+{% include lamp-profile-style.html %}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ProfilePage","@id":"{{ page.url | absolute_url }}#profile","url":"{{ page.url | absolute_url }}","mainEntity":{"@id":"{{ '/' | absolute_url }}#person","@type":"Person","name":"Zhanghao Zhouyin"}}
+</script>
+</head>
+<body>
+<div class="page">
+  {% include lamp-nav.html %}
+  <header class="profile-intro">
+    <p class="profile-kicker"><span class="ember"></span><span class="i18n-zh">关于</span><span class="i18n-en">About</span></p>
+    <h1>Zhanghao Zhouyin <span style="font-size:.55em;color:#AAA091;white-space:nowrap">周寅张皓</span></h1>
+    <p class="profile-meta">Physics PhD candidate · McGill University · Prof. Hong Guo's group</p>
+    <p class="profile-deck"><span class="i18n-zh">我从计算机和电子工程开始学习，后来进入计算材料和物理。现在最感兴趣的是，怎样让从物理模型到可验证计算结果的整个过程更快、更可靠，也让更多人用得起。</span><span class="i18n-en">I began in computer science and electronic engineering before moving into computational materials and physics. Today I care most about the difficult stretch between a physical model and a calculation that someone can actually verify and use.</span></p>
+    <div class="profile-links">
+      <a href="{{ '/cv/' | relative_url }}">Academic CV ↗</a>
+      <a href="{{ '/research/' | relative_url }}">Research ↗</a>
+      <a href="{{ '/publications/' | relative_url }}">Publications ↗</a>
+      <a href="https://scholar.google.com/citations?user=vSMmfvUAAAAJ" target="_blank" rel="noopener">Google Scholar ↗</a>
+    </div>
+  </header>
+  <main class="profile-content" id="main-content">
+    <section aria-labelledby="about-work">
+      <h2 id="about-work"><span class="i18n-zh">我在做什么</span><span class="i18n-en">What I work on</span></h2>
+      <p><span class="i18n-zh">有一条问题一直贯穿我的研究：机器学习可以让哈密顿量预测得更快，但怎样才能接着计算电子结构、输运、光学响应等真正感兴趣的物理量？在大体系里，瓶颈往往从建立物理模型转移到了数值算法与计算基础设施。</span><span class="i18n-en">One question has followed me through several projects. Machine learning may predict a Hamiltonian quickly, but we still need to calculate the electronic structure, transport, or optical response we actually care about. At large scales, the bottleneck often moves from the physical model to the numerical methods and computing infrastructure around it.</span></p>
+      <p><span class="i18n-zh">我参与过 <a href="{{ '/research/deeptb/' | relative_url }}">DeePTB</a> 和 <a href="{{ '/research/slem/' | relative_url }}">SLEM</a> 这类学习量子算符的工作，也在做 <a href="{{ '/research/vbcsr/' | relative_url }}">VBCSR</a> 这样的分布式稀疏计算工具，以及 <a href="{{ '/research/ad-negf/' | relative_url }}">AD-NEGF</a> 和 <a href="{{ '/research/deeptb-negf/' | relative_url }}">DeePTB-NEGF</a> 相关的量子输运计算。这些工作关注的问题不同，但彼此是连着的。</span><span class="i18n-en">That has led me to learned quantum-operator models such as <a href="{{ '/research/deeptb/' | relative_url }}">DeePTB</a> and <a href="{{ '/research/slem/' | relative_url }}">SLEM</a>; to distributed sparse-matrix software such as <a href="{{ '/research/vbcsr/' | relative_url }}">VBCSR</a>; and to quantum-transport work including <a href="{{ '/research/ad-negf/' | relative_url }}">AD-NEGF</a> and <a href="{{ '/research/deeptb-negf/' | relative_url }}">DeePTB-NEGF</a>. They are different problems, but they connect.</span></p>
+    </section>
+    <section aria-labelledby="about-tools">
+      <h2 id="about-tools"><span class="i18n-zh">为什么做软件</span><span class="i18n-en">Why I build tools</span></h2>
+      <p><span class="i18n-zh">研究也越来越依赖能长时间自主运行的 Coding Agent。它们会读文章、修改代码、提交计算，却常常留下很难整理的脚本和日志。我开始做 <a href="{{ '/research/flower/' | relative_url }}">flower</a>，想把这些中间步骤留成可追踪、可复现的工作流。一个工具是否有价值，不只是它能算出结果，还在于别人能不能理解它是怎么算出来的。</span><span class="i18n-en">Coding agents can already read papers, modify code and run scientific jobs, but the scripts and logs they leave behind are often hard to make sense of. I started <a href="{{ '/research/flower/' | relative_url }}">flower</a> to preserve those steps as a workflow someone else can inspect and rerun. For me, a useful scientific tool should not only produce a result; it should also make clear how that result was obtained.</span></p>
+    </section>
+    <section aria-labelledby="about-background">
+      <h2 id="about-background"><span class="i18n-zh">背景与论文</span><span class="i18n-en">Background and papers</span></h2>
+      <p><span class="i18n-zh">我在天津工业大学读本科，之后在天津大学完成硕士，目前在 McGill University 攻读物理博士，由 Prof. Hong Guo 指导。我的论文使用过不同的英文署名，包括 <strong>Zhanghao Zhouyin</strong>、<strong>Yinzhanghao Zhou</strong> 和 <strong>YinZhangHao Zhou</strong>。</span><span class="i18n-en">I received my bachelor's degree from Tiangong University and my master's degree from Tianjin University. I am now a Physics PhD candidate at McGill University, supervised by Prof. Hong Guo. My publications have appeared under the names <strong>Zhanghao Zhouyin</strong>, <strong>Yinzhanghao Zhou</strong>, and <strong>YinZhangHao Zhou</strong>.</span></p>
+      <p><span class="i18n-zh">我在 <a href="{{ '/research/' | relative_url }}">研究页</a> 整理了每项工作的背景和想法；正式发表记录、预印本及引用信息可以在 <a href="{{ '/publications/' | relative_url }}">论文目录</a> 找到。</span><span class="i18n-en">The <a href="{{ '/research/' | relative_url }}">research notes</a> explain what led to each project. The <a href="{{ '/publications/' | relative_url }}">publication list</a> keeps the formal papers, preprints, and citation details together.</span></p>
+    </section>
+    <section aria-labelledby="about-contact">
+      <h2 id="about-contact"><span class="i18n-zh">联系</span><span class="i18n-en">Get in touch</span></h2>
+      <p><span class="i18n-zh">如果你在做电子结构、量子输运、科学计算或科研 Agent 的相关工作，欢迎讨论具体的问题。</span><span class="i18n-en">If you work on electronic structure, quantum transport, scientific computing, or research agents, I am always interested in discussing concrete problems.</span></p>
+      <p><a href="mailto:zhouyinzhanghao@gmail.com">Email</a> · <a href="https://github.com/floatingCatty">GitHub</a> · <a href="https://www.linkedin.com/in/zhanghao-zhouyin-4aaa471a5/">LinkedIn</a></p>
+    </section>
+  </main>
+  {% include lamp-footer.html %}
+</div>
+{% include lamp-embers.html %}
+</body>
+</html>
