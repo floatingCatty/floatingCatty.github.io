@@ -205,15 +205,16 @@ defaults:
     values:
       layout: single
       author_profile: true
-  # _publications
+  # _publications: original URLs remain stable, but use the unified
+  # oil-lamp layout and preserve independent Scholar/Highwire citation tags.
   - scope:
       path: ""
       type: publications
     values:
-      layout: single
-      author_profile: true
-      share: true
-      comments: true
+      layout: publication
+      author_profile: false
+      share: false
+      comments: false
 
 # Sass/SCSS
 sass:

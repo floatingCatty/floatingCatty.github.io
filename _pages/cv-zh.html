@@ -29,7 +29,8 @@ translation_of: "/cv/"
     <p class="profile-kicker"><span class="ember"></span> 学术履历</p>
     <h1>Zhanghao Zhouyin <span style="font-size:.55em;color:#AAA091;white-space:nowrap">周寅张皓</span></h1>
     <p class="profile-meta">Physics PhD candidate · McGill University · Montréal, Canada</p>
-    <p class="profile-deck">我开发 AI-native 科学计算系统，将机器学习物理模型、高性能模拟和工程尺度预测连接起来。研究涵盖稀疏数值基础设施、电子结构和器件模拟、可微物理及多尺度工程软件。</p>
+    <p class="profile-deck">我开发 AI-native 科学计算系统，将机器学习物理模型、高性能模拟与工程尺度预测连接起来。研究从原子和电子结构、量子输运与物性计算，延伸到器件级 TCAD、多物理场耦合以及电路模型；核心是可扩展数值求解器、可微物理计算和可验证的跨尺度模拟流程。</p>
+    <p class="profile-note"><strong>跨尺度计算：</strong> 原子与电子结构 &rarr; 量子算符和物性 &rarr; 量子输运 &rarr; 器件 TCAD／多物理场 &rarr; 电路模型。</p>
     <p class="profile-note">部分论文采用 Yinzhanghao Zhou 或 YinZhangHao Zhou 署名。</p>
     <div class="profile-links">
       <a href="{{ page.translation_url | relative_url }}" hreflang="en">English version ↗</a>
@@ -60,7 +61,7 @@ translation_of: "/cv/"
     </section>
     <section aria-labelledby="cv-roles">
       <h2 id="cv-roles">工业与研究经历</h2>
-      <div class="cv-entry"><span class="cv-date">Oct 2025–Sep 2026</span><div><h3>Research Intern · Nanoacademic Technologies Inc. (QTCAD)</h3><p>蒙特利尔。面向超导量子器件的多尺度模拟，将第一性原理、有限元静电学、量子动力学与电路层建模连接起来；开展 AI 增强的器件建模。</p></div></div>
+      <div class="cv-entry"><span class="cv-date">Oct 2025–Sep 2026</span><div><h3>Research Intern · Nanoacademic Technologies Inc. (QTCAD)</h3><p>蒙特利尔。在 Nanoacademic QTCAD 中开展 AI 增强的多尺度量子器件建模，包括以第一性原理哈密顿量代理模型估计超导结与电路相关物理量，以及耦合有限元静电学、原子尺度紧束缚和含时量子动力学的器件流程。</p></div></div>
       <div class="cv-entry"><span class="cv-date">May 2022–Jun 2024</span><div><h3>Research Intern · AI for Science Institute</h3><p>北京；机器学习材料模拟。研究指导：Dr. Qiangqiang Gu 和 Dr. Linfeng Zhang。</p></div></div>
       <div class="cv-entry"><span class="cv-date">Oct 2020–Mar 2021</span><div><h3>Editorial Intern · Beijing Academy of Artificial Intelligence</h3><p>跟踪机器学习研究并撰写技术综述。</p></div></div>
     </section>
@@ -82,6 +83,10 @@ translation_of: "/cv/"
         <li>
           <span class="pub-year">{% if pub.citation_date %}{{ pub.citation_date }}{% else %}{{ pub.date | date: "%Y" }}{% endif %}</span>
           <div><a href="{{ pub.url | relative_url }}">{{ pub.title | escape }}</a></div>
+          <div class="pub-info">
+            {% if pub.paperurl %}<a href="{{ pub.paperurl }}" target="_blank" rel="noopener noreferrer">正式论文／预印本 ↗</a>{% endif %}
+            {% if pub.research_url %} &nbsp;·&nbsp; <a href="{{ pub.research_url | relative_url }}">研究介绍 ↗</a>{% endif %}
+          </div>
           <div class="pub-info">{{ pub.venue | escape }}</div>
         </li>
         {% endfor %}

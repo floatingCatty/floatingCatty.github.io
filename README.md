@@ -6,7 +6,7 @@ Live at <https://floatingCatty.github.io>.
 
 ## Structure
 
-The site is a Jekyll project. The homepage, research, essays, study notes and publication index use the oil-lamp design. The CV, About page and individual publication abstracts use the underlying [academicpages](https://github.com/academicpages/academicpages.github.io) / Minimal Mistakes theme.
+The site is a Jekyll project. The homepage, research, essays, study notes and publication index use the oil-lamp design. The CV, About, research notes, publication index and individual paper records now share the site's oil-lamp visual design; old paper permalinks are retained, with Highwire and ScholarlyArticle metadata.
 
 | Path | Purpose |
 | --- | --- |
@@ -19,7 +19,8 @@ The site is a Jekyll project. The homepage, research, essays, study notes and pu
 | `_pages/research-*.md` | Bilingual research and software notes (`layout: research`) |
 | `publications.json`, `research.json` | Jekyll-generated public machine-readable indexes |
 | `scripts/audit_site.py` | Checks generated pages, research links, citation metadata, profile canonicals and legacy redirects |
-| `_includes/lamp-profile-style.html` | Shared accessible/printable About and CV presentation |
+| `_includes/lamp-profile-style.html` | Shared accessible/printable profile and citation presentation |
+| `_layouts/publication.html` | Current-styled paper records at existing permalinks, preserving citation metadata and direct source links |
 | `_includes/lamp-*.html` | Shared markup for the lamp-styled pages (head, nav, footer, embers) |
 | `_layouts/raw.html` | Pass-through layout for the lamp landing/listing pages |
 | `_layouts/post.html`, `_layouts/research.html` | Lamp-styled article layouts, incl. MathJax |
@@ -84,13 +85,9 @@ each, linking directly to the corresponding translation. The site homepage
 uses locale-aware links where a real Chinese equivalent exists.
 
 A research note is a personal explanation of a project, not the original
-paper abstract. A broader **technical perspective** may use
-`project_kind: guide` with a first-party source URL and
-`citation_urls:` listing several fully verified primary references.
-This renders `BlogPosting.citation` as a list of URLs and labels the note
-as a technical perspective, not a new research paper. Do not describe
-unpublished numerical results, or add SEO-only translations that do not
-contain a substantial independent-language body.
+paper abstract. A research synthesis should only be published when its sources and intended
+scope are ready for public discussion. Never disclose unreleased numerical
+results or create SEO-only translations with no substantive body.
 
 An academic paper belongs in `_publications/`. Its front matter should
 include the **published** author list, journal or conference, date/year, DOI

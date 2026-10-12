@@ -32,7 +32,8 @@ alternate_zh_url: "/zh/cv/"
     <p class="profile-kicker"><span class="ember"></span> Curriculum vitae</p>
     <h1>Zhanghao Zhouyin <span style="font-size:.55em;color:#AAA091;white-space:nowrap">周寅张皓</span></h1>
     <p class="profile-meta">Physics PhD candidate · McGill University · Montréal, Canada</p>
-    <p class="profile-deck">I develop AI-native scientific computing systems that connect machine-learned physical models, high-performance simulation, and engineering-scale prediction, spanning numerical infrastructure, electronic and device simulation, differentiable physics, and multiscale software.</p>
+    <p class="profile-deck">I develop AI-native scientific computing systems that connect machine-learned physical models, high-performance simulation, and engineering-scale prediction. My work bridges scales—from atomistic and electronic-structure simulation through quantum transport and physical observables to device-level TCAD, coupled multiphysics, and circuit-aware modeling—using scalable numerical solvers and differentiable physics.</p>
+    <p class="profile-note"><strong>Across scales:</strong> Atomistic / electronic structure &rarr; quantum operators and observables &rarr; quantum transport &rarr; device TCAD / multiphysics &rarr; circuit models.</p>
     <p class="profile-note">Some publications use the author name Yinzhanghao Zhou or YinZhangHao Zhou.</p>
     <div class="profile-links">
       <a href="{{ page.translation_url | relative_url }}" hreflang="zh-Hans">中文版本 ↗</a>
@@ -63,7 +64,7 @@ alternate_zh_url: "/zh/cv/"
     </section>
     <section aria-labelledby="cv-roles">
       <h2 id="cv-roles">Industry and research experience</h2>
-      <div class="cv-entry"><span class="cv-date">Oct 2025–Sep 2026</span><div><h3>Research Intern · Nanoacademic Technologies Inc. (QTCAD)</h3><p>Montréal. AI-enhanced modeling for superconducting quantum devices, linking first-principles Hamiltonians, finite-element electrostatics, quantum dynamics, and circuit-level simulation in QTCAD workflows.</p></div></div>
+      <div class="cv-entry"><span class="cv-date">Oct 2025–Sep 2026</span><div><h3>Research Intern · Nanoacademic Technologies Inc. (QTCAD)</h3><p>Montréal. AI-enhanced multiscale modeling for Nanoacademic's QTCAD, including learned first-principles Hamiltonian surrogates for superconducting-junction and circuit quantities, and device workflows that couple finite-element electrostatics, atomistic tight binding, time-dependent quantum dynamics and circuit-level models.</p></div></div>
       <div class="cv-entry"><span class="cv-date">May 2022–Jun 2024</span><div><h3>Research Intern · AI for Science Institute</h3><p>Beijing; machine learning for materials simulation. Research mentors: Dr. Qiangqiang Gu and Dr. Linfeng Zhang.</p></div></div>
       <div class="cv-entry"><span class="cv-date">Oct 2020–Mar 2021</span><div><h3>Editorial Intern · Beijing Academy of Artificial Intelligence</h3><p>Tracked machine-learning research and wrote technical reviews.</p></div></div>
     </section>
@@ -85,6 +86,10 @@ alternate_zh_url: "/zh/cv/"
         <li>
           <span class="pub-year">{% if pub.citation_date %}{{ pub.citation_date }}{% else %}{{ pub.date | date: "%Y" }}{% endif %}</span>
           <div><a href="{{ pub.url | relative_url }}">{{ pub.title | escape }}</a></div>
+          <div class="pub-info">
+            {% if pub.paperurl %}<a href="{{ pub.paperurl }}" target="_blank" rel="noopener noreferrer">Original paper / preprint ↗</a>{% endif %}
+            {% if pub.research_url %} &nbsp;·&nbsp; <a href="{{ pub.research_url | relative_url }}">Research note ↗</a>{% endif %}
+          </div>
           <div class="pub-info">{{ pub.venue | escape }}</div>
         </li>
         {% endfor %}
