@@ -1,0 +1,89 @@
+---
+layout: raw
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ page.title | escape }} | Zhanghao Zhouyin — Publications</title>
+<meta name="description" content="{{ page.excerpt | default: page.title | strip_html | normalize_whitespace | escape }}">
+{% include lamp-head.html %}
+{% include lamp-profile-style.html %}
+{% comment %}Keep the Highwire/Google Scholar metadata that the older AcademicPages layout supplied.{% endcomment %}
+<meta name="citation_title" content="{{ page.title | escape }}">
+{% for paper_author in page.paper_authors %}
+<meta name="citation_author" content="{{ paper_author | escape }}">
+{% endfor %}
+<meta name="citation_publication_date" content="{% if page.citation_date %}{{ page.citation_date }}{% else %}{{ page.date | date: '%Y/%m/%d' }}{% endif %}">
+{% if page.journal %}<meta name="citation_journal_title" content="{{ page.journal | escape }}">{% endif %}
+{% if page.conference %}<meta name="citation_conference_title" content="{{ page.conference | escape }}">{% endif %}
+{% if page.volume %}<meta name="citation_volume" content="{{ page.volume }}">{% endif %}
+{% if page.doi %}<meta name="citation_doi" content="{{ page.doi | escape }}">{% endif %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "@id": {{ page.url | absolute_url | append: '#article' | jsonify }},
+  "url": {{ page.url | absolute_url | jsonify }},
+  "headline": {{ page.title | jsonify }},
+  "author": [{% for paper_author in page.paper_authors %}{"@type":"Person","name":{{ paper_author | jsonify }}}{% unless forloop.last %},{% endunless %}{% endfor %}],
+  "datePublished": {% if page.citation_date %}{{ page.citation_date | jsonify }}{% else %}{{ page.date | date: '%Y-%m-%d' | jsonify }}{% endif %},
+  "description": {{ page.excerpt | default: page.title | strip_html | jsonify }},
+  "sameAs": {{ page.paperurl | jsonify }}{% if page.doi %},
+  "identifier": {{ page.doi | prepend: 'https://doi.org/' | jsonify }}{% endif %}
+}
+</script>
+<style>
+  .publication-title{font-size:clamp(30px,4.6vw,46px)!important;line-height:1.19!important;overflow-wrap:anywhere}
+  .publication-authors{font-size:14px;color:#BEAE9A;line-height:1.8;margin-top:18px}
+  .pub-source{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.15px;line-height:1.7;color:#D8B27A;margin-top:16px}
+  .pub-prose p,.pub-prose ul,.pub-prose ol{margin:0 0 17px}
+  .pub-prose ul,.pub-prose ol{padding-left:20px}
+  .pub-prose h2,.pub-prose h3{font-size:19px;line-height:1.4;margin:24px 0 12px}
+  .pub-prose a{color:#E9C784}
+  .pub-prose code{font-family:'IBM Plex Mono',monospace;font-size:90%;overflow-wrap:anywhere}
+  .pub-prose img{max-width:100%;height:auto}
+  .pub-record-label{font-family:'IBM Plex Mono',monospace;letter-spacing:1px;font-size:11px;color:#B1A393;text-transform:uppercase}
+  .pub-record-note{margin-top:16px;font-size:13px;color:#A69989;line-height:1.7}
+  .pub-reference{font-size:14px;overflow-wrap:anywhere}
+</style>
+</head>
+<body>
+<div class="page">
+  {% include lamp-nav.html active="pubs" %}
+  <header class="profile-intro">
+    <p class="profile-kicker"><span class="ember"></span> Publication record</p>
+    <h1 class="publication-title">{{ page.title | escape }}</h1>
+    {% if page.paper_authors %}
+    <p class="publication-authors">{% for paper_author in page.paper_authors %}{{ paper_author | escape }}{% unless forloop.last %} · {% endunless %}{% endfor %}</p>
+    {% endif %}
+    <p class="pub-source">{% if page.venue %}{{ page.venue | escape }}{% endif %}</p>
+    <div class="profile-links">
+      {% if page.paperurl %}<a href="{{ page.paperurl }}" target="_blank" rel="noopener noreferrer">Original publication / preprint ↗</a>{% endif %}
+      {% if page.preprint_url and page.preprint_url != page.paperurl %}<a href="{{ page.preprint_url }}" target="_blank" rel="noopener noreferrer">ArXiv version ↗</a>{% endif %}
+      {% if page.research_url %}<a href="{{ page.research_url | relative_url }}">Research background ↗</a>{% endif %}
+      <a href="{{ '/publications/' | relative_url }}">All publications ↗</a>
+      <a href="{{ '/cv/' | relative_url }}">Academic CV ↗</a>
+    </div>
+  </header>
+  <main class="profile-content">
+    <section aria-labelledby="publication-overview">
+      <h2 id="publication-overview">Abstract and research overview</h2>
+      <p class="pub-record-label">Paper record · Original source linked above</p>
+      <div class="pub-prose">{{ content }}</div>
+      <p class="pub-record-note">This page is part of the author's maintained research bibliography. The text may be an author-written overview or an abstract from an earlier manuscript version; consult the linked publisher or preprint for the version of record.</p>
+    </section>
+    {% if page.citation %}
+    <section aria-labelledby="publication-citation">
+      <h2 id="publication-citation">Citation</h2>
+      <p class="pub-reference">{{ page.citation | escape }}</p>
+      {% if page.doi %}<p class="pub-record-note">DOI: <a href="https://doi.org/{{ page.doi | escape }}" target="_blank" rel="noopener noreferrer">{{ page.doi | escape }}</a></p>{% endif %}
+    </section>
+    {% endif %}
+  </main>
+  {% include lamp-footer.html %}
+</div>
+{% include lamp-embers.html %}
+</body>
+</html>
