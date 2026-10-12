@@ -1,0 +1,101 @@
+---
+layout: raw
+permalink: /cv/
+title: "Academic CV"
+description: "Academic profile of Zhanghao Zhouyin, Physics PhD researcher at McGill: electronic structure, quantum transport, scientific software, education, work and papers."
+redirect_from:
+  - /resume
+  - /resume/
+  - /cv.html
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Academic CV | Zhanghao Zhouyin</title>
+<meta name="description" content="{{ page.description | escape }}">
+{% include lamp-head.html %}
+{% include lamp-profile-style.html %}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ProfilePage","@id":"{{ page.url | absolute_url }}#profile","url":"{{ page.url | absolute_url }}","mainEntity":{"@id":"{{ '/' | absolute_url }}#person","@type":"Person","name":"Zhanghao Zhouyin"}}
+</script>
+</head>
+<body>
+<div class="page">
+  {% include lamp-nav.html %}
+  <header class="profile-intro">
+    <p class="profile-kicker"><span class="ember"></span> Curriculum vitae</p>
+    <h1>Zhanghao Zhouyin <span style="font-size:.55em;color:#AAA091;white-space:nowrap">周寅张皓</span></h1>
+    <p class="profile-meta">Physics PhD candidate · McGill University · Montréal, Canada</p>
+    <p class="profile-deck"><span class="i18n-zh">我的研究在电子结构、量子输运和科学计算的交界处：从机器学习预测哈密顿量，到大规模数值求解器，再到可验证的物性计算。</span><span class="i18n-en">My research connects electronic structure, quantum transport, and high-performance scientific computing: from learned Hamiltonians to scalable solvers and observable physical properties.</span></p>
+    <p class="profile-note"><span class="i18n-zh">部分论文采用 Yinzhanghao Zhou 或 YinZhangHao Zhou 署名。</span><span class="i18n-en">Some publications use the author name Yinzhanghao Zhou or YinZhangHao Zhou.</span></p>
+    <div class="profile-links">
+      <a href="{{ '/research/' | relative_url }}">Research ↗</a>
+      <a href="{{ '/publications/' | relative_url }}">Publications ↗</a>
+      <a href="https://scholar.google.com/citations?user=vSMmfvUAAAAJ" target="_blank" rel="noopener">Google Scholar ↗</a>
+      <a href="https://github.com/floatingCatty" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="mailto:zhouyinzhanghao@gmail.com">Email ↗</a>
+    </div>
+  </header>
+  <main class="profile-content" id="main-content">
+    <section aria-labelledby="cv-education">
+      <h2 id="cv-education"><span class="i18n-zh">教育经历</span><span class="i18n-en">Education</span></h2>
+      <div class="cv-entry"><span class="cv-date">2024–<span class="i18n-zh">至今</span><span class="i18n-en">present</span></span><div><h3><span class="i18n-zh">物理学博士，McGill University</span><span class="i18n-en">Ph.D. candidate in Physics, McGill University</span></h3><p><span class="i18n-zh">导师：Prof. Hong Guo；预计 2027 年完成。</span><span class="i18n-en">Supervisor: Prof. Hong Guo; anticipated completion in 2027.</span></p></div></div>
+      <div class="cv-entry"><span class="cv-date">2021–2024</span><div><h3><span class="i18n-zh">计算机科学硕士，天津大学</span><span class="i18n-en">M.E. in Computer Science, Tianjin University</span></h3><p><span class="i18n-zh">2024 年毕业。</span><span class="i18n-en">Completed in 2024.</span></p></div></div>
+      <div class="cv-entry"><span class="cv-date">2017–2021</span><div><h3><span class="i18n-zh">计算机科学学士，天津工业大学</span><span class="i18n-en">B.S. in Computer Science, Tiangong University</span></h3><p><span class="i18n-zh">2021 年毕业。</span><span class="i18n-en">Completed in 2021.</span></p></div></div>
+    </section>
+    <section aria-labelledby="cv-research">
+      <h2 id="cv-research"><span class="i18n-zh">研究方向</span><span class="i18n-en">Research areas</span></h2>
+      <ul>
+        <li><strong><span class="i18n-zh">AI 增强的电子结构</span><span class="i18n-en">Machine-learned electronic structure.</span></strong> <span class="i18n-zh">用局域模型预测哈密顿量和量子算符（DeePTB、SLEM），并研究更大体系的计算方法。</span><span class="i18n-en">Predicting Hamiltonians and quantum operators from atomic environments, including DeePTB and SLEM.</span></li>
+        <li><strong><span class="i18n-zh">大规模数值算法</span><span class="i18n-en">Scalable numerical methods.</span></strong> <span class="i18n-zh">分布式稀疏矩阵、线性代数、电子态与物性计算（VBCSR 等）。</span><span class="i18n-en">Distributed sparse matrices, numerical linear algebra, and electronic-property calculations (including VBCSR).</span></li>
+        <li><strong><span class="i18n-zh">量子输运与可微模拟</span><span class="i18n-en">Quantum transport and differentiable simulation.</span></strong> <span class="i18n-zh">NEGF、AD-NEGF，以及从学习到的哈密顿量到输运物理量的计算。</span><span class="i18n-en">NEGF, AD-NEGF, and computing transport observables from learned Hamiltonians.</span></li>
+        <li><strong><span class="i18n-zh">可复现的科学计算</span><span class="i18n-en">Reproducible scientific computing.</span></strong> <span class="i18n-zh">让研究人员与 AI Agent 在本地和计算集群上运行、记录、复现计算（flower）。</span><span class="i18n-en">Tools for researchers and AI agents to record, run and reproduce calculations across local and remote systems (flower).</span></li>
+      </ul>
+    </section>
+    <section aria-labelledby="cv-roles">
+      <h2 id="cv-roles"><span class="i18n-zh">研究和工作经历</span><span class="i18n-en">Research experience</span></h2>
+      <div class="cv-entry"><span class="cv-date">Oct 2025–Sep 2026</span><div><h3>Research Intern · Nanoacademic Technologies Inc.</h3><p><span class="i18n-zh">加拿大蒙特利尔；科学与量子器件模拟软件。</span><span class="i18n-en">Montréal, Canada; scientific and quantum-device simulation software.</span></p></div></div>
+      <div class="cv-entry"><span class="cv-date">May 2022–Jun 2024</span><div><h3>Research Intern · AI for Science Institute</h3><p><span class="i18n-zh">北京；机器学习与计算材料研究。</span><span class="i18n-en">Beijing; machine learning and computational-materials research.</span></p></div></div>
+      <div class="cv-entry"><span class="cv-date">Oct 2020–Mar 2021</span><div><h3>Editorial Intern · Beijing Academy of Artificial Intelligence</h3></div></div>
+    </section>
+    <section aria-labelledby="cv-software">
+      <h2 id="cv-software"><span class="i18n-zh">科研软件</span><span class="i18n-en">Research software</span></h2>
+      <ul>
+        <li><strong><a href="https://github.com/deepmodeling/DeePTB">DeePTB</a></strong> — <span class="i18n-zh">机器学习紧束缚哈密顿量；</span><span class="i18n-en">learned tight-binding Hamiltonians;</span> <a href="{{ '/research/deeptb/' | relative_url }}">research note</a></li>
+        <li><strong><a href="https://github.com/DeepElectron/vbcsr">VBCSR</a></strong> — <span class="i18n-zh">面向大规模物理模拟的分布式变块稀疏矩阵；</span><span class="i18n-en">distributed variable-block sparse matrices;</span> <a href="{{ '/research/vbcsr/' | relative_url }}">research note</a></li>
+        <li><strong><a href="https://github.com/floatingCatty/ADNEGF">AD-NEGF</a></strong> — <span class="i18n-zh">可微非平衡格林函数量子输运；</span><span class="i18n-en">differentiable nonequilibrium Green's-function transport;</span> <a href="{{ '/research/ad-negf/' | relative_url }}">research note</a></li>
+        <li><strong><a href="https://github.com/floatingCatty/flower">flower</a></strong> — <span class="i18n-zh">记录和复现科学计算工作流；</span><span class="i18n-en">recording and reproducing scientific-computing workflows;</span> <a href="{{ '/research/flower/' | relative_url }}">research note</a></li>
+      </ul>
+    </section>
+    <section aria-labelledby="cv-publications">
+      <h2 id="cv-publications"><span class="i18n-zh">论文与预印本</span><span class="i18n-en">Publications and preprints</span></h2>
+      <p class="profile-note"><span class="i18n-zh">以下目录直接读取本站的已核对论文记录，避免旧版简历与正式发表信息不一致。</span><span class="i18n-en">This list is generated from the site's maintained publication records, so titles and publication years are not independently duplicated in the CV.</span></p>
+      {% assign cv_pubs = site.publications | sort: 'date' | reverse %}
+      <ul class="pub-list">
+        {% for pub in cv_pubs %}
+        <li>
+          <span class="pub-year">{% if pub.citation_date %}{{ pub.citation_date }}{% else %}{{ pub.date | date: "%Y" }}{% endif %}</span>
+          <div><a href="{{ pub.url | relative_url }}">{{ pub.title | escape }}</a></div>
+          <div class="pub-info">{{ pub.venue | escape }}</div>
+        </li>
+        {% endfor %}
+      </ul>
+      <p><a href="{{ '/publications/' | relative_url }}"><span class="i18n-zh">查看完整论文与引用信息</span><span class="i18n-en">Browse publication records and citation details</span> ↗</a></p>
+    </section>
+    <section aria-labelledby="cv-skills">
+      <h2 id="cv-skills"><span class="i18n-zh">技术与荣誉</span><span class="i18n-en">Technical background and recognition</span></h2>
+      <p><strong><span class="i18n-zh">计算与软件：</span><span class="i18n-en">Computing:</span></strong> C++17, Python, MPI/OpenMP, distributed sparse linear algebra, electronic-structure and quantum-transport simulation, PETSc, ScaLAPACK/ELPA, HDF5.</p>
+      <p><strong><span class="i18n-zh">奖学金：</span><span class="i18n-en">Fellowship:</span></strong> Dr. &amp; Mrs. Milton Leong Fellowship in Science, McGill University.</p>
+    </section>
+    <section aria-labelledby="cv-contact">
+      <h2 id="cv-contact"><span class="i18n-zh">联系方式</span><span class="i18n-en">Contact</span></h2>
+      <p><a href="mailto:zhouyinzhanghao@gmail.com">zhouyinzhanghao@gmail.com</a> · <a href="https://www.linkedin.com/in/zhanghao-zhouyin-4aaa471a5/">LinkedIn</a> · <a href="{{ '/about/' | relative_url }}">About</a></p>
+    </section>
+  </main>
+  {% include lamp-footer.html %}
+</div>
+{% include lamp-embers.html %}
+</body>
+</html>
