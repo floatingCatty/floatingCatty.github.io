@@ -275,6 +275,16 @@ def main(root: Path) -> int:
     expect("https://floatingcatty.github.io/googlec07fc31230407367.html"
            not in sitemap_urls, "Verification file should not be promoted as an indexable article")
 
+    # The IndexNow key is an ownership proof, not an indexable document.
+    key = "aa524f0e6a15332a02207f2fc2b621a9"
+    keyfile = root / (key + ".txt")
+    expect(keyfile.is_file(), "IndexNow proof missing from deployed site")
+    if keyfile.is_file():
+        expect(keyfile.read_text(encoding="utf-8").strip() == key,
+               "IndexNow proof content mismatches its filename")
+    expect(("https://floatingcatty.github.io/" + key + ".txt") not in sitemap_urls,
+           "IndexNow proof should not appear in sitemap")
+
     research = json_file("research.json")
     papers = json_file("publications.json")
     notes = research.get("items", [])
