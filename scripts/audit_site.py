@@ -191,6 +191,17 @@ def main(root: Path) -> int:
            "Internal citation audit leaked into sitemap")
     expect(resolve_url("https://floatingcatty.github.io/docs/publication-source-audit/") is None,
            "Internal citation audit is still publicly rendered")
+    custom_404 = root / "404.html"
+    expect(custom_404.is_file(), "Custom 404 page missing")
+    if custom_404.is_file():
+        notfound = custom_404.read_text(encoding="utf-8").lower()
+        expect('name="robots" content="noindex,follow"' in notfound,
+               "404 page must be explicitly non-indexable")
+        expect('/cv/' in notfound and '/research/' in notfound,
+               "404 should lead visitors to current profile and research")
+    expect("https://floatingcatty.github.io/404.html" not in sitemap_urls,
+           "404 page must not be in sitemap")
+
     verification = root / "googlec07fc31230407367.html"
     expect(verification.is_file(), "Google verification HTML was removed")
     if verification.is_file():
