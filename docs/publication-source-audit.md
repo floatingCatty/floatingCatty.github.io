@@ -16,7 +16,7 @@ from a proceedings record.
 | NQS embedding | https://doi.org/10.1103/rkd8-q6yl | Published journal article, five authors | Physical Review B **113**, 155123, 10 Apr 2026 |
 | Moiré phonons | https://arxiv.org/abs/2607.06711 | Public preprint; no journal acceptance asserted | arXiv, 7 Jul 2026 |
 | VBCSR | https://arxiv.org/abs/2609.04397 | Public preprint; no journal acceptance asserted | arXiv, 3 Sep 2026 |
-| DeePTB-NEGF | https://arxiv.org/abs/2512.11291 | Public preprint; no journal acceptance asserted | arXiv, 12 Dec 2025 |
+| DeePTB-NEGF (2D materials) | https://doi.org/10.1109/MoSICom67153.2025.11398312 | Published IEEE conference paper, four authors; [arXiv version](https://arxiv.org/abs/2512.11291) retained | MoSICom 2025 (conference 10–12 Dec 2025; IEEE Xplore online 2 Mar 2026) |
 | DeePTB-NEGF nanoelectronics | https://doi.org/10.1038/s41524-025-01853-6 | Published journal article, seven authors | npj Computational Materials **11**, 375; 13 Dec 2025 |
 | DeePTB phonon-assisted optics | https://doi.org/10.1038/s41524-026-02137-3 | Published journal article, four authors | npj Computational Materials **12**, 268; 20 May 2026 |
 
@@ -36,6 +36,11 @@ from a proceedings record.
 - VBCSR benchmark results depend on block structure, matrix shapes,
   hardware and chosen competitors. Do not present one reported speedup as
   a general performance guarantee.
+- The graphene/h-BN/MoS2 DeePTB-NEGF paper was first available on
+  arXiv in December 2025 and is also a **published IEEE MoSICom 2025
+  conference paper**, DOI 10.1109/MoSICom67153.2025.11398312 (added to
+  IEEE Xplore 2 March 2026). The old stable publication-page permalink
+  intentionally remains unchanged to avoid breaking links.
 - DeePTB-NEGF reports results for graphene, h-BN and MoS2. Do not
   generalize the stated accuracy to arbitrary junctions, defects or
   industrial device designs without separate validation.
@@ -44,9 +49,9 @@ from a proceedings record.
 
 Several older `_publications/` entries contain author-written site
 summaries or earlier manuscript-era descriptions rather than a
-word-for-word copy of the final publisher abstract. The two new preprint
-entries are **explicitly original summaries**, not a reproduction of the
-source abstract.
+word-for-word copy of the final publisher abstract. The newly added VBCSR preprint and the 2D transport conference paper
+record are **original site summaries**, not reproductions of the source
+abstracts.
 
 Do not label these summaries `Publisher abstract` or claim they are exact
 reproductions of the published abstracts. Google Scholar's inclusion
