@@ -1,0 +1,38 @@
+name: IndexNow changed-page notifications
+
+on:
+  # GitHub Pages managed deployments can emit a successful deployment_status
+  # after a site is live. This avoids notifying about a page before deployment.
+  deployment_status:
+  # Reliable fallback and explicit re-submission for a genuine page update.
+  workflow_dispatch:
+    inputs:
+      urls:
+        description: 'Recently changed site-relative or absolute URLs (comma-separated; empty = infer most recent deployment diff)'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: indexnow-notifications
+  cancel-in-progress: false
+
+jobs:
+  notify:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.deployment_status.state == 'success' &&
+       github.event.deployment.environment == 'github-pages')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Read deployed source
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event_name == 'deployment_status' && github.event.deployment.sha || github.sha }}
+          fetch-depth: 2
+      - name: Notify only changed public URLs
+        env:
+          INDEXNOW_URLS: ${{ github.event.inputs.urls }}
+        run: python3 scripts/indexnow.py --root . --urls "$INDEXNOW_URLS"
