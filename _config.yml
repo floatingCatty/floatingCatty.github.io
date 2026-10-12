@@ -192,6 +192,11 @@ defaults:
       path: "googlec07fc31230407367.html"
     values:
       sitemap: false
+  # Ownership proof is a public UTF-8 text file, not a page to index.
+  - scope:
+      path: "aa524f0e6a15332a02207f2fc2b621a9.txt"
+    values:
+      sitemap: false
   # _posts  (essays + study notes — lamp-styled article layout)
   - scope:
       path: ""

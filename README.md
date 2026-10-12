@@ -142,3 +142,47 @@ The internal source-audit file `docs/publication-source-audit.md` is kept in
 GitHub for the maintainers but explicitly excluded from the public Jekyll build.
 The Search Console verification HTML must stay at the repository root and keep
 its exact token, even though it is not a research page.
+
+## IndexNow URL notifications
+
+The site uses the existing `/sitemap.xml` for full URL discovery. **IndexNow
+is only a change notification** for participating search engines (Bing and
+partners); it is **not** a Google Search Console submission, ranking signal,
+or indexing guarantee.
+
+Configuration:
+- Ownership: a 32-hex `<key>.txt` file at the public site root. It contains
+  exactly the same public key. Do not delete it while IndexNow is configured.
+  The Jekyll audit checks this file and keeps it out of the sitemap.
+- `.github/workflows/indexnow.yml`: submits only on successful
+  `github-pages` deployment-status events, with an explicit manual
+  `workflow_dispatch` fallback. Neither a draft PR nor a failed deploy
+  should notify search engines.
+- `scripts/indexnow.py`: reads `git diff HEAD^ HEAD`, finds added/updated
+  and deleted Jekyll permalinks, and sends a JSON URL batch to
+  `https://api.indexnow.org/indexnow`. A shared layout or configuration
+  change legitimately affects many pages; in that case it reads the current
+  live sitemap. It validates that every URL belongs to this exact host.
+- `scripts/test_indexnow.py` and the main site audit validate the key and
+  URL logic offline, without sending HTTP requests from a PR build.
+
+**After merging**, first confirm the key file is served at the public
+`https://floatingcatty.github.io/<key>.txt` URL. Check **Actions → IndexNow
+changed-page notifications**. If your GitHub Pages deployment type does not
+emit the expected `deployment_status` event, click **Run workflow** and
+pass a comma-separated list of recently changed URLs such as
+`/cv/,/research/vbcsr/`. An empty manual list attempts to infer changed
+URLs from the latest commit. For dry-run locally:
+
+```bash
+python3 -m unittest discover -s scripts -p 'test_indexnow.py' -v
+python3 scripts/indexnow.py --dry-run --urls '/cv/,/zh/cv/'
+```
+
+A 200 means the notification was received; 202 means received but key
+verification is pending. Neither status proves that any URL is indexed.
+Do not repeatedly resubmit the entire sitemap; notify meaningful changes
+only. Validate crawl/citation performance separately in Bing Webmaster Tools
+and Google Search Console.
+
+Protocol: https://www.indexnow.org/documentation
