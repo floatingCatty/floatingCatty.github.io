@@ -167,6 +167,46 @@ def main(root: Path) -> int:
                         "Alea iacta est.", "Zhanghao's Blog")),
                    slug + " still contains content from the retired CV/website")
 
+    # Full-language profile URLs must be crawlable independently.
+    for slug in ("cv", "about"):
+        en_url = "https://floatingcatty.github.io/" + slug + "/"
+        zh_url = "https://floatingcatty.github.io/zh/" + slug + "/"
+        for url, lang, other in ((en_url, "en", zh_url),
+                                 (zh_url, "zh-Hans", en_url)):
+            parsed = parse_page(url)
+            if not parsed:
+                continue
+            expect(parsed.canonical == [url], "Noncanonical localized profile: " + url)
+            expect(parsed.html_lang == lang, "Wrong HTML language for " + url)
+            expect(parsed.h1_count == 1, "Wrong H1 count: " + url)
+            expect(parsed.alternates.get("en") == en_url and
+                   parsed.alternates.get("zh-Hans") == zh_url,
+                   "Localized profile missing reciprocal hreflang: " + url)
+            expect(any(urlsplit(href or "").path == urlsplit(other).path
+                       for href in parsed.links),
+                   "Localized profile missing a visible alternate link: " + url)
+            expect(url.rstrip("/") in sitemap_urls, "Localized profile missing from sitemap: " + url)
+            profile_schemas = [x for x in parsed.schemas if isinstance(x, dict)
+                               and x.get("@type") == "ProfilePage"]
+            expect(len(profile_schemas) == 1 and
+                   profile_schemas[0].get("inLanguage") == lang,
+                   "Profile schema language is wrong: " + url)
+            path = resolve_url(url)
+            html = path.read_text(encoding="utf-8") if path else ""
+            expect('class="i18n-en"' not in html and
+                   'class="i18n-zh"' not in html,
+                   "Duplicated translated profile body: " + url)
+    cv_path = resolve_url("https://floatingcatty.github.io/cv/")
+    if cv_path:
+        cv_html = cv_path.read_text(encoding="utf-8")
+        expect("M.E. in Electronic Information" in cv_html,
+               "CV misidentifies Tianjin University master's degree")
+        expect("M.E. in Computer Science" not in cv_html,
+               "Obsolete master degree label remains")
+        expect(all(word in cv_html for word in
+                   ("AI4S-Benchmark", "RSATB", "RESCU++", "QTCAD")),
+               "CV omits important source-verified work")
+
     # Historical paths should guide visitors to the current URLs, not expose
     # a second live copy with the old academicpages layout.
     for previous, destination in (
@@ -216,7 +256,7 @@ def main(root: Path) -> int:
     notes = research.get("items", [])
     entries = papers.get("papers", [])
     expect(len(notes) >= 9, "Fewer than nine research/software notes in generated feed")
-    expect(len(entries) >= 7, "Fewer than seven publications in generated feed")
+    expect(len(entries) >= 11, "Fewer than eleven verified publications in generated feed")
     for item in notes + entries:
         url = item.get("url", "")
         expect(url.rstrip("/") in sitemap_urls,
