@@ -256,8 +256,51 @@ def main(root: Path) -> int:
     papers = json_file("publications.json")
     notes = research.get("items", [])
     entries = papers.get("papers", [])
-    expect(len(notes) >= 9, "Fewer than nine research/software notes in generated feed")
+    expect(len(notes) >= 11, "Fewer than eleven research/software and technical guide entries")
     expect(len(entries) >= 11, "Fewer than eleven verified publications in generated feed")
+    # The high-level technical guide should be discoverable in both
+    # languages and cite all its public primary sources, not just the
+    # reference DeePTB paper. It is a BlogPosting, not a fictitious journal work.
+    guide_slug = "learned-hamiltonians-to-observables"
+    guide_en = "https://floatingcatty.github.io/research/" + guide_slug + "/"
+    guide_zh = "https://floatingcatty.github.io/zh/research/" + guide_slug + "/"
+    guide_record = next((x for x in notes if x.get("url") == guide_en), None)
+    expect(guide_record is not None, "High-level technical perspective missing from research feed")
+    if guide_record:
+        expect(guide_record.get("url_zh") == guide_zh,
+               "High-level guide missing Chinese URL in research feed")
+        for url, expected_lang in ((guide_en, "en"), (guide_zh, "zh-Hans")):
+            guide = parse_page(url)
+            if guide:
+                posts = [x for x in guide.schemas if isinstance(x, dict)
+                         and x.get("@type") == "BlogPosting"]
+                expect(len(posts) == 1, "Guide should have one BlogPosting schema: " + url)
+                if posts:
+                    source_urls = posts[0].get("citation")
+                    expect(isinstance(source_urls, list) and len(source_urls) >= 6,
+                           "Guide does not cite the primary papers: " + url)
+                    expect(posts[0].get("inLanguage") == expected_lang,
+                           "Guide has wrong structured-data language: " + url)
+                expect(any("s41524-025-01853-6" in (href or "") for href in guide.links),
+                       "Guide missing published device-transport source: " + url)
+                expect(any("2609.04397" in (href or "") for href in guide.links),
+                       "Guide missing VBCSR source: " + url)
+    for url in (guide_en, guide_zh):
+        index_url = "https://floatingcatty.github.io/" + (
+            "research/" if url == guide_en else "zh/research/")
+        idx = parse_page(index_url)
+        if idx:
+            expect(any(urlsplit(href or "").path == urlsplit(url).path
+                       for href in idx.links),
+                   "Localized research index omits flagship guide: " + index_url)
+
+    conference = next((x for x in entries
+                       if "2025-12-12-DeePTB-NEGF-preprint" in x.get("url", "")), None)
+    expect(conference is not None and
+           conference.get("doi") == "10.1109/MoSICom67153.2025.11398312" and
+           conference.get("preprint_url") == "https://arxiv.org/abs/2512.11291",
+           "Published IEEE conference record must preserve its public arXiv provenance")
+
     for item in notes + entries:
         url = item.get("url", "")
         expect(url.rstrip("/") in sitemap_urls,
