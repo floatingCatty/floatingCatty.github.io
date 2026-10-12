@@ -62,8 +62,8 @@ Conventions:
 
 ## Adding publications and research notes
 
-For the two **multilingual pilot notes** (`deeptb` and `flower`), each language has its
-own URL. The English source remains `_pages/research-<slug>.md` at
+For **all research and software notes**, each language has its own URL.
+The English source remains `_pages/research-<slug>.md` at
 `/research/<slug>/`; its Chinese counterpart is `_pages/research-<slug>-zh.md`
 at `/zh/research/<slug>/`. Both carry:
 
@@ -78,11 +78,19 @@ wrappers. The existing language toggle navigates between the two pages;
 the HTML head has reciprocal `hreflang` and self-canonical links. A note can
 have separate language URLs without depending on JavaScript to show its content.
 
-Other research notes remain in the original single-URL bilingual format for now.
-When adding a new note to that format, keep both wrappers as before. Do not
-copy this pilot structure over all notes until the pilot has been reviewed.
-In all cases, add one short card to `_pages/research.html`. A research note is
-a personal explanation of a project, not the original paper abstract.
+The English and Chinese research indexes live at `/research/` and
+`/zh/research/`. **Update both indexes** with one original-language card
+each, linking directly to the corresponding translation. The site homepage
+uses locale-aware links where a real Chinese equivalent exists.
+
+A research note is a personal explanation of a project, not the original
+paper abstract. A broader **technical perspective** may use
+`project_kind: guide` with a first-party source URL and
+`citation_urls:` listing several fully verified primary references.
+This renders `BlogPosting.citation` as a list of URLs and labels the note
+as a technical perspective, not a new research paper. Do not describe
+unpublished numerical results, or add SEO-only translations that do not
+contain a substantial independent-language body.
 
 An academic paper belongs in `_publications/`. Its front matter should
 include the **published** author list, journal or conference, date/year, DOI
