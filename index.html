@@ -15,7 +15,7 @@ layout: raw
 <meta property="og:url" content="{{ '/' | absolute_url }}">
 <meta name="twitter:card" content="summary">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Person","@id":"https://floatingcatty.github.io/#person","name":"Zhanghao Zhouyin","alternateName":["Yinzhanghao Zhou","YinZhangHao Zhou","周寅张皓"],"url":"https://floatingcatty.github.io/","affiliation":{"@type":"CollegeOrUniversity","name":"McGill University"},"knowsAbout":["Computational physics","Electronic structure","Machine-learned Hamiltonians","Quantum transport","AI for Science"],"sameAs":["https://github.com/floatingCatty","https://scholar.google.com/citations?user=vSMmfvUAAAAJ","https://www.linkedin.com/in/zhanghao-zhouyin-4aaa471a5/"]}
+{"@context":"https://schema.org","@type":"Person","@id":"https://floatingcatty.github.io/#person","name":"Zhanghao Zhouyin","alternateName":["Yinzhanghao Zhou","YinZhangHao Zhou","周寅张皓"],"url":"https://floatingcatty.github.io/","affiliation":{"@type":"CollegeOrUniversity","name":"McGill University"},"knowsAbout":["Computational physics","Scalable electronic structure","Machine-learned quantum operators","Quantum transport","Distributed sparse linear algebra","Reproducible scientific computing"],"sameAs":["https://github.com/floatingCatty","https://scholar.google.com/citations?user=vSMmfvUAAAAJ","https://www.linkedin.com/in/zhanghao-zhouyin-4aaa471a5/"]}
 </script>
 <link rel="icon" type="image/svg+xml" href="{{ '/images/favicon.svg' | relative_url }}">
 <link rel="alternate icon" href="{{ '/images/favicon.svg' | relative_url }}">
@@ -99,7 +99,9 @@ layout: raw
   .hero-slogan{display:flex;align-items:center;gap:15px;margin-top:22px;font-family:'Newsreader','Noto Serif SC',serif;font-style:italic;font-weight:400;font-size:clamp(20px,2.5vw,30px);line-height:1.3;letter-spacing:.2px;color:#D8B27A}
   .hero-slogan::before{content:'';width:28px;height:1px;background:linear-gradient(90deg,#E0AD58,rgba(224,173,88,.12));flex:none}
   .hero-sub{margin-top:26px;max-width:480px;font-size:clamp(15px,1.5vw,17.5px);line-height:1.72;color:#C7BCAB}
-  .hero-ctas{display:flex;flex-wrap:wrap;gap:14px 28px;margin-top:38px;align-items:center}
+  .hero-profile{margin-top:18px;max-width:540px;font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.85;letter-spacing:.18px;color:#D5C4A9}
+  .hero-profile a{border-bottom:1px solid rgba(224,173,88,.36)}
+  .hero-ctas{display:flex;flex-wrap:wrap;gap:14px 28px;margin-top:32px;align-items:center}
   .cta-main{display:inline-flex;align-items:center;gap:9px;font-size:14.5px;color:#F4DFC2;border-bottom:1px solid rgba(224,173,88,.45);padding-bottom:4px}
   .cta-main:hover{color:#F4DFC2;border-color:#E0AD58}
   .cta-dot{width:6px;height:6px;border-radius:50%;background:#E0AD58;box-shadow:0 0 8px 2px rgba(224,173,88,.7);flex:none}
@@ -276,6 +278,10 @@ layout: raw
       <h1 class="hero-name" data-i18n="heroName">Zhanghao Zhouyin</h1>
       <p class="hero-slogan" data-i18n="heroTitle">Keep a light on for curiosity.</p>
       <p class="hero-sub" data-i18n="heroSub">I work between physics and AI, trying to understand a little more of the world — and to keep a light on for others who want to know too.</p>
+      <p class="hero-profile">
+        <span class="i18n-zh">麦吉尔大学物理博士生 · 电子结构、量子输运、科学计算<br>研究工作与论文：<a href="{{ '/research/' | relative_url }}">Research ↗</a></span>
+        <span class="i18n-en">Physics PhD candidate at McGill University · electronic structure, quantum transport and scientific computing<br><a href="{{ '/research/' | relative_url }}">Research &amp; publications ↗</a></span>
+      </p>
       <div class="hero-ctas">
         <a href="#building" class="cta-main"><span class="cta-dot"></span><span data-i18n="cta1">What I'm building</span></a>
         <a href="#notes" class="cta-alt"><span data-i18n="cta2">Notes by the lamp</span> →</a>
@@ -432,7 +438,7 @@ layout: raw
         <h2 class="about-name" data-i18n="aboutName">Zhanghao Zhouyin</h2>
         <p class="about-body" data-i18n="aboutBody">I trained early in computer science and electronic engineering, then followed a stubborn question — what is the physical world behind all this technology? — into materials, quantum transport, and computational physics. Today I work where physics, machine learning, and scientific computing meet. Lately I’ve been trying to make AI agents that don’t just organize references or write code, but genuinely take part: proposing hypotheses, designing calculations, finding hidden structure. Whether it becomes research, software, or something I build, the question stays the same — can we make better scientific tools, so that individuals and small teams can understand complex things, test their ideas, and create.</p>
         <p class="about-meta" data-i18n="aboutMeta">PhD candidate, Physics · McGill University Contributor: DeePTB · DFTio · AD-NEGF · VBCSR</p>
-        <p class="about-cv"><a href="{{ '/cv/' | relative_url }}"><span data-i18n="cvLink">Full CV &amp; history</span> ↗</a></p>
+        <p class="about-cv"><a href="{{ '/about/' | relative_url }}"><span class="i18n-zh">更多介绍</span><span class="i18n-en">About my work</span> ↗</a> &nbsp;·&nbsp; <a href="{{ '/cv/' | relative_url }}"><span data-i18n="cvLink">Full CV &amp; history</span> ↗</a></p>
       </div>
     </div>
   </section>
