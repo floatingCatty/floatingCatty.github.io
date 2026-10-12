@@ -21,6 +21,7 @@ class Metadata(HTMLParser):
         self.canonical = []
         self.alternates = {}
         self.html_lang = None
+        self.h1_count = 0
         self.schemas = []
         self._reading_schema = False
         self._schema_parts = []
@@ -31,6 +32,8 @@ class Metadata(HTMLParser):
         a = dict(attrs)
         if tag == "html":
             self.html_lang = a.get("lang")
+        if tag == "h1":
+            self.h1_count += 1
         if tag == "meta":
             key = a.get("name") or a.get("property")
             if key:
@@ -139,6 +142,63 @@ def main(root: Path) -> int:
                "Homepage should expose the researcher identity")
         expect(any("/research/" in (href or "") for href in home.links),
                "Homepage does not link to research")
+
+    # The human-facing researcher and CV pages should not expose the old 2023-era
+    # resume or stale biography, and their canonical URL must stay unchanged.
+    for slug, expected in (("cv", "Ph.D. candidate in Physics"),
+                           ("about", "machine-learned")):
+        url = "https://floatingcatty.github.io/" + slug + "/"
+        profile = parse_page(url)
+        if profile:
+            expect(profile.canonical == [url],
+                   slug + " page needs one self-canonical URL")
+            expect(profile.h1_count == 1,
+                   slug + " page should have exactly one H1")
+            expect(bool(profile.meta.get("description", [""])[0]),
+                   slug + " page lacks its meta description")
+            expect("ProfilePage" in profile.schema_types(),
+                   slug + " page lacks a linked researcher profile schema")
+            page_path = resolve_url(url)
+            html = page_path.read_text(encoding="utf-8") if page_path else ""
+            expect(expected in html,
+                   slug + " page lacks current academic research identity")
+            expect(all(old not in html for old in
+                       ("Feb 2024 (expected)", "May 2022 - Till date",
+                        "Alea iacta est.", "Zhanghao's Blog")),
+                   slug + " still contains content from the retired CV/website")
+
+    # Historical paths should guide visitors to the current URLs, not expose
+    # a second live copy with the old academicpages layout.
+    for previous, destination in (
+        ("/resume", "/cv/"),
+        ("/resume/", "/cv/"),
+        ("/cv.html", "/cv/"),
+        ("/about.html", "/about/"),
+    ):
+        path = resolve_url("https://floatingcatty.github.io" + previous)
+        expect(path is not None,
+               "Legacy profile path lost its redirect: " + previous)
+        if path:
+            content = path.read_text(encoding="utf-8").lower()
+            expect("refresh" in content and destination in content,
+                   "Legacy path does not redirect to its current profile: " + previous)
+            expect("noindex" in content,
+                   "Legacy redirect should not be indexed: " + previous)
+
+    # Keep maintenance notes in GitHub but outside the public site. Do not
+    # accidentally delete or disable Search Console ownership verification.
+    expect("/docs/publication-source-audit" not in sitemap_urls,
+           "Internal citation audit leaked into sitemap")
+    expect(resolve_url("https://floatingcatty.github.io/docs/publication-source-audit/") is None,
+           "Internal citation audit is still publicly rendered")
+    verification = root / "googlec07fc31230407367.html"
+    expect(verification.is_file(), "Google verification HTML was removed")
+    if verification.is_file():
+        expect("google-site-verification: googlec07fc31230407367.html" in
+               verification.read_text(encoding="utf-8"),
+               "Google verification token was modified")
+    expect("https://floatingcatty.github.io/googlec07fc31230407367.html"
+           not in sitemap_urls, "Verification file should not be promoted as an indexable article")
 
     research = json_file("research.json")
     papers = json_file("publications.json")
