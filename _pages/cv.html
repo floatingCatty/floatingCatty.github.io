@@ -1,0 +1,115 @@
+---
+layout: raw
+permalink: /cv/
+title: "Academic CV"
+description: "Academic CV of Zhanghao Zhouyin, McGill Physics PhD candidate working on electronic structure, quantum transport and scientific computing."
+redirect_from:
+  - /resume
+  - /resume/
+  - /cv.html
+research_locale: en
+translation_url: "/zh/cv/"
+alternate_en_url: "/cv/"
+alternate_zh_url: "/zh/cv/"
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Academic CV | Zhanghao Zhouyin</title>
+<meta name="description" content="{{ page.description | escape }}">
+{% include lamp-head.html %}
+{% include lamp-profile-style.html %}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ProfilePage","inLanguage":"en","@id":"{{ page.url | absolute_url }}#profile","url":"{{ page.url | absolute_url }}","mainEntity":{"@id":"{{ '/' | absolute_url }}#person","@type":"Person","name":"Zhanghao Zhouyin"}}
+</script>
+</head>
+<body>
+<div class="page">
+  {% include lamp-nav.html %}
+  <header class="profile-intro">
+    <p class="profile-kicker"><span class="ember"></span> Curriculum vitae</p>
+    <h1>Zhanghao Zhouyin <span style="font-size:.55em;color:#AAA091;white-space:nowrap">周寅张皓</span></h1>
+    <p class="profile-meta">Physics PhD candidate · McGill University · Montréal, Canada</p>
+    <p class="profile-deck">I develop AI-native scientific computing systems that connect machine-learned physical models, high-performance simulation, and engineering-scale prediction, spanning numerical infrastructure, electronic and device simulation, differentiable physics, and multiscale software.</p>
+    <p class="profile-note">Some publications use the author name Yinzhanghao Zhou or YinZhangHao Zhou.</p>
+    <div class="profile-links">
+      <a href="{{ page.translation_url | relative_url }}" hreflang="zh-Hans">中文版本 ↗</a>
+      <a href="{{ '/research/' | relative_url }}">Research ↗</a>
+      <a href="{{ '/publications/' | relative_url }}">Publications ↗</a>
+      <a href="https://scholar.google.com/citations?user=vSMmfvUAAAAJ" target="_blank" rel="noopener">Google Scholar ↗</a>
+      <a href="https://github.com/floatingCatty" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="mailto:yinzhanghao.zhou@mail.mcgill.ca">McGill Email ↗</a>
+    </div>
+  </header>
+  <main class="profile-content" id="main-content">
+    <section aria-labelledby="cv-education">
+      <h2 id="cv-education">Education</h2>
+      <div class="cv-entry"><span class="cv-date">2024–present</span><div><h3>Ph.D. candidate in Physics, McGill University</h3><p>Supervisor: Prof. Hong Guo; anticipated completion in 2027.</p></div></div>
+      <div class="cv-entry"><span class="cv-date">2021–2024</span><div><h3>M.E. in Electronic Information, Tianjin University</h3><p>Supervisor: Prof. Peng Zhang.</p></div></div>
+      <div class="cv-entry"><span class="cv-date">2017–2021</span><div><h3>B.S. in Computer Science, Tiangong University</h3><p>Supervisor: Prof. Ding Liu.</p></div></div>
+    </section>
+    <section aria-labelledby="cv-research">
+      <h2 id="cv-research">AI-native scientific computing and research projects</h2>
+      <ul>
+        <li><strong><a href="{{ '/research/deeptb/' | relative_url }}">DeePTB</a> + <a href="{{ '/research/slem/' | relative_url }}">SLEM</a> · 2022–2025.</strong> Co-developed learned tight-binding electronic simulation for million-atom systems (Nature Communications 2024, co-first author) and led the localized equivariant SLEM quantum-operator model (ICLR 2025 Spotlight, first author).</li>
+        <li><strong><a href="{{ '/research/vbcsr/' | relative_url }}">VBCSR</a> · 2026.</strong> Designed an MPI-distributed variable-block sparse-matrix engine for orbital calculations, reporting up to 8.4× speedup in the tested sparse-multiplication benchmarks and an application to a 1,063,609-atom InP nanoparticle.</li>
+        <li><strong>RESCU++ · 2026–present.</strong> Developing a C++/Python LCAO-DFT platform built on VBCSR for molecular and periodic systems, magnetism, spin–orbit coupling and hybrid functionals, with Gaussian-process SCF acceleration, Bayesian relaxation and automated validation.</li>
+        <li><strong>RSATB · 2026–present.</strong> Developing diagonalization-free spectra, spatial electronic maps and response properties from large nonorthogonal Hamiltonians; large-scale twisted-trilayer-graphene study in progress, manuscript in preparation.</li>
+        <li><strong><a href="{{ '/research/ad-negf/' | relative_url }}">AD-NEGF</a>.</strong> End-to-end differentiable nonequilibrium Green's-function quantum-transport simulation (Physical Review B 2023).</li>
+        <li><strong><a href="{{ '/research/flower/' | relative_url }}">flower</a>.</strong> Records scientific-agent calculations across local, SSH and Slurm systems and exports auditable, rerunnable protocols.</li>
+      </ul>
+    </section>
+    <section aria-labelledby="cv-roles">
+      <h2 id="cv-roles">Industry and research experience</h2>
+      <div class="cv-entry"><span class="cv-date">Oct 2025–Sep 2026</span><div><h3>Research Intern · Nanoacademic Technologies Inc. (QTCAD)</h3><p>Montréal. AI-enhanced modeling for superconducting quantum devices, linking first-principles Hamiltonians, finite-element electrostatics, quantum dynamics, and circuit-level simulation in QTCAD workflows.</p></div></div>
+      <div class="cv-entry"><span class="cv-date">May 2022–Jun 2024</span><div><h3>Research Intern · AI for Science Institute</h3><p>Beijing; machine learning for materials simulation. Research mentors: Dr. Qiangqiang Gu and Dr. Linfeng Zhang.</p></div></div>
+      <div class="cv-entry"><span class="cv-date">Oct 2020–Mar 2021</span><div><h3>Editorial Intern · Beijing Academy of Artificial Intelligence</h3><p>Tracked machine-learning research and wrote technical reviews.</p></div></div>
+    </section>
+    <section aria-labelledby="cv-software">
+      <h2 id="cv-software">Research software</h2>
+      <ul>
+        <li><strong><a href="https://github.com/deepmodeling/DeePTB">DeePTB</a></strong> — learned tight-binding Hamiltonians; <a href="{{ '/research/deeptb/' | relative_url }}">research note</a></li>
+        <li><strong><a href="https://github.com/DeepElectron/vbcsr">VBCSR</a></strong> — distributed variable-block sparse matrices; <a href="{{ '/research/vbcsr/' | relative_url }}">research note</a></li>
+        <li><strong><a href="https://github.com/floatingCatty/ADNEGF">AD-NEGF</a></strong> — differentiable nonequilibrium Green's-function transport; <a href="{{ '/research/ad-negf/' | relative_url }}">research note</a></li>
+        <li><strong><a href="https://github.com/floatingCatty/flower">flower</a></strong> — recording and reproducing scientific-computing workflows; <a href="{{ '/research/flower/' | relative_url }}">research note</a></li>
+      </ul>
+    </section>
+    <section aria-labelledby="cv-publications">
+      <h2 id="cv-publications">Publications and preprints</h2>
+      <p class="profile-note">This list is generated from the site's maintained publication records, so titles and publication years are not independently duplicated in the CV.</p>
+      {% assign cv_pubs = site.publications | sort: 'date' | reverse %}
+      <ul class="pub-list">
+        {% for pub in cv_pubs %}
+        <li>
+          <span class="pub-year">{% if pub.citation_date %}{{ pub.citation_date }}{% else %}{{ pub.date | date: "%Y" }}{% endif %}</span>
+          <div><a href="{{ pub.url | relative_url }}">{{ pub.title | escape }}</a></div>
+          <div class="pub-info">{{ pub.venue | escape }}</div>
+        </li>
+        {% endfor %}
+      </ul>
+      <p><a href="{{ '/publications/' | relative_url }}">Browse publication records and citation details ↗</a></p>
+    </section>
+    <section aria-labelledby="cv-leadership">
+      <h2 id="cv-leadership">Leadership and service</h2>
+      <p><strong>AI4S-Benchmark</strong> · Initiator and coordinator (2026–present), organizing verifiable research-grade scientific-agent tasks across code, data, simulation and scientific tools.</p>
+      <p>Academic community: McGill Quantum Centre (MQC), Centre for the Physics of Materials (CPM), and RQMP.</p>
+    </section>
+    <section aria-labelledby="cv-skills">
+      <h2 id="cv-skills">Technical background and recognition</h2>
+      <p><strong>CS &amp; HPC:</strong> Distributed block-sparse algorithms, C++17, Python, MPI/OpenMP, ELPA, ScaLAPACK, PETSc/SLEPc, FFTW, MKL.</p>
+      <p><strong>AI &amp; ML:</strong> Equivariant graph networks, learned Hamiltonians, active learning, Gaussian processes, Bayesian optimization, neural quantum states, PyTorch/JAX.</p>
+      <p><strong>Physics &amp; multiscale:</strong> LCAO-DFT, tight binding/NEGF, stochastic spectral and response methods, quantum embedding, TCAD, multiphysics device/circuit simulation.</p>
+      <p><strong>Honors:</strong> Dr. &amp; Mrs. Milton Leong Fellowship in Science (McGill University); National College Innovation Project (Tiangong University, 2018–2020).</p>
+    </section>
+    <section aria-labelledby="cv-contact">
+      <h2 id="cv-contact">Contact</h2>
+      <p><a href="mailto:yinzhanghao.zhou@mail.mcgill.ca">yinzhanghao.zhou@mail.mcgill.ca</a> · <a href="https://www.linkedin.com/in/zhanghao-zhouyin-4aaa471a5/">LinkedIn</a> · <a href="{{ '/about/' | relative_url }}">About</a></p>
+    </section>
+  </main>
+  {% include lamp-footer.html %}
+</div>
+{% include lamp-embers.html %}
+</body>
+</html>

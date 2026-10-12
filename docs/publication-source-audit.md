@@ -17,6 +17,8 @@ from a proceedings record.
 | Moiré phonons | https://arxiv.org/abs/2607.06711 | Public preprint; no journal acceptance asserted | arXiv, 7 Jul 2026 |
 | VBCSR | https://arxiv.org/abs/2609.04397 | Public preprint; no journal acceptance asserted | arXiv, 3 Sep 2026 |
 | DeePTB-NEGF | https://arxiv.org/abs/2512.11291 | Public preprint; no journal acceptance asserted | arXiv, 12 Dec 2025 |
+| DeePTB-NEGF nanoelectronics | https://doi.org/10.1038/s41524-025-01853-6 | Published journal article, seven authors | npj Computational Materials **11**, 375; 13 Dec 2025 |
+| DeePTB phonon-assisted optics | https://doi.org/10.1038/s41524-026-02137-3 | Published journal article, four authors | npj Computational Materials **12**, 268; 20 May 2026 |
 
 ## Important version details
 

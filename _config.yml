@@ -133,6 +133,8 @@ exclude:
   - .jekyll-assets-cache
   - .sass-cache
   - CHANGELOG
+  # Maintainer-only source audit: keep in GitHub, not on the public website.
+  - docs/publication-source-audit.md
   - Capfile
   - Gemfile
   - Gruntfile.js
@@ -185,6 +187,11 @@ collections:
 
 # Defaults
 defaults:
+  # Preserve Google's HTML verification file unchanged, but don't advertise it as content in the sitemap.
+  - scope:
+      path: "googlec07fc31230407367.html"
+    values:
+      sitemap: false
   # _posts  (essays + study notes — lamp-styled article layout)
   - scope:
       path: ""

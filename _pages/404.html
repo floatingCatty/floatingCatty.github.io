@@ -1,0 +1,36 @@
+---
+layout: raw
+title: "Page not found"
+permalink: /404.html
+sitemap: false
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,follow">
+<title>Page not found | Zhanghao Zhouyin</title>
+<meta name="description" content="This address is no longer here. Browse the current research, publications and academic profile.">
+{% include lamp-head.html %}
+{% include lamp-profile-style.html %}
+</head>
+<body>
+<div class="page">
+  {% include lamp-nav.html %}
+  <main class="profile-intro" style="min-height:55vh">
+    <p class="profile-kicker"><span class="ember"></span> 404 · <span class="i18n-zh">未找到页面</span><span class="i18n-en">Page not found</span></p>
+    <h1><span class="i18n-zh">这页已经不在这里了。</span><span class="i18n-en">This page isn't here anymore.</span></h1>
+    <p class="profile-deck"><span class="i18n-zh">如果你是从旧简历或旧主页的链接过来，可以从下方找到现在的内容。</span><span class="i18n-en">If you followed an older CV or homepage link, these are the current places to look.</span></p>
+    <div class="profile-links">
+      <a href="{{ '/' | relative_url }}">Home ↗</a>
+      <a href="{{ '/cv/' | relative_url }}">Current CV ↗</a>
+      <a href="{{ '/research/' | relative_url }}">Research ↗</a>
+      <a href="{{ '/publications/' | relative_url }}">Publications ↗</a>
+    </div>
+  </main>
+  {% include lamp-footer.html %}
+</div>
+{% include lamp-embers.html %}
+</body>
+</html>

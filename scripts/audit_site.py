@@ -21,6 +21,7 @@ class Metadata(HTMLParser):
         self.canonical = []
         self.alternates = {}
         self.html_lang = None
+        self.h1_count = 0
         self.schemas = []
         self._reading_schema = False
         self._schema_parts = []
@@ -31,6 +32,8 @@ class Metadata(HTMLParser):
         a = dict(attrs)
         if tag == "html":
             self.html_lang = a.get("lang")
+        if tag == "h1":
+            self.h1_count += 1
         if tag == "meta":
             key = a.get("name") or a.get("property")
             if key:
@@ -140,12 +143,121 @@ def main(root: Path) -> int:
         expect(any("/research/" in (href or "") for href in home.links),
                "Homepage does not link to research")
 
+    # The human-facing researcher and CV pages should not expose the old 2023-era
+    # resume or stale biography, and their canonical URL must stay unchanged.
+    for slug, expected in (("cv", "Ph.D. candidate in Physics"),
+                           ("about", "machine-learned")):
+        url = "https://floatingcatty.github.io/" + slug + "/"
+        profile = parse_page(url)
+        if profile:
+            expect(profile.canonical == [url],
+                   slug + " page needs one self-canonical URL")
+            expect(profile.h1_count == 1,
+                   slug + " page should have exactly one H1")
+            expect(bool(profile.meta.get("description", [""])[0]),
+                   slug + " page lacks its meta description")
+            expect("ProfilePage" in profile.schema_types(),
+                   slug + " page lacks a linked researcher profile schema")
+            page_path = resolve_url(url)
+            html = page_path.read_text(encoding="utf-8") if page_path else ""
+            expect(expected in html,
+                   slug + " page lacks current academic research identity")
+            expect(all(old not in html for old in
+                       ("Feb 2024 (expected)", "May 2022 - Till date",
+                        "Alea iacta est.", "Zhanghao's Blog")),
+                   slug + " still contains content from the retired CV/website")
+
+    # Full-language profile URLs must be crawlable independently.
+    for slug in ("cv", "about"):
+        en_url = "https://floatingcatty.github.io/" + slug + "/"
+        zh_url = "https://floatingcatty.github.io/zh/" + slug + "/"
+        for url, lang, other in ((en_url, "en", zh_url),
+                                 (zh_url, "zh-Hans", en_url)):
+            parsed = parse_page(url)
+            if not parsed:
+                continue
+            expect(parsed.canonical == [url], "Noncanonical localized profile: " + url)
+            expect(parsed.html_lang == lang, "Wrong HTML language for " + url)
+            expect(parsed.h1_count == 1, "Wrong H1 count: " + url)
+            expect(parsed.alternates.get("en") == en_url and
+                   parsed.alternates.get("zh-Hans") == zh_url,
+                   "Localized profile missing reciprocal hreflang: " + url)
+            expect(any(urlsplit(href or "").path == urlsplit(other).path
+                       for href in parsed.links),
+                   "Localized profile missing a visible alternate link: " + url)
+            expect(url.rstrip("/") in sitemap_urls, "Localized profile missing from sitemap: " + url)
+            profile_schemas = [x for x in parsed.schemas if isinstance(x, dict)
+                               and x.get("@type") == "ProfilePage"]
+            expect(len(profile_schemas) == 1 and
+                   profile_schemas[0].get("inLanguage") == lang,
+                   "Profile schema language is wrong: " + url)
+            path = resolve_url(url)
+            html = path.read_text(encoding="utf-8") if path else ""
+            profile_body = html.split('<main class="profile-content"', 1)[-1].split('</main>', 1)[0]
+            expect('class="i18n-en"' not in profile_body and
+                   'class="i18n-zh"' not in profile_body,
+                   "Duplicated translated profile main text: " + url)
+    cv_path = resolve_url("https://floatingcatty.github.io/cv/")
+    if cv_path:
+        cv_html = cv_path.read_text(encoding="utf-8")
+        expect("M.E. in Electronic Information" in cv_html,
+               "CV misidentifies Tianjin University master's degree")
+        expect("M.E. in Computer Science" not in cv_html,
+               "Obsolete master degree label remains")
+        expect(all(word in cv_html for word in
+                   ("AI4S-Benchmark", "RSATB", "RESCU++", "QTCAD")),
+               "CV omits important source-verified work")
+
+    # Historical paths should guide visitors to the current URLs, not expose
+    # a second live copy with the old academicpages layout.
+    for previous, destination in (
+        ("/resume", "/cv/"),
+        ("/resume/", "/cv/"),
+        ("/cv.html", "/cv/"),
+        ("/about.html", "/about/"),
+    ):
+        path = resolve_url("https://floatingcatty.github.io" + previous)
+        expect(path is not None,
+               "Legacy profile path lost its redirect: " + previous)
+        if path:
+            content = path.read_text(encoding="utf-8").lower()
+            expect("refresh" in content and destination in content,
+                   "Legacy path does not redirect to its current profile: " + previous)
+            expect("noindex" in content,
+                   "Legacy redirect should not be indexed: " + previous)
+
+    # Keep maintenance notes in GitHub but outside the public site. Do not
+    # accidentally delete or disable Search Console ownership verification.
+    expect("/docs/publication-source-audit" not in sitemap_urls,
+           "Internal citation audit leaked into sitemap")
+    expect(resolve_url("https://floatingcatty.github.io/docs/publication-source-audit/") is None,
+           "Internal citation audit is still publicly rendered")
+    custom_404 = root / "404.html"
+    expect(custom_404.is_file(), "Custom 404 page missing")
+    if custom_404.is_file():
+        notfound = custom_404.read_text(encoding="utf-8").lower()
+        expect('name="robots" content="noindex,follow"' in notfound,
+               "404 page must be explicitly non-indexable")
+        expect('/cv/' in notfound and '/research/' in notfound,
+               "404 should lead visitors to current profile and research")
+    expect("https://floatingcatty.github.io/404.html" not in sitemap_urls,
+           "404 page must not be in sitemap")
+
+    verification = root / "googlec07fc31230407367.html"
+    expect(verification.is_file(), "Google verification HTML was removed")
+    if verification.is_file():
+        expect("google-site-verification: googlec07fc31230407367.html" in
+               verification.read_text(encoding="utf-8"),
+               "Google verification token was modified")
+    expect("https://floatingcatty.github.io/googlec07fc31230407367.html"
+           not in sitemap_urls, "Verification file should not be promoted as an indexable article")
+
     research = json_file("research.json")
     papers = json_file("publications.json")
     notes = research.get("items", [])
     entries = papers.get("papers", [])
     expect(len(notes) >= 9, "Fewer than nine research/software notes in generated feed")
-    expect(len(entries) >= 7, "Fewer than seven publications in generated feed")
+    expect(len(entries) >= 11, "Fewer than eleven verified publications in generated feed")
     for item in notes + entries:
         url = item.get("url", "")
         expect(url.rstrip("/") in sitemap_urls,

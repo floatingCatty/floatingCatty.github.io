@@ -1,10 +1,17 @@
-# main links links
+# Navigation used by the remaining AcademicPages article layouts.
+# Keep these destinations consistent with the lamp-style public pages.
 main:
   - title: "Home"
     url: /
 
+  - title: "Research"
+    url: /research/
+
   - title: "Publications"
     url: /publications/
+
+  - title: "About"
+    url: /about/
 
   - title: "CV"
     url: /cv/
