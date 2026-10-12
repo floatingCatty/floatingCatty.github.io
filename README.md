@@ -13,12 +13,13 @@ The site is a Jekyll project. The homepage, research, essays, study notes and pu
 | `index.html` | Home page (lamp design, `layout: raw`) |
 | `_pages/essays.html` | 随笔 · Essays listing (`category: essay` posts) |
 | `_pages/study-notes.html` | 学习笔记 · Study notes listing (`category: study` posts) |
-| `_pages/about.md`, `cv.md`, `publications.html`, `research.html` | Profile and research indexes |
+| `_pages/about-page.html`, `cv.html`, `publications.html`, `research.html` | About, current academic CV, and publication/research indexes |
 | `_posts/` | Blog posts — set `category: essay` or `category: study` in front matter |
 | `_publications/` | Individual scholarly abstracts, author lists, citation metadata and source links |
 | `_pages/research-*.md` | Bilingual research and software notes (`layout: research`) |
 | `publications.json`, `research.json` | Jekyll-generated public machine-readable indexes |
-| `scripts/audit_site.py` | Checks generated pages, research links and citation metadata |
+| `scripts/audit_site.py` | Checks generated pages, research links, citation metadata, profile canonicals and legacy redirects |
+| `_includes/lamp-profile-style.html` | Shared accessible/printable About and CV presentation |
 | `_includes/lamp-*.html` | Shared markup for the lamp-styled pages (head, nav, footer, embers) |
 | `_layouts/raw.html` | Pass-through layout for the lamp landing/listing pages |
 | `_layouts/post.html`, `_layouts/research.html` | Lamp-styled article layouts, incl. MathJax |
@@ -121,3 +122,18 @@ Then open <http://localhost:4000>.
 ---
 
 Built on the academicpages template (© Michael Rose / Stuart Geiger, MIT License — see `LICENSE`).
+
+## Profile and former URLs
+
+The canonical researcher pages are `/` (homepage), `/about/`, and `/cv/`.
+Both `/about/` and `/cv/` use the current site styling and citation records;
+the CV publication list is generated from `_publications/` rather than kept as a second manually dated list.
+
+Older links `/resume`, `/resume/`, `/cv.html`, and `/about.html` intentionally
+remain as **noindex redirect stubs** to their matching current page. Do not copy
+an old CV into a second public location. See [the URL cleanup notes](.github/SEO_LEGACY_PATHS.md).
+
+The internal source-audit file `docs/publication-source-audit.md` is kept in
+GitHub for the maintainers but explicitly excluded from the public Jekyll build.
+The Search Console verification HTML must stay at the repository root and keep
+its exact token, even though it is not a research page.
