@@ -1,0 +1,112 @@
+---
+layout: raw
+permalink: /zh/research/
+title: "研究"
+description: "周寅张皓的研究项目与科研软件：机器学习电子结构、量子材料、量子输运和科学计算 Agent。"
+description_zh: "周寅张皓的量子材料、电子结构、量子输运和科学计算软件研究。"
+research_locale: zh
+translation_url: "/research/"
+alternate_en_url: "/research/"
+alternate_zh_url: "/zh/research/"
+---
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>研究 | 周寅张皓</title>
+<meta name="description" content="{{ page.description | escape }}">
+{% include lamp-head.html %}
+<link rel="alternate" type="application/json" href="{{ '/research.json' | relative_url }}" title="Research data">
+<style>
+  body::before{background:url("{{ '/images/flamebg3.jpg' | relative_url }}") 50% 38%/cover no-repeat}
+  .page{background:linear-gradient(180deg,rgba(20,17,15,.45),rgba(20,17,15,.68) 48vh,rgba(20,17,15,.78))}
+  .research-list{max-width:760px;margin:0 auto}
+  .research-card{display:block;padding:28px 0;border-bottom:1px solid rgba(175,164,151,.16)}
+  .research-card:last-child{border-bottom:none}
+  .research-card h2{font-family:'Newsreader','Noto Serif SC',serif;color:#EAE0D0;font-size:25px;font-weight:400;line-height:1.28;margin:10px 0}
+  .research-card:hover h2{color:#F4DFC2}
+  .research-card p{color:#B5AA9C;font-size:15px;line-height:1.7;max-width:650px}
+  .research-card .year{font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;font-size:12px;color:#D8B27A}
+  .research-card .arrow{display:inline-block;margin-top:14px;font-family:'IBM Plex Mono',monospace;color:#D8B27A;font-size:12px}
+</style>
+</head>
+<body>
+<div class="page">
+  {% include lamp-nav.html active="research" %}
+  <header class="page-head">
+    <h1>研究</h1>
+    <p class="page-intro">这里放一些我做过的研究和当时的想法。欢迎交流。</p>
+    <p class="page-intro" style="margin-top:10px"><a href="{{ page.translation_url | relative_url }}" hreflang="en">English research index ↗</a></p>
+  </header>
+  <section class="section" style="padding-top:20px">
+    <div class="research-list">
+      <a class="research-card" href="{{ '/zh/research/moire-phonon/' | relative_url }}">
+        <span class="year">2026 · arXiv</span>
+        <h2>魔角石墨烯里的声子凝聚</h2>
+        <p>把上万个原子的结构变化投影到声子模式上，发现主要由两个集体模式描述。</p>
+        <span class="arrow">阅读 ↗</span>
+      </a>
+      <a class="research-card" href="{{ '/zh/research/nqs-impurity/' | relative_url }}">
+        <span class="year">2026 · Physical Review B</span>
+        <h2>用神经网络求解量子嵌入里的杂质问题</h2>
+        <p>用神经量子态处理强关联电子的杂质模型，也研究了自洽迭代里高精度采样的开销。</p>
+        <span class="arrow">阅读 ↗</span>
+      </a>
+      <a class="research-card" href="{{ '/zh/research/deeptb-negf/' | relative_url }}">
+        <span class="year">2025 · arXiv</span>
+        <h2>DeePTB-NEGF：从学习到的哈密顿量计算量子输运</h2>
+        <p>将学习到的紧束缚哈密顿量接到 NEGF 求解器，与三种二维材料的 DFT-NEGF 结果对照。</p>
+        <span class="arrow">阅读 ↗</span>
+      </a>
+      <a class="research-card" href="{{ '/zh/research/ferh-magnetism/' | relative_url }}">
+        <span class="year">2025 · Computational Materials Science</span>
+        <h2>FeRh 中交换关联泛函对磁性的影响</h2>
+        <p>比较几种 DFT 泛函对 FeRh 结构和磁性的预测，看看结果为什么会不同。</p>
+        <span class="arrow">阅读 ↗</span>
+      </a>
+      <a class="research-card" href="{{ '/zh/research/slem/' | relative_url }}">
+        <span class="year">2025 · ICLR</span>
+        <h2>SLEM：从原子结构预测量子算符</h2>
+        <p>在网络里加入局域性和旋转对称性的约束，预测哈密顿量、重叠矩阵等量子算符。</p>
+        <span class="arrow">阅读 ↗</span>
+      </a>
+      <a class="research-card" href="{{ '/zh/research/logdet-entropy/' | relative_url }}">
+        <span class="year">2025 · Neurocomputing</span>
+        <h2>LogDet：用矩阵估计神经网络里的信息量</h2>
+        <p>用对数行列式构造高维熵估计器，观察神经网络训练时的信息变化。</p>
+        <span class="arrow">阅读 ↗</span>
+      </a>
+      <a class="research-card" href="{{ '/zh/research/deeptb/' | relative_url }}">
+        <span class="year">2024 · Nature Communications</span>
+        <h2>DeePTB：用机器学习做大规模电子结构计算</h2>
+        <p>从第一性原理数据学习随原子环境变化的紧束缚参数，用来计算更大材料的电子结构。</p>
+        <span class="arrow">阅读 ↗</span>
+      </a>
+      <a class="research-card" href="{{ '/zh/research/ad-negf/' | relative_url }}">
+        <span class="year">2023 · Physical Review B</span>
+        <h2>AD-NEGF：可微的量子输运计算</h2>
+        <p>让 NEGF 的输运结果可以对模型参数求导，用于灵敏度分析和哈密顿量逆向设计。</p>
+        <span class="arrow">阅读 ↗</span>
+      </a>
+      <h2 class="kicker" style="margin:50px 0 12px"><span class="ember"></span>软件</h2>
+      <a class="research-card" href="{{ '/zh/research/flower/' | relative_url }}">
+        <span class="year">Open source</span>
+        <h2>flower：把 Agent 跑过的计算整理清楚</h2>
+        <p>记录 Agent 的计算步骤、参数和结果，把有用的流程导出成可以重复运行的 protocol。</p>
+        <span class="arrow">阅读 ↗</span>
+      </a>
+      <a class="research-card" href="{{ '/zh/research/vbcsr/' | relative_url }}">
+        <span class="year">Open source</span>
+        <h2>VBCSR：给大规模稀疏矩阵写的一套工具</h2>
+        <p>支持 MPI 的变块稀疏矩阵与乘法工具，主要用于电子结构等科学计算。</p>
+        <span class="arrow">阅读 ↗</span>
+      </a>
+    </div>
+    <p class="page-intro" style="margin:34px auto 0;max-width:760px">完整论文见 <a href="{{ '/publications/' | relative_url }}">论文 ↗</a>.</p>
+  </section>
+  {% include lamp-footer.html %}
+</div>
+{% include lamp-embers.html %}
+</body>
+</html>
