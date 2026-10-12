@@ -15,19 +15,11 @@ paper_authors:
   - "Ao Chen"
   - "Nicola Lanatà"
   - "Hong Guo"
+research_locale: en
+translation_url: "/zh/research/nqs-impurity/"
+alternate_en_url: "/research/nqs-impurity/"
+alternate_zh_url: "/zh/research/nqs-impurity/"
 ---
-
-<div class="post-zh" lang="zh-Hans" markdown="1">
-
-电子之间的相互作用比较强时，计算材料的电子状态会变得很困难。一个直接的办法是把许多电子放在一起求解，但体系稍微大一点，可能的量子态数量就增长得很快。量子嵌入方法换了一种处理方式：把其中最难的一小部分当作杂质问题来算，再让它与周围的有效环境反复交换信息。
-
-我做的这篇工作，考虑的是 ghost Gutzwiller approximation（gGA）中的杂质求解器。通常可以用精确对角化作为参照，只是它的计算开销随杂质自由度增加会变得很大。我们尝试用神经量子态（NQS）表示多电子波函数，网络采用图 Transformer，让杂质轨道之间不必拘泥于某一种固定连接方式。
-
-麻烦出现在嵌入计算的迭代里。杂质求解器一次得到的结果还要送回外层自洽过程，电荷和其他物理量只要有一点采样噪声，误差就可能一轮轮积累。我们因此加入了误差控制，在 Anderson 晶格模型的测试中，结果可以与使用精确对角化杂质求解器的计算很好地吻合。
-
-原先我也以为主要时间会花在训练神经网络上。实际分析计算开销后发现，对这个问题来说，更难的是把需要的物理量采样到足够高的精度。神经量子态本身能表示复杂波函数，并不意味着自洽计算就会很便宜。怎样减少高精度采样的成本，是这项工作留下的问题。
-
-</div>
 
 <div class="post-en" lang="en" markdown="1">
 
