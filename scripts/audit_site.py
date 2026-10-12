@@ -142,6 +142,15 @@ def main(root: Path) -> int:
                "Homepage should expose the researcher identity")
         expect(any("/research/" in (href or "") for href in home.links),
                "Homepage does not link to research")
+        expect(any("/cv/" in (href or "") for href in home.links),
+               "Homepage must visibly link the academic CV")
+        home_path = resolve_url("https://floatingcatty.github.io/")
+        if home_path:
+            markup = home_path.read_text(encoding="utf-8")
+            expect('class="nav-cv"' in markup,
+                   "Shared navigation lacks visible icon-labeled CV item")
+            expect('data-href-zh="/zh/cv/"' in markup,
+                   "CV navigation does not expose the Chinese URL")
 
     # The human-facing researcher and CV pages should not expose the old 2023-era
     # resume or stale biography, and their canonical URL must stay unchanged.
@@ -166,6 +175,20 @@ def main(root: Path) -> int:
                        ("Feb 2024 (expected)", "May 2022 - Till date",
                         "Alea iacta est.", "Zhanghao's Blog")),
                    slug + " still contains content from the retired CV/website")
+
+    # CV deliberately links papers to original scientific sources as well
+    # as same-theme author-owned detail pages (not an old AcademicPages view).
+    for locale in ("cv/", "zh/cv/"):
+        cv_path = resolve_url("https://floatingcatty.github.io/" + locale)
+        if cv_path:
+            cv_html = cv_path.read_text(encoding="utf-8")
+            expect('10.1038/s41467-024-51006-4' in cv_html,
+                   "CV missing direct DOI link to published DeePTB paper")
+            expect('/publication/' in cv_html,
+                   "CV should preserve stable local paper detail links")
+            expect('TCAD' in cv_html and 'circuit' in cv_html.lower() or
+                   'TCAD' in cv_html and '电路' in cv_html,
+                   "CV lost atomistic-to-device multiscale positioning")
 
     # Full-language profile URLs must be crawlable independently.
     for slug in ("cv", "about"):
@@ -336,6 +359,17 @@ def main(root: Path) -> int:
         expect("ScholarlyArticle" in page.schema_types(),
                "ScholarlyArticle missing in " + url)
         expect(bool(page.meta.get("citation_title")), "citation_title missing in " + url)
+        published_page = resolve_url(url)
+        if published_page:
+            markup = published_page.read_text(encoding="utf-8")
+            expect('class="publication-title"' in markup and
+                   'class="profile-intro"' in markup,
+                   "Paper detail still uses retired academic theme: " + url)
+            expect('class="page__inner-wrap"' not in markup,
+                   "Paper detail unexpectedly retains AcademicPages HTML: " + url)
+            source = paper.get("paper_url")
+            expect(bool(source) and source in markup,
+                   "Paper detail must link to original published paper: " + url)
         authors = paper.get("authors") or []
         expect(bool(authors) and len(page.meta.get("citation_author", [])) == len(authors),
                "Citation author count mismatch in " + url)
