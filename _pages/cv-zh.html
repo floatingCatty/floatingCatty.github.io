@@ -1,0 +1,111 @@
+---
+layout: raw
+permalink: /zh/cv/
+title: "Academic CV"
+description: "周寅张皓在麦吉尔大学攻读物理博士，研究 AI 原生科学计算、大规模电子结构、量子输运、多尺度模拟与科研软件。"
+research_locale: zh
+translation_url: "/cv/"
+alternate_en_url: "/cv/"
+alternate_zh_url: "/zh/cv/"
+translation_of: "/cv/"
+---
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>学术履历 | 周寅张皓</title>
+<meta name="description" content="{{ page.description | escape }}">
+{% include lamp-head.html %}
+{% include lamp-profile-style.html %}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ProfilePage","inLanguage":"zh-Hans","@id":"{{ page.url | absolute_url }}#profile","url":"{{ page.url | absolute_url }}","mainEntity":{"@id":"{{ '/' | absolute_url }}#person","@type":"Person","name":"Zhanghao Zhouyin"}}
+</script>
+</head>
+<body>
+<div class="page">
+  {% include lamp-nav.html %}
+  <header class="profile-intro">
+    <p class="profile-kicker"><span class="ember"></span> 学术履历</p>
+    <h1>Zhanghao Zhouyin <span style="font-size:.55em;color:#AAA091;white-space:nowrap">周寅张皓</span></h1>
+    <p class="profile-meta">Physics PhD candidate · McGill University · Montréal, Canada</p>
+    <p class="profile-deck">我开发 AI-native 科学计算系统，将机器学习物理模型、高性能模拟和工程尺度预测连接起来。研究涵盖稀疏数值基础设施、电子结构和器件模拟、可微物理及多尺度工程软件。</p>
+    <p class="profile-note">部分论文采用 Yinzhanghao Zhou 或 YinZhangHao Zhou 署名。</p>
+    <div class="profile-links">
+      <a href="{{ '/research/' | relative_url }}">Research ↗</a>
+      <a href="{{ '/publications/' | relative_url }}">Publications ↗</a>
+      <a href="https://scholar.google.com/citations?user=vSMmfvUAAAAJ" target="_blank" rel="noopener">Google Scholar ↗</a>
+      <a href="https://github.com/floatingCatty" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="mailto:yinzhanghao.zhou@mail.mcgill.ca">McGill Email ↗</a>
+    </div>
+  </header>
+  <main class="profile-content" id="main-content">
+    <section aria-labelledby="cv-education">
+      <h2 id="cv-education">教育经历</h2>
+      <div class="cv-entry"><span class="cv-date">2024–至今</span><div><h3>物理学博士，McGill University</h3><p>导师：Prof. Hong Guo；预计 2027 年完成。</p></div></div>
+      <div class="cv-entry"><span class="cv-date">2021–2024</span><div><h3>电子信息硕士，天津大学</h3><p>导师：Prof. Peng Zhang。</p></div></div>
+      <div class="cv-entry"><span class="cv-date">2017–2021</span><div><h3>计算机科学学士，天津工业大学</h3><p>导师：Prof. Ding Liu。</p></div></div>
+    </section>
+    <section aria-labelledby="cv-research">
+      <h2 id="cv-research">AI 原生科学计算与研究项目</h2>
+      <ul>
+        <li><strong><a href="{{ '/research/deeptb/' | relative_url }}">DeePTB</a> + <a href="{{ '/research/slem/' | relative_url }}">SLEM</a> · 2022–2025.</strong> 共同开发面向百万原子模拟的学习型紧束缚模型（Nature Communications 2024，共同第一作者），主导用于量子算符的局域等变模型 SLEM（ICLR 2025 Spotlight，第一作者）。</li>
+        <li><strong><a href="{{ '/research/vbcsr/' | relative_url }}">VBCSR</a> · 2026.</strong> 设计面向原子轨道的 MPI 分布式变块稀疏矩阵引擎；在测试的稀疏矩阵乘法算例中最高达到 8.4 倍加速，并用于 1,063,609 原子 InP 纳米颗粒的电子态计算。</li>
+        <li><strong>RESCU++ · 2026–present.</strong> 开发基于 C++/Python 与 VBCSR 的 LCAO-DFT 平台，覆盖分子、周期材料、磁性、自旋轨道耦合与杂化泛函；探索 GP 自洽加速、贝叶斯结构优化和自动化测试。</li>
+        <li><strong>RSATB · 2026–present.</strong> 研究无对角化的非正交哈密顿量谱、空间分辨物性及线性响应计算；正在研究超大尺度扭转三层石墨烯体系，论文准备中。</li>
+        <li><strong><a href="{{ '/research/ad-negf/' | relative_url }}">AD-NEGF</a>.</strong> 端到端可微的非平衡格林函数量子输运模拟器（Physical Review B 2023）。</li>
+        <li><strong><a href="{{ '/research/flower/' | relative_url }}">flower</a>.</strong> 记录 Agent 在本地、SSH 和 Slurm 上完成的计算，并导出可复现工作流。</li>
+      </ul>
+    </section>
+    <section aria-labelledby="cv-roles">
+      <h2 id="cv-roles">工业与研究经历</h2>
+      <div class="cv-entry"><span class="cv-date">Oct 2025–Sep 2026</span><div><h3>Research Intern · Nanoacademic Technologies Inc. (QTCAD)</h3><p>蒙特利尔。面向超导量子器件的多尺度模拟，将第一性原理、有限元静电学、量子动力学与电路层建模连接起来；开展 AI 增强的器件建模。</p></div></div>
+      <div class="cv-entry"><span class="cv-date">May 2022–Jun 2024</span><div><h3>Research Intern · AI for Science Institute</h3><p>北京；机器学习材料模拟。研究指导：Dr. Qiangqiang Gu 和 Dr. Linfeng Zhang。</p></div></div>
+      <div class="cv-entry"><span class="cv-date">Oct 2020–Mar 2021</span><div><h3>Editorial Intern · Beijing Academy of Artificial Intelligence</h3><p>跟踪机器学习研究并撰写技术综述。</p></div></div>
+    </section>
+    <section aria-labelledby="cv-software">
+      <h2 id="cv-software">科研软件</h2>
+      <ul>
+        <li><strong><a href="https://github.com/deepmodeling/DeePTB">DeePTB</a></strong> — 机器学习紧束缚哈密顿量； <a href="{{ '/research/deeptb/' | relative_url }}">research note</a></li>
+        <li><strong><a href="https://github.com/DeepElectron/vbcsr">VBCSR</a></strong> — 面向大规模物理模拟的分布式变块稀疏矩阵； <a href="{{ '/research/vbcsr/' | relative_url }}">research note</a></li>
+        <li><strong><a href="https://github.com/floatingCatty/ADNEGF">AD-NEGF</a></strong> — 可微非平衡格林函数量子输运； <a href="{{ '/research/ad-negf/' | relative_url }}">research note</a></li>
+        <li><strong><a href="https://github.com/floatingCatty/flower">flower</a></strong> — 记录和复现科学计算工作流； <a href="{{ '/research/flower/' | relative_url }}">research note</a></li>
+      </ul>
+    </section>
+    <section aria-labelledby="cv-publications">
+      <h2 id="cv-publications">论文与预印本</h2>
+      <p class="profile-note">以下目录直接读取本站的已核对论文记录，避免旧版简历与正式发表信息不一致。</p>
+      {% assign cv_pubs = site.publications | sort: 'date' | reverse %}
+      <ul class="pub-list">
+        {% for pub in cv_pubs %}
+        <li>
+          <span class="pub-year">{% if pub.citation_date %}{{ pub.citation_date }}{% else %}{{ pub.date | date: "%Y" }}{% endif %}</span>
+          <div><a href="{{ pub.url | relative_url }}">{{ pub.title | escape }}</a></div>
+          <div class="pub-info">{{ pub.venue | escape }}</div>
+        </li>
+        {% endfor %}
+      </ul>
+      <p><a href="{{ '/publications/' | relative_url }}">查看完整论文与引用信息 ↗</a></p>
+    </section>
+    <section aria-labelledby="cv-leadership">
+      <h2 id="cv-leadership">学术组织与服务</h2>
+      <p><strong>AI4S-Benchmark</strong> · 发起人与协调者（2026–至今）。组织跨学科可验证的研究级科学 Agent 任务评估，涵盖代码、数据、模拟和科研工具。</p>
+      <p>学术社群：McGill Quantum Centre (MQC)、Centre for the Physics of Materials (CPM)、RQMP。</p>
+    </section>
+    <section aria-labelledby="cv-skills">
+      <h2 id="cv-skills">技术背景与荣誉</h2>
+      <p><strong>计算与 HPC：</strong> Distributed block-sparse algorithms, C++17, Python, MPI/OpenMP, ELPA, ScaLAPACK, PETSc/SLEPc, FFTW, MKL.</p>
+      <p><strong>AI 与机器学习：</strong> Equivariant graph networks, learned Hamiltonians, active learning, Gaussian processes, Bayesian optimization, neural quantum states, PyTorch/JAX.</p>
+      <p><strong>物理与多尺度模拟：</strong> LCAO-DFT, tight binding/NEGF, stochastic spectral and response methods, quantum embedding, TCAD, multiphysics device/circuit simulation.</p>
+      <p><strong>奖项：</strong> Dr. &amp; Mrs. Milton Leong Fellowship in Science (McGill University); National College Innovation Project (Tiangong University, 2018–2020).</p>
+    </section>
+    <section aria-labelledby="cv-contact">
+      <h2 id="cv-contact">联系方式</h2>
+      <p><a href="mailto:yinzhanghao.zhou@mail.mcgill.ca">yinzhanghao.zhou@mail.mcgill.ca</a> · <a href="https://www.linkedin.com/in/zhanghao-zhouyin-4aaa471a5/">LinkedIn</a> · <a href="{{ '/about/' | relative_url }}">About</a></p>
+    </section>
+  </main>
+  {% include lamp-footer.html %}
+</div>
+{% include lamp-embers.html %}
+</body>
+</html>
