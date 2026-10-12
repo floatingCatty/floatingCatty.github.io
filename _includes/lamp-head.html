@@ -27,7 +27,8 @@
   "alternateName": {{ page.title | jsonify }},
   "description": {{ lamp_description | jsonify }},
   "inLanguage": {% if page.research_locale == 'en' %}"en"{% elsif page.research_locale == 'zh' %}"zh-Hans"{% else %}["en", "zh-Hans"]{% endif %},
-  "author": {"@type": "Person", "@id": {{ '/' | absolute_url | append: '#person' | jsonify }}, "name": "Zhanghao Zhouyin"}{% if page.paper_url %},
+  "author": {"@type": "Person", "@id": {{ '/' | absolute_url | append: '#person' | jsonify }}, "name": "Zhanghao Zhouyin"}{% if page.citation_urls %},
+  "citation": {{ page.citation_urls | jsonify }}{% elsif page.paper_url %},
   "citation": {{ page.paper_url | jsonify }}{% endif %}{% if page.project_kind == 'software' and page.code_url %},
   "about": {"@type": "SoftwareSourceCode", "codeRepository": {{ page.code_url | jsonify }}, "name": {{ page.title_en | default: page.title | jsonify }}}{% endif %}
 }
