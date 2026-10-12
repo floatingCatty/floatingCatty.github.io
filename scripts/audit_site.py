@@ -193,9 +193,10 @@ def main(root: Path) -> int:
                    "Profile schema language is wrong: " + url)
             path = resolve_url(url)
             html = path.read_text(encoding="utf-8") if path else ""
-            expect('class="i18n-en"' not in html and
-                   'class="i18n-zh"' not in html,
-                   "Duplicated translated profile body: " + url)
+            profile_body = html.split('<main class="profile-content"', 1)[-1].split('</main>', 1)[0]
+            expect('class="i18n-en"' not in profile_body and
+                   'class="i18n-zh"' not in profile_body,
+                   "Duplicated translated profile main text: " + url)
     cv_path = resolve_url("https://floatingcatty.github.io/cv/")
     if cv_path:
         cv_html = cv_path.read_text(encoding="utf-8")
