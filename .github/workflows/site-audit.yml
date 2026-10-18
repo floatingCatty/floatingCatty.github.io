@@ -16,6 +16,7 @@ on:
       - 'research.json'
       - 'publications.json'
       - 'robots.txt'
+      - 'sitemap-diagnostic.txt'
       - '.github/workflows/site-audit.yml'
   workflow_dispatch:
 
@@ -37,3 +38,18 @@ jobs:
         run: python3 scripts/audit_site.py _site
       - name: Test IndexNow submission validation offline
         run: python3 -m unittest discover -s scripts -p 'test_indexnow.py' -v
+      - name: Diagnose LIVE sitemap responses from a GitHub-hosted external runner
+        continue-on-error: true
+        run: |
+          set -e
+          for agent in standard simulated-googlebot; do
+            echo "--- LIVE sitemap.xml request: $agent ---"
+            if [ "$agent" = "simulated-googlebot" ]; then
+              curl -sS -L -A 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)' --max-time 25 -D /tmp/sitemap-headers.txt -o /tmp/sitemap-body.xml -w 'HTTP=%{http_code} bytes=%{size_download} content_type=%{content_type} redirects=%{num_redirects}\n' https://floatingcatty.github.io/sitemap.xml
+            else
+              curl -sS -L --max-time 25 -D /tmp/sitemap-headers.txt -o /tmp/sitemap-body.xml -w 'HTTP=%{http_code} bytes=%{size_download} content_type=%{content_type} redirects=%{num_redirects}\n' https://floatingcatty.github.io/sitemap.xml
+            fi
+            grep -Ei '^(HTTP/|content-type:|content-encoding:|location:|server:|cache-control:|x-github-request-id:)' /tmp/sitemap-headers.txt || true
+            python3 -c "from xml.etree import ElementTree as ET; root=ET.parse('/tmp/sitemap-body.xml').getroot(); print('XML root:',root.tag,'; URLs:',sum(x.tag.endswith('}loc') for x in root.iter()))"
+          done
+

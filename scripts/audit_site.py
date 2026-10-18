@@ -126,6 +126,29 @@ def main(root: Path) -> int:
             }
         except ElementTree.ParseError as exc:
             errors.append("Invalid sitemap.xml: " + str(exc))
+    # Temporary format-control Sitemap for a Google Search Console fetch failure.
+    # It must contain only canonical public URL lines and be independently
+    # retrievable at the site root; URLs must be covered by normal XML sitemap.
+    fallback = root / "sitemap-diagnostic.txt"
+    expect(fallback.is_file(), "Diagnostic text sitemap missing after Jekyll build")
+    if fallback.is_file():
+        raw_lines = fallback.read_text(encoding="utf-8").splitlines()
+        expect(len(raw_lines) == 10,
+               "Diagnostic sitemap should be a bounded ten-URL control")
+        expect(len(set(raw_lines)) == len(raw_lines),
+               "Diagnostic sitemap contains repeated URLs")
+        for url in raw_lines:
+            expect(url.startswith("https://floatingcatty.github.io/"),
+                   "Diagnostic sitemap has noncanonical host or URL: " + url)
+            expect(url.rstrip("/") in sitemap_urls,
+                   "Diagnostic sitemap URL missing from primary XML: " + url)
+            page_path = resolve_url(url)
+            expect(page_path is not None,
+                   "Diagnostic sitemap includes a non-rendered page: " + url)
+        expect("https://floatingcatty.github.io/sitemap-diagnostic.txt"
+               not in sitemap_urls,
+               "Diagnostic sitemap should not index itself as a page")
+
     robots = root / "robots.txt"
     expect(robots.is_file(), "Missing robots.txt")
     if robots.is_file():
